@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaartenbouwer Overijssel — RTV Oost</title>
+<style>/*__STIJL__*/</style>
+</head>
+<body>
+
+<header class="balk">
+  <div class="merk"><span class="woordmerk">oost</span></div>
+  <h1>Kaartenbouwer <span>Overijssel</span></h1>
+  <div class="balk-rechts">
+    <span class="fontwaarschuwing" id="fontwaarschuwing" hidden>Roobert niet gevonden — installeer het lettertype lokaal</span>
+    <button class="knop knop-licht" id="knop-hulp" type="button">Uitleg</button>
+  </div>
+</header>
+
+<main class="werkblad">
+
+  <!-- ---------------------------------------------------------------- -->
+  <aside class="zijbalk" id="zijbalk">
+
+    <section class="paneel open" data-paneel="kaart">
+      <button class="paneel-kop" type="button">Kaart<span class="chevron"></span></button>
+      <div class="paneel-body">
+        <label class="veld"><span>Titel</span>
+          <input type="text" id="in-titel" maxlength="90" placeholder="Bijvoorbeeld: Woningbouw per gemeente"></label>
+        <label class="veld"><span>Ondertitel</span>
+          <input type="text" id="in-ondertitel" maxlength="120" placeholder="Optionele toelichting"></label>
+        <label class="veld"><span>Bronregel</span>
+          <input type="text" id="in-bron" maxlength="120" value="Bron: Kadaster/PDOK"></label>
+        <label class="veld"><span>Uitlijning titel en kaart</span>
+          <select id="in-uitlijning">
+            <option value="gecentreerd">Gecentreerd</option>
+            <option value="links">Links</option>
+          </select></label>
+        <label class="veld"><span>Achtergrond</span>
+          <select id="in-achtergrond">
+            <option value="wit">Wit</option>
+            <option value="lichtblauw">Lichtblauw (#E7EEF9)</option>
+            <option value="blauw">Oost Blauw (#1361FF)</option>
+            <option value="donkerblauw">Donkerblauw (#131720)</option>
+          </select></label>
+        <p class="hint">De bronvermelding <em>Bron: Kadaster/PDOK</em> is verplicht bij de kaartdata (CC BY 4.0). Vul je eigen databron ervoor of erachter aan.</p>
+      </div>
+    </section>
+
+    <section class="paneel" data-paneel="basiskaart">
+      <button class="paneel-kop" type="button">Basiskaart<span class="chevron"></span></button>
+      <div class="paneel-body">
+        <div class="keuzerij" id="basiskaart-presets"></div>
+        <div class="schakelaars" id="basiskaart-lagen"></div>
+        <label class="veld"><span>Vulling gemeenten</span>
+          <select id="in-vulling">
+            <option value="tint">Tint (#8FB8FF)</option>
+            <option value="wit">Wit</option>
+            <option value="lichtblauw">Lichtblauw (#E7EEF9)</option>
+          </select></label>
+        <label class="veld"><span>Plaatsen op de basiskaart</span>
+          <select id="in-basisplaatsen">
+            <option value="geen">Geen</option>
+            <option value="hoofd">Acht grootste plaatsen</option>
+            <option value="groot">Kernen vanaf 10.000 inwoners</option>
+            <option value="middel">Kernen vanaf 5.000 inwoners</option>
+          </select></label>
+      </div>
+    </section>
+
+    <section class="paneel" data-paneel="vlaklaag">
+      <button class="paneel-kop" type="button">Vlaklaag — gemeenten inkleuren
+        <span class="tel" id="tel-vlak"></span><span class="chevron"></span></button>
+      <div class="paneel-body">
+        <label class="schakel"><input type="checkbox" id="in-vlak-actief"><span>Vlaklaag gebruiken</span></label>
+
+        <div class="subblok" id="vlak-instellingen">
+          <div class="keuzerij" id="vlak-modus">
+            <button type="button" data-waarde="schaal" class="keuze">Kleurschaal</button>
+            <button type="button" data-waarde="categorie" class="keuze">Categorieën</button>
+          </div>
+
+          <details class="invoer">
+            <summary>Data invoeren of plakken</summary>
+            <p class="hint">Plak twee kolommen uit een spreadsheet: gemeentenaam en waarde. Een derde kolom wordt als tekstlabel gebruikt.</p>
+            <textarea id="in-vlak-plak" rows="5" placeholder="Almelo&#9;72&#10;Borne&#9;18&#10;Dalfsen&#9;35"></textarea>
+            <div class="knoprij">
+              <button class="knop knop-blauw" id="knop-vlak-plak" type="button">Verwerken</button>
+              <button class="knop knop-licht" id="knop-vlak-leeg" type="button">Alles wissen</button>
+            </div>
+            <p class="melding" id="vlak-plak-melding"></p>
+          </details>
+
+          <div class="tabelhouder"><table class="datatabel" id="vlak-tabel"></table></div>
+
+          <div id="vlak-schaal-opties">
+            <label class="veld"><span>Kleurschaal</span><select id="in-vlak-schaal"></select></label>
+            <div class="tweekolom">
+              <label class="veld"><span>Minimum</span><input type="number" id="in-vlak-min" step="any"></label>
+              <label class="veld"><span>Maximum</span><input type="number" id="in-vlak-max" step="any"></label>
+            </div>
+            <label class="schakel"><input type="checkbox" id="in-vlak-autogrens" checked><span>Grenzen automatisch uit de data</span></label>
+            <label class="veld"><span>Eenheid achter de waarde</span><input type="text" id="in-vlak-eenheid" maxlength="12" placeholder="bijv. % of woningen"></label>
+          </div>
+
+          <div id="vlak-categorie-opties">
+            <p class="hint">Elke unieke waarde uit de tweede kolom wordt een categorie. Klik op een kleur om die aan te passen.</p>
+            <div class="categorielijst" id="vlak-categorielijst"></div>
+          </div>
+
+          <label class="veld"><span>Label in de gemeente</span>
+            <select id="in-vlak-label">
+              <option value="geen">Geen</option>
+              <option value="naam">Gemeentenaam</option>
+              <option value="waarde">Waarde</option>
+              <option value="naam-waarde">Naam + waarde</option>
+              <option value="tekst">Eigen tekst (derde kolom)</option>
+            </select></label>
+          <label class="veld"><span>Gemeenten zonder data</span>
+            <select id="in-vlak-leeg">
+              <option value="grijs">Grijs invullen</option>
+              <option value="basis">Basiskleur laten</option>
+              <option value="arcering">Arcering</option>
+            </select></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="paneel" data-paneel="puntlaag">
+      <button class="paneel-kop" type="button">Puntlaag — plaatsen en symbolen
+        <span class="tel" id="tel-punt"></span><span class="chevron"></span></button>
+      <div class="paneel-body">
+        <label class="schakel"><input type="checkbox" id="in-punt-actief"><span>Puntlaag gebruiken</span></label>
+
+        <div class="subblok" id="punt-instellingen">
+          <div class="zoekhouder">
+            <input type="text" id="in-punt-zoek" placeholder="Typ een plaatsnaam…" autocomplete="off">
+            <div class="suggesties" id="punt-suggesties" hidden></div>
+          </div>
+          <div class="knoprij">
+            <button class="knop knop-blauw" id="knop-punt-klik" type="button">Punt plaatsen door te klikken</button>
+          </div>
+          <p class="hint" id="punt-klik-hint" hidden>Klik in de kaart om het punt te plaatsen. Escape stopt.</p>
+
+          <details class="invoer">
+            <summary>Lijst plakken uit een spreadsheet</summary>
+            <p class="hint">Plak plaatsnaam en (optioneel) een waarde per regel. Namen worden opgezocht in de plaatsenlijst.</p>
+            <textarea id="in-punt-plak" rows="4" placeholder="Enschede&#9;120&#10;Zwolle&#9;80"></textarea>
+            <div class="knoprij"><button class="knop knop-blauw" id="knop-punt-plak" type="button">Verwerken</button></div>
+            <p class="melding" id="punt-plak-melding"></p>
+          </details>
+
+          <label class="veld"><span>Weergave</span>
+            <select id="in-punt-weergave">
+              <option value="stip">Stip</option>
+              <option value="bel">Bel — grootte naar waarde</option>
+              <option value="icoon">Icoon (PNG)</option>
+            </select></label>
+
+          <div id="punt-stip-opties">
+            <label class="veld"><span>Stipgrootte (px)</span><input type="number" id="in-stip-grootte" min="6" max="80" value="22"></label>
+          </div>
+
+          <div id="punt-bel-opties">
+            <div class="tweekolom">
+              <label class="veld"><span>Kleinste bel (px)</span><input type="number" id="in-bel-min" min="2" max="60" value="8"></label>
+              <label class="veld"><span>Grootste bel (px)</span><input type="number" id="in-bel-max" min="4" max="140" value="46"></label>
+            </div>
+            <p class="hint">Bellen worden op oppervlakte geschaald, niet op straal — anders overdrijft het verschil.</p>
+          </div>
+
+          <div id="punt-icoon-opties">
+            <div class="iconenbibliotheek" id="iconenbibliotheek"></div>
+            <label class="knop knop-licht bestandsknop">Icoon uploaden (PNG)
+              <input type="file" id="in-icoon-bestand" accept="image/png,image/svg+xml" hidden></label>
+            <label class="schakel"><input type="checkbox" id="in-icoon-bewaren" checked><span>Bewaren in de bibliotheek</span></label>
+            <label class="veld"><span>Icoongrootte (px)</span><input type="number" id="in-icoon-grootte" min="8" max="160" value="42"></label>
+          </div>
+
+          <label class="veld"><span>Puntkleur</span></label>
+          <div class="kleurkiezer" id="kiezer-punt"></div>
+          <div class="categorielijst" id="punt-groepen" hidden></div>
+          <p class="hint">Vul je een groep in (derde kolom bij plakken), dan krijgt elke groep een eigen kleur en komt die in de legenda.</p>
+
+          <label class="veld"><span>Legendalabel zonder groepen</span>
+            <input type="text" id="in-punt-legendalabel" maxlength="40" placeholder="Locatie"></label>
+
+          <label class="veld"><span>Eenheid achter de waarde</span><input type="text" id="in-punt-eenheid" maxlength="12" placeholder="bijv. banen of %"></label>
+
+          <label class="veld"><span>Labels bij punten</span>
+            <select id="in-punt-label">
+              <option value="naam">Plaatsnaam</option>
+              <option value="naam-waarde">Naam + waarde</option>
+              <option value="waarde">Alleen waarde</option>
+              <option value="geen">Geen</option>
+            </select></label>
+
+          <div class="tabelhouder"><table class="datatabel" id="punt-tabel"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paneel" data-paneel="tekstlaag">
+      <button class="paneel-kop" type="button">Tekstlaag — annotaties
+        <span class="tel" id="tel-tekst"></span><span class="chevron"></span></button>
+      <div class="paneel-body">
+        <label class="schakel"><input type="checkbox" id="in-tekst-actief"><span>Tekstlaag gebruiken</span></label>
+        <div class="subblok" id="tekst-instellingen">
+          <div class="knoprij">
+            <button class="knop knop-blauw" id="knop-tekst-nieuw" type="button">Tekstblok toevoegen</button>
+          </div>
+          <p class="hint">Sleep een tekstblok in de kaart om het te verplaatsen. Met een verbindingslijn wijst het blok naar een plaats of gebied.</p>
+          <div id="tekstblokken"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paneel" data-paneel="legenda">
+      <button class="paneel-kop" type="button">Legenda<span class="chevron"></span></button>
+      <div class="paneel-body">
+        <label class="veld"><span>Kop boven de legenda</span><input type="text" id="in-legenda-titel" maxlength="60" placeholder="Optioneel"></label>
+        <div class="schakelaars" id="legenda-schakelaars"></div>
+        <label class="veld"><span>Plaats bij 16:9</span>
+          <select id="in-legenda-plaats">
+            <option value="rechts">Rechts naast de kaart</option>
+            <option value="onder">Onder de kaart</option>
+          </select></label>
+        <p class="hint">Bij vierkant en staand staat de legenda altijd onder de kaart — die formaten zijn opnieuw ingedeeld, geen uitsnede.</p>
+      </div>
+    </section>
+
+    <section class="paneel" data-paneel="bibliotheek">
+      <button class="paneel-kop" type="button">Opslaan en openen<span class="chevron"></span></button>
+      <div class="paneel-body">
+        <label class="veld"><span>Naam van deze kaart</span><input type="text" id="in-kaartnaam" maxlength="60" placeholder="Naamloze kaart"></label>
+        <div class="knoprij">
+          <button class="knop knop-blauw" id="knop-opslaan" type="button">Opslaan in bibliotheek</button>
+          <button class="knop knop-licht" id="knop-nieuw" type="button">Nieuwe kaart</button>
+        </div>
+        <div class="knoprij">
+          <button class="knop knop-licht" id="knop-download" type="button">Downloaden als bestand</button>
+          <label class="knop knop-licht bestandsknop">Bestand openen
+            <input type="file" id="in-open-bestand" accept="application/json,.json" hidden></label>
+        </div>
+        <p class="melding" id="bibliotheek-melding"></p>
+        <div class="bibliotheeklijst" id="bibliotheeklijst"></div>
+        <p class="hint">De bibliotheek staat in de opslag van deze browser op deze computer — niet in een cookie en niet op een server. Wis je de browsergegevens, dan is de bibliotheek weg. Download belangrijke kaarten als bestand.</p>
+      </div>
+    </section>
+
+  </aside>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="voorbeeld">
+    <div class="voorbeeld-balk">
+      <div class="keuzerij" id="formaatkeuze">
+        <button type="button" class="keuze" data-waarde="16:9">16:9 — 1920×1080</button>
+        <button type="button" class="keuze" data-waarde="1:1">Vierkant — 1080×1080</button>
+        <button type="button" class="keuze" data-waarde="9:16">Staand — 1080×1920</button>
+      </div>
+      <div class="voorbeeld-acties">
+        <button class="knop knop-licht" id="knop-mobiel" type="button">Mobielcheck</button>
+        <button class="knop knop-donker" id="knop-export" type="button">PNG downloaden</button>
+        <button class="knop knop-licht" id="knop-export-alle" type="button">Alle drie</button>
+      </div>
+    </div>
+    <div class="doek-houder" id="doek-houder">
+      <canvas id="doek"></canvas>
+      <div class="tooltip" id="tooltip" hidden></div>
+    </div>
+    <p class="voorbeeld-voet" id="voorbeeld-voet"></p>
+  </section>
+
+</main>
+
+<div class="overlay" id="hulp-overlay" hidden>
+  <div class="hulp">
+    <button class="sluit" id="knop-hulp-sluit" type="button" aria-label="Sluiten">×</button>
+    <h2>Kaartenbouwer Overijssel</h2>
+    <p>Eén bestand, geen installatie, geen server. Alles wat je invoert blijft op deze computer.</p>
+    <h3>In het kort</h3>
+    <ol>
+      <li><strong>Basiskaart</strong> — kies welke lagen zichtbaar zijn.</li>
+      <li><strong>Vlaklaag</strong> — kleur de 25 gemeenten met een kleurschaal of categorieën. Plak de data uit een spreadsheet.</li>
+      <li><strong>Puntlaag</strong> — plaats punten door een plaatsnaam te typen of in de kaart te klikken. Als stip, bel of geüpload PNG-icoon.</li>
+      <li><strong>Tekstlaag</strong> — vrije tekstblokken, met of zonder verbindingslijn.</li>
+      <li><strong>Export</strong> — PNG in 16:9, vierkant en staand. Elk formaat is opnieuw ingedeeld.</li>
+    </ol>
+    <h3>Lettertype</h3>
+    <p>De kaart gebruikt Roobert. Dat lettertype wordt niet meegeleverd — het moet lokaal geïnstalleerd zijn. Staat het er niet, dan wijkt de tekst af en verschijnt bovenin een waarschuwing.</p>
+    <h3>Bronvermelding</h3>
+    <p>De kaartdata komt van het Kadaster via PDOK (BRK Bestuurlijke Gebieden, CBS Gebiedsindelingen, BRT TOP10NL) en staat onder CC BY 4.0. <strong>Bron: Kadaster/PDOK</strong> moet vermeld blijven.</p>
+    <h3 id="hulp-hiaat-kop">Bekend hiaat in de plaatsenlijst</h3>
+    <p id="hulp-hiaat"></p>
+  </div>
+</div>
+
+<script type="application/json" id="kaartdata">/*__KAARTDATA__*/</script>
+<script type="application/json" id="plaatsdata">/*__PLAATSDATA__*/</script>
+<script>/*__SCRIPT__*/</script>
+</body>
+</html>

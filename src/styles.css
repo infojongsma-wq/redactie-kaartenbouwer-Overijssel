@@ -1,0 +1,432 @@
+/* Kaartenbouwer Overijssel — RTV Oost huisstijl.
+   Roobert wordt niet ingebed; het staat lokaal geinstalleerd. */
+
+:root {
+  --oost-blauw: #1361FF;
+  --oost-donkerblauw: #131720;
+  --oost-lichtblauw: #E7EEF9;
+  --oost-paars: #8F00FF;
+  --oost-rood: #FF4242;
+  --oost-oranje: #FF6813;
+  --oost-geel: #FFAF16;
+  --oost-groen: #ABBF3D;
+  --oost-creme: #F5F0E8;
+  --oost-wit: #FFFFFF;
+  --rand: #DCE4F0;
+  --rand-sterk: #C3D0E4;
+  --grijs: #5C6577;
+  --werkblad: #F2F5FA;
+  --zijbalk-breedte: 400px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roobert', Arial, Helvetica, sans-serif;
+  color: var(--oost-donkerblauw);
+  background: var(--werkblad);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+
+/* ---------------------------------------------------------------- balk */
+
+.balk {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 64px;
+  padding: 0 24px;
+  background: var(--oost-wit);
+  border-bottom: 1px solid var(--rand);
+}
+
+.merk {
+  background: var(--oost-wit);
+  border-radius: 999px;
+  padding: 4px 14px;
+}
+
+.woordmerk {
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  color: var(--oost-blauw);
+  line-height: 1;
+}
+
+.balk h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.balk h1 span { color: var(--grijs); font-weight: 400; }
+
+.balk-rechts { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+
+.fontwaarschuwing {
+  font-size: 13px;
+  color: #8A4B00;
+  background: #FFF7E7;
+  border: 1px solid var(--oost-geel);
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+
+/* ----------------------------------------------------------- werkblad */
+
+.werkblad {
+  display: grid;
+  grid-template-columns: var(--zijbalk-breedte) minmax(0, 1fr);
+  height: calc(100% - 64px);
+}
+
+.zijbalk {
+  overflow-y: auto;
+  background: var(--oost-wit);
+  border-right: 1px solid var(--rand);
+  padding-bottom: 60px;
+}
+
+/* ------------------------------------------------------------ panelen */
+
+.paneel { border-bottom: 1px solid var(--rand); }
+
+.paneel-kop {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  background: none;
+  border: 0;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+.paneel-kop:hover { background: #F7FAFF; }
+
+.chevron {
+  margin-left: auto;
+  width: 8px; height: 8px;
+  border-right: 2px solid var(--grijs);
+  border-bottom: 2px solid var(--grijs);
+  transform: rotate(45deg);
+  transition: transform .15s;
+  flex-shrink: 0;
+}
+.paneel.open .chevron { transform: rotate(-135deg); }
+
+.tel {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--oost-blauw);
+  background: var(--oost-lichtblauw);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+.tel:empty { display: none; }
+
+.paneel-body { display: none; padding: 4px 20px 22px; }
+.paneel.open .paneel-body { display: block; }
+
+.subblok { margin-top: 14px; }
+.subblok[hidden] { display: none; }
+
+/* -------------------------------------------------------- formulieren */
+
+.veld { display: block; margin: 14px 0; }
+.veld > span {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--grijs);
+  margin-bottom: 5px;
+}
+
+input[type=text], input[type=number], select, textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--rand-sterk);
+  border-radius: 10px;
+  background: var(--oost-wit);
+  font-size: 14px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--oost-blauw);
+  outline-offset: -1px;
+  border-color: var(--oost-blauw);
+}
+textarea { resize: vertical; font-size: 13px; line-height: 1.5; }
+
+.tweekolom { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tweekolom .veld { margin: 14px 0 0; }
+
+.schakel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.schakel input { width: 17px; height: 17px; accent-color: var(--oost-blauw); flex-shrink: 0; }
+
+.schakelaars { display: grid; gap: 2px; margin: 12px 0; }
+
+.hint { font-size: 12.5px; line-height: 1.5; color: var(--grijs); margin: 8px 0 0; }
+.hint em { font-style: normal; font-weight: 600; }
+
+.melding { font-size: 12.5px; line-height: 1.5; margin: 8px 0 0; min-height: 1px; }
+.melding.goed { color: #1F7A3D; }
+.melding.fout { color: #B02020; }
+
+/* ------------------------------------------------------------- knoppen */
+
+.knop {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13.5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.knop::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--oost-blauw);
+  flex-shrink: 0;
+}
+.knop-licht { background: var(--oost-wit); color: var(--oost-donkerblauw); border-color: var(--rand-sterk); }
+.knop-licht:hover { border-color: var(--oost-blauw); }
+.knop-donker { background: var(--oost-donkerblauw); color: var(--oost-wit); }
+.knop-donker:hover { background: #23283a; }
+.knop-blauw { background: var(--oost-blauw); color: var(--oost-wit); }
+.knop-blauw::before { background: var(--oost-wit); }
+.knop-blauw:hover { background: #0d4fd6; }
+.knop[disabled] { opacity: .45; cursor: default; }
+.knop.aan { background: var(--oost-blauw); color: var(--oost-wit); border-color: var(--oost-blauw); }
+.knop.aan::before { background: var(--oost-wit); }
+
+.knoprij { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.bestandsknop { position: relative; }
+
+.keuzerij { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.keuze {
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--rand-sterk);
+  background: var(--oost-wit);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.keuze:hover { border-color: var(--oost-blauw); }
+.keuze.aan { background: var(--oost-blauw); border-color: var(--oost-blauw); color: var(--oost-wit); font-weight: 600; }
+
+details.invoer { margin: 14px 0; border: 1px solid var(--rand); border-radius: 12px; padding: 10px 14px; }
+details.invoer > summary { font-size: 13px; font-weight: 600; cursor: pointer; }
+details.invoer[open] > summary { margin-bottom: 8px; }
+
+/* ------------------------------------------------------------- tabellen */
+
+.tabelhouder { max-height: 300px; overflow-y: auto; margin: 14px 0; border: 1px solid var(--rand); border-radius: 12px; }
+.tabelhouder:empty, .tabelhouder > table:empty { display: none; }
+
+.datatabel { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.datatabel th {
+  position: sticky; top: 0;
+  background: var(--oost-lichtblauw);
+  text-align: left;
+  font-weight: 600;
+  padding: 7px 10px;
+  font-size: 11.5px;
+  color: var(--grijs);
+}
+.datatabel td { padding: 3px 6px; border-top: 1px solid var(--rand); }
+.datatabel td:first-child { padding-left: 10px; font-weight: 500; }
+.datatabel input[type=text], .datatabel input[type=number] {
+  padding: 5px 7px; border-radius: 7px; font-size: 12.5px; border-color: transparent; background: transparent;
+}
+.datatabel input:hover { border-color: var(--rand-sterk); background: var(--oost-wit); }
+.datatabel .weg {
+  border: 0; background: none; cursor: pointer; color: var(--grijs);
+  font-size: 16px; line-height: 1; padding: 2px 6px; border-radius: 6px;
+}
+.datatabel .weg:hover { color: var(--oost-rood); background: #FFECEC; }
+.datatabel tr.zonderdata td:first-child { color: var(--grijs); font-weight: 400; }
+
+/* ------------------------------------------------------- kleurkiezer */
+
+.kleurkiezer { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin: 6px 0 4px; }
+.kleurkiezer button {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  border: 1px solid rgba(19,23,32,.12);
+  cursor: pointer;
+  padding: 0;
+}
+.kleurkiezer button.aan { outline: 2px solid var(--oost-donkerblauw); outline-offset: 1px; }
+
+.categorielijst { display: grid; gap: 6px; margin: 10px 0; }
+.categorierij { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.categorierij .staal {
+  width: 26px; height: 26px; border-radius: 7px; border: 1px solid rgba(19,23,32,.14); cursor: pointer; padding: 0;
+  flex-shrink: 0;
+}
+.categorierij .naam { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.categorierij .aantal { color: var(--grijs); font-size: 12px; }
+
+.kleurpopup {
+  position: absolute;
+  z-index: 40;
+  background: var(--oost-wit);
+  border: 1px solid var(--rand-sterk);
+  border-radius: 12px;
+  padding: 12px;
+  width: 268px;
+}
+.kleurpopup h4 { margin: 0 0 8px; font-size: 12px; color: var(--grijs); font-weight: 600; }
+.kleurpopup .eigen { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.kleurpopup .eigen input[type=color] { width: 38px; height: 30px; padding: 0; border-radius: 8px; border: 1px solid var(--rand-sterk); background: none; }
+
+/* --------------------------------------------------------- suggesties */
+
+.zoekhouder { position: relative; margin-top: 12px; }
+.suggesties {
+  position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 4px);
+  background: var(--oost-wit);
+  border: 1px solid var(--rand-sterk);
+  border-radius: 12px;
+  max-height: 280px; overflow-y: auto;
+}
+.suggesties button {
+  display: block; width: 100%; text-align: left;
+  padding: 8px 12px; border: 0; background: none; cursor: pointer; font-size: 13px;
+  border-bottom: 1px solid var(--rand);
+}
+.suggesties button:last-child { border-bottom: 0; }
+.suggesties button:hover, .suggesties button.actief { background: var(--oost-lichtblauw); }
+.suggesties .soort { color: var(--grijs); font-size: 11.5px; }
+
+/* ------------------------------------------------------------ iconen */
+
+.iconenbibliotheek { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 10px 0; }
+.iconenbibliotheek .icoon { position: relative; }
+.iconenbibliotheek button.kies {
+  width: 100%; aspect-ratio: 1; padding: 5px;
+  border: 1px solid var(--rand-sterk); border-radius: 10px; background: var(--oost-wit); cursor: pointer;
+}
+.iconenbibliotheek button.kies img { width: 100%; height: 100%; object-fit: contain; }
+.iconenbibliotheek button.kies.aan { border-color: var(--oost-blauw); outline: 1px solid var(--oost-blauw); }
+.iconenbibliotheek .schrap {
+  position: absolute; top: -5px; right: -5px;
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 0; background: var(--oost-donkerblauw); color: var(--oost-wit);
+  font-size: 11px; line-height: 17px; padding: 0; cursor: pointer;
+}
+
+/* ------------------------------------------------------- tekstblokken */
+
+.tekstblok {
+  border: 1px solid var(--rand); border-radius: 12px; padding: 12px; margin-top: 10px;
+}
+.tekstblok .kop { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tekstblok .kop b { font-size: 12.5px; }
+.tekstblok .kop .weg { margin-left: auto; }
+.tekstblok textarea { font-size: 13px; }
+.tekstblok .rij { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ------------------------------------------------------- bibliotheek */
+
+.bibliotheeklijst { margin-top: 14px; display: grid; gap: 6px; }
+.bibliotheekrij {
+  display: flex; align-items: center; gap: 8px;
+  border: 1px solid var(--rand); border-radius: 12px; padding: 9px 12px; font-size: 13px;
+}
+.bibliotheekrij .naam { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.bibliotheekrij .datum { color: var(--grijs); font-size: 11.5px; }
+.bibliotheekrij button {
+  border: 0; background: none; cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--oost-blauw); padding: 4px 6px; border-radius: 7px;
+}
+.bibliotheekrij button:hover { background: var(--oost-lichtblauw); }
+.bibliotheekrij button.weg { color: var(--grijs); }
+.bibliotheekrij button.weg:hover { color: var(--oost-rood); background: #FFECEC; }
+.bibliotheekrij.actief { border-color: var(--oost-blauw); }
+
+/* ---------------------------------------------------------- voorbeeld */
+
+.voorbeeld { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 18px 24px 12px; }
+
+.voorbeeld-balk { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.voorbeeld-balk .keuzerij { margin: 0; }
+.voorbeeld-acties { margin-left: auto; display: flex; gap: 8px; }
+
+.doek-houder {
+  flex: 1; min-height: 0;
+  margin-top: 14px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+#doek {
+  max-width: 100%; max-height: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--rand);
+  background: var(--oost-wit);
+}
+#doek.klikmodus { cursor: crosshair; }
+#doek.sleepbaar { cursor: grab; }
+
+.tooltip {
+  position: absolute; z-index: 20; pointer-events: none;
+  background: var(--oost-donkerblauw); color: var(--oost-wit);
+  font-size: 12px; padding: 5px 10px; border-radius: 8px; white-space: nowrap;
+  transform: translate(-50%, -140%);
+}
+
+.voorbeeld-voet { margin: 10px 0 0; font-size: 12px; color: var(--grijs); text-align: center; min-height: 18px; }
+
+.mobielvenster {
+  position: absolute; right: 8px; bottom: 8px;
+  border: 1px solid var(--rand-sterk); border-radius: 10px; background: var(--oost-wit); padding: 6px;
+}
+.mobielvenster canvas { display: block; border-radius: 5px; }
+.mobielvenster .bijschrift { font-size: 10.5px; color: var(--grijs); text-align: center; padding-top: 4px; }
+
+/* ------------------------------------------------------------ overlay */
+
+.overlay {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(19,23,32,.5);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.overlay[hidden] { display: none; }
+.hulp {
+  position: relative;
+  background: var(--oost-wit); border-radius: 16px; padding: 30px 34px;
+  max-width: 620px; max-height: 84vh; overflow-y: auto;
+}
+.hulp h2 { margin: 0 0 10px; font-size: 22px; }
+.hulp h3 { margin: 22px 0 6px; font-size: 15px; }
+.hulp p, .hulp li { font-size: 13.5px; line-height: 1.6; color: #2A3242; }
+.hulp ol { padding-left: 20px; }
+.hulp .sluit {
+  position: absolute; top: 14px; right: 16px;
+  border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; color: var(--grijs);
+}
+
+@media (max-width: 1200px) {
+  :root { --zijbalk-breedte: 340px; }
+}
