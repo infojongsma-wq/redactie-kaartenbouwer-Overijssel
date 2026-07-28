@@ -1,0 +1,171 @@
+# Kaartenbouwer Overijssel — RTV Oost
+
+Redactietool om kaarten van Overijssel te maken: gemeenten inkleuren, punten
+plaatsen, annoteren, en exporteren als PNG in drie formaten. Fase 3 van het
+kaartenproject.
+
+**Het eindproduct is één bestand:** [`dist/kaartenbouwer-overijssel.html`](dist/kaartenbouwer-overijssel.html).
+Downloaden, dubbelklikken, klaar. Geen installatie, geen server, geen buildstap,
+geen internetverbinding, geen cookies, geen derde partij. Alles wat je invoert
+blijft op je eigen computer.
+
+---
+
+## Voor de redactie
+
+### Beginnen
+
+Open het HTML-bestand in Chrome, Edge, Firefox of Safari. Links staan de
+instellingen, rechts zie je meteen wat je maakt. Het voorbeeld is precies wat er
+uit de export komt — alleen kleiner weergegeven.
+
+### De drie lagen
+
+| Laag | Waarvoor | Hoe |
+|---|---|---|
+| **Vlaklaag** | thematische kaart: cijfer of categorie per gemeente | Plak twee kolommen uit een spreadsheet, of vul de tabel handmatig in |
+| **Puntlaag** | locatie-, overzichts-, symbool-, punten- en bellenkaart | Typ een plaatsnaam, klik in de kaart, of plak een lijst |
+| **Tekstlaag** | geannoteerde kaart | Tekstblok toevoegen en in de kaart slepen, met of zonder verbindingslijn |
+
+Punten kun je een **groep** geven (derde kolom bij plakken). Elke groep krijgt een
+eigen kleur en komt automatisch in de legenda — zo maak je een symbolenkaart.
+
+### Data plakken
+
+Kopieer uit Excel of Google Sheets en plak. De tool herkent tabs, puntkomma's en
+komma's als scheiding, slaat een kopregel over, en leest zowel Nederlandse als
+Engelse getalnotatie (`1.234`, `1,5`, `1.234,56` en `1,234.56` komen allemaal goed
+door). Gemeentenamen mogen in elke schrijfwijze — hoofdletters, kleine letters,
+met of zonder streepje. Wat niet herkend wordt, krijg je te horen; er verdwijnt
+nooit stilletjes een regel.
+
+### Exporteren
+
+PNG in 16:9 (1920×1080), vierkant (1080×1080) en staand (1080×1920). **Die drie
+zijn geen uitsnede van elkaar** — elk formaat is opnieuw ingedeeld, met de legenda
+onder de kaart in plaats van ernaast en de kaart groter binnen het kader. Met
+*Alle drie* download je ze in één keer.
+
+De knop **Mobielcheck** laat de kaart op 540 px zien: de breedte waarop de meeste
+lezers van oost.nl hem te zien krijgen. Is het daar niet leesbaar, dan is de kaart
+niet af.
+
+### Opslaan
+
+*Opslaan in bibliotheek* bewaart de kaart in de opslag van je browser, op deze
+computer. Opgeslagen kaarten blijven bewerkbaar: openen, aanpassen, opnieuw
+opslaan. Let op: wis je je browsergegevens, dan is de bibliotheek weg. Voor kaarten
+die je wilt bewaren of doorgeven is *Downloaden als bestand* de veilige route — dat
+levert een `.kaart.json` op die je later weer kunt openen.
+
+### Lettertype
+
+De kaart gebruikt **Roobert**. Dat lettertype wordt niet meegeleverd en niet
+ingebed; het moet lokaal geïnstalleerd staan. Ontbreekt het, dan verschijnt
+bovenin een waarschuwing en valt de tool terug op Arial.
+
+### Bronvermelding
+
+De kaartdata komt van het Kadaster via PDOK en staat onder CC BY 4.0. De regel
+**Bron: Kadaster/PDOK** moet vermeld blijven. Vul je eigen databron ervoor of
+erachter aan, bijvoorbeeld: `Bron: CBS · kaart: Kadaster/PDOK`.
+
+---
+
+## Voor wie eraan verder werkt
+
+### Wat waar staat
+
+```
+dist/kaartenbouwer-overijssel.html   het eindproduct — dit geef je aan de redactie
+src/index.html · styles.css          schil en huisstijl
+src/render.js                        alle tekenwerk op canvas
+src/app.js                           toestand, bediening, opslag, export
+build/build_plaatsen.py              TOP10NL-plaatsen -> data/plaatsen_overijssel.json
+build/build_app.py                   src + data -> dist/kaartenbouwer-overijssel.html
+data/app_data.json                   kaartlagen uit fase 2, al geprojecteerd
+data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
+bron/top10nl_plaats*.gml.gz          bronbestand(en) Kadaster/PDOK
+docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
+docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
+```
+
+Na een wijziging in `src/` of `data/`:
+
+```bash
+python3 build/build_app.py
+```
+
+De data zit ingebed in het HTML-bestand. Dat moet ook: een browser mag vanaf
+`file://` geen JSON ophalen, dus een los databestand zou het lokaal openen breken.
+
+### Twee dingen die niet vanzelf spreken
+
+**Alles gaat via canvas, ook het voorbeeld.** Eén `tekenKaart()` bedient het
+voorbeeld én de export, op exact dezelfde afmetingen; het voorbeeld wordt alleen
+door CSS verkleind. Daarmee is WYSIWYG een eigenschap van de constructie in plaats
+van iets wat je erbij moet bewaken. De export tekent rechtstreeks met `Path2D` en
+`fillText` — via SVG-rasterisatie zou het lokaal geïnstalleerde Roobert wegvallen
+in de PNG.
+
+**Labels wijken uit in plaats van te verdwijnen.** Elk label probeert acht posities
+rond zijn punt; de positie met de minste overlap wint, waarbij buiten het kaartvlak
+vallen zwaar meetelt. Gemeentelabels, plaatsnamen en de symbolen zelf zijn allemaal
+obstakel. Een label weglaten doet de tool nooit — voor een redactietool is een
+label dat schuurt beter dan een label dat er stilletjes niet is.
+
+### De transformatie RD → scherm
+
+`app_data.json` bevat geprojecteerde SVG-paden maar niet de transformatie zelf.
+Die is teruggerekend om de TOP10NL-plaatsen op dezelfde kaart te kunnen zetten.
+De volledige afleiding staat bovenaan `build/build_plaatsen.py`; kort:
+
+- **Schaal** uit de oppervlakte: de 25 gemeentepaden samen zijn 331.181,2 px², en
+  Overijssel is 3420,7 km². Dat geeft 101,6306 m/px, precies de `schaal_m_per_px`
+  in het bestand. Controle: de zo berekende oppervlakte per gemeente wijkt minder
+  dan 0,1 % af van de CBS-cijfers.
+- **Verschuiving** uit de geometrie, niet uit de acht plaatspunten in
+  `app_data.json`. Die zijn volgens de overdracht "afgeleid, niet officieel" en
+  blijken circa 7 px (700 m) naar het zuidoosten te liggen. In plaats daarvan is
+  gebruikt dat een bebouwde kom binnen één gemeente ligt: de verschuiving die dat
+  voor de meeste van 488 grensnabije kernen waarmaakt, brengt het aandeel van
+  92,5 % naar 97,0 %. Onafhankelijke controle op de 25 gelijknamige hoofdkernen:
+  volledig binnen de eigen gemeente gaat van 13/25 naar 16/25, en de resterende
+  overschrijdingen krimpen van −4 tot −12 px naar −0,4 tot −2 px.
+
+Wordt `app_data.json` ooit vervangen, dan controleert `build_plaatsen.py` de schaal
+opnieuw en stopt met een foutmelding als die niet meer klopt.
+
+### Meerdere brondownloads
+
+De PDOK-downloadviewer levert per rechthoek. Past de provincie daar niet in, dan
+mogen er gewoon meerdere `top10nl_plaats*.gml(.gz)`-bestanden naast elkaar in
+`bron/` staan: `build_plaatsen.py` leest ze allemaal en haalt de overlap eruit op
+`lokaalID`. Dat is geen theorie — de eerste download miste het noorden van
+Steenwijkerland inclusief Steenwijk, en dat viel pas op door ernaar te zoeken.
+
+Daarom controleert de pijplijn nu zelf op dekking, op twee manieren: elke gemeente
+moet kernen hebben gekregen, en de provincie moet binnen de dekking van de
+bronbestanden vallen. Rammelt er iets, dan zegt het bouwscript dat, en zetten
+`data/plaatsen_overijssel.json` en de uitlegtekst in de tool het er als
+waarschuwing bij.
+
+### Eén bekend hiaat
+
+**Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
+Gebiedsindelingen en houdt op bij de landsgrens, dus het gebied ten oosten van
+Twente wordt als water getekend. Met het huidige krappe kaartvlak is dat een strook
+van ongeveer 26 px. Echt oplossen vraagt buitenlandse geometrie, die niet in de
+fase 1/2-pijplijn zit.
+
+---
+
+## Bronnen en licentie
+
+- **BRK Bestuurlijke Gebieden** (Kadaster, via PDOK) — gemeente-, provincie- en landsgrenzen
+- **CBS Gebiedsindelingen, gegeneraliseerd** (via PDOK) — land/water-scheiding
+- **BRT TOP10NL, objecttype `waterdeel`** (Kadaster, via PDOK) — rivieren, kanalen, plassen
+- **BRT TOP10NL, objecttype `plaats`** (Kadaster, via PDOK) — kernen, wijken en buurtschappen
+
+Alles **CC BY 4.0**, bronvermelding *Bron: Kadaster/PDOK* verplicht.
+CRS overal EPSG:28992 (RD New). Kaartschaal 1 px = 101,63 m.
