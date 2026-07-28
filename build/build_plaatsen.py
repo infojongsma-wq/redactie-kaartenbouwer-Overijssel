@@ -49,6 +49,7 @@ is Hengelo (-7,7 px), waar de bebouwde kom feitelijk tegen Borne aan gegroeid is
 Bron: Kadaster/PDOK (BRT TOP10NL), CC BY 4.0.
 """
 
+import glob
 import gzip
 import json
 import math
@@ -57,7 +58,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GML = os.path.join(ROOT, "bron", "top10nl_plaats.gml")
+BRON = os.path.join(ROOT, "bron")
 APP_DATA = os.path.join(ROOT, "data", "app_data.json")
 UIT = os.path.join(ROOT, "data", "plaatsen_overijssel.json")
 
@@ -85,14 +86,25 @@ TYPE_RANG = {
 }
 
 
-def lees_gml(pad):
-    if os.path.exists(pad):
-        with open(pad, encoding="utf-8") as f:
-            return f.read()
-    if os.path.exists(pad + ".gz"):
-        with gzip.open(pad + ".gz", "rt", encoding="utf-8") as f:
-            return f.read()
-    sys.exit("Bronbestand niet gevonden: %s (of .gz)" % pad)
+def lees_bronnen():
+    """Alle TOP10NL-plaatsbestanden in bron/ inlezen.
+
+    De PDOK-downloadviewer levert per rechthoek. Past de provincie niet in een
+    rechthoek, dan zijn er meerdere downloads nodig; die mogen hier gewoon naast
+    elkaar staan. Overlap tussen bestanden wordt verderop weggenomen op lokaalID.
+    """
+    paden = sorted(
+        glob.glob(os.path.join(BRON, "top10nl_plaats*.gml"))
+        + glob.glob(os.path.join(BRON, "top10nl_plaats*.gml.gz"))
+    )
+    if not paden:
+        sys.exit("Geen bronbestand gevonden in %s (top10nl_plaats*.gml of .gml.gz)" % BRON)
+    uit = []
+    for pad in paden:
+        openen = gzip.open if pad.endswith(".gz") else open
+        with openen(pad, "rt", encoding="utf-8") as f:
+            uit.append((os.path.basename(pad), f.read()))
+    return uit
 
 
 def subpaden(d):
@@ -184,32 +196,48 @@ def controleer_schaal(app):
     return totaal, afgeleid
 
 
-def bepaal_hiaat(tekst, app):
-    """Controleren of het bronbestand heel Overijssel dekt.
+def bepaal_hiaat(bronnen, app, plaatsen):
+    """Controleren of de bronbestanden heel Overijssel dekken.
 
-    De download uit de PDOK-viewer gaat per rechthoek. Dekt die rechthoek de
-    provincie niet volledig, dan ontbreken er kernen in de autocomplete zonder
-    dat dat ergens zichtbaar is. Die controle hoort in de pijplijn, niet in het
-    hoofd van de volgende redacteur.
+    De download uit de PDOK-viewer gaat per rechthoek. Dekt die de provincie niet
+    volledig, dan ontbreken er kernen in de autocomplete zonder dat dat ergens
+    zichtbaar is — precies wat er bij de eerste download gebeurde, waar het
+    noorden van Steenwijkerland inclusief Steenwijk buiten viel. Die controle
+    hoort in de pijplijn, niet in het hoofd van de volgende redacteur.
+
+    Er wordt op twee manieren gekeken:
+
+    1. **Heeft elke gemeente kernen gekregen?** Dat is het scherpste signaal: een
+       gemeente zonder een enkele kern kan niet kloppen.
+    2. **Steekt de provincie buiten de dekking uit?** Alleen bij stroken breder
+       dan 3 km. Smallere randen zeggen niets: de oostrand van de dekking is
+       Overdinkel en de westrand Bantega, allebei gewoon de buitenste plaats die
+       er ligt en geen afkapping.
     """
+    kernsoorten = ("woonkern", "deelkern", "gehucht", "buurtschap")
+    per_gemeente = {}
+    for plaats in plaatsen:
+        if plaats["soort"] in kernsoorten:
+            per_gemeente[plaats["gemeente"]] = per_gemeente.get(plaats["gemeente"], 0) + 1
+    leeg = sorted(g["naam"] for g in app["gemeenten"].values() if g["naam"] not in per_gemeente)
+
     xs, ys = [], []
-    for lijst in re.findall(r"<gml:posList>(.*?)</gml:posList>", tekst, re.S):
-        getallen = [float(v) for v in lijst.split()]
-        xs.extend(getallen[0::2])
-        ys.extend(getallen[1::2])
+    for _, tekst in bronnen:
+        for lijst in re.findall(r"<gml:posList>(.*?)</gml:posList>", tekst, re.S):
+            getallen = [float(v) for v in lijst.split()]
+            xs.extend(getallen[0::2])
+            ys.extend(getallen[1::2])
     if not xs:
         return ""
     dek = {
         "x0": A * min(xs) + B, "x1": A * max(xs) + B,
         "y0": -A * max(ys) + C, "y1": -A * min(ys) + C,
     }
-
     punten = [p for ring in subpaden(app["provinciegrens"]) for p in ring]
     prov = {
         "x0": min(p[0] for p in punten), "x1": max(p[0] for p in punten),
         "y0": min(p[1] for p in punten), "y1": max(p[1] for p in punten),
     }
-
     tekorten = []
     for zijde, px in (
         ("noorden", dek["y0"] - prov["y0"]),
@@ -217,27 +245,25 @@ def bepaal_hiaat(tekst, app):
         ("westen", dek["x0"] - prov["x0"]),
         ("oosten", prov["x1"] - dek["x1"]),
     ):
-        # onder een halve kilometer is het ruis: daar liggen simpelweg geen kernen
-        if px * M_PER_PX / 1000 > 0.5:
-            tekorten.append("%s %.0f km" % (zijde, px * M_PER_PX / 1000))
-    if not tekorten:
+        km = px * M_PER_PX / 1000
+        if km > 3.0:
+            tekorten.append("%s %.0f km" % (zijde, km))
+
+    if not tekorten and not leeg:
         return ""
 
-    geraakt = []
-    for gem in app["gemeenten"].values():
-        punten = [p for ring in subpaden(gem["d"]) for p in ring]
-        if (min(p[1] for p in punten) < dek["y0"] or max(p[1] for p in punten) > dek["y1"]
-                or min(p[0] for p in punten) < dek["x0"] or max(p[0] for p in punten) > dek["x1"]):
-            geraakt.append(gem["naam"])
-
+    delen = []
+    if leeg:
+        delen.append("zonder kernen: " + ", ".join(leeg))
+    if tekorten:
+        delen.append("buiten de download: " + ", ".join(tekorten))
     return (
-        "Het bronbestand TOP10NL-plaats dekt de provincie niet volledig: in het "
-        + ", ".join(tekorten)
-        + " valt een strook buiten de download"
-        + (" (gemeente " + ", ".join(sorted(geraakt)) + ")" if geraakt else "")
-        + ". Kernen daar ontbreken in de zoeklijst; punten plaatsen door in de kaart "
+        "De bronbestanden TOP10NL-plaats dekken de provincie mogelijk niet volledig ("
+        + "; ".join(delen)
+        + "). Kernen daar ontbreken in de zoeklijst; punten plaatsen door in de kaart "
         + "te klikken werkt er wel gewoon. Op te lossen door TOP10NL objecttype plaats "
-        + "opnieuw te downloaden met een rechthoek die heel Overijssel omsluit."
+        + "opnieuw te downloaden over het ontbrekende gebied. Meerdere downloads mogen "
+        + "naast elkaar in bron/ staan; overlap wordt automatisch weggenomen."
     )
 
 
@@ -250,13 +276,25 @@ def main():
     for code, gem in app["gemeenten"].items():
         gemeenten[gem["naam"]] = subpaden(gem["d"])
 
-    tekst = lees_gml(GML)
-    kenmerken = re.findall(r"<top10nl:Plaats\b.*?</top10nl:Plaats>", tekst, re.S)
-    print("TOP10NL-plaatsen in bronbestand: %d" % len(kenmerken))
+    bronnen = lees_bronnen()
+    # Overlappende downloads leveren dezelfde plaats twee keer; lokaalID is de
+    # stabiele sleutel uit de NEN3610-identificatie.
+    kenmerken = {}
+    for bestandsnaam, tekst in bronnen:
+        gevonden = re.findall(r"<top10nl:Plaats\b.*?</top10nl:Plaats>", tekst, re.S)
+        nieuw = 0
+        for blok in gevonden:
+            m = re.search(r"<brt:lokaalID>(\d+)</brt:lokaalID>", blok)
+            sleutel = m.group(1) if m else blok[:200]
+            if sleutel not in kenmerken:
+                kenmerken[sleutel] = blok
+                nieuw += 1
+        print("%-34s %5d plaatsen, %5d nieuw" % (bestandsnaam, len(gevonden), nieuw))
+    print("TOP10NL-plaatsen na ontdubbelen: %d" % len(kenmerken))
 
     uit = []
     buiten = 0
-    for blok in kenmerken:
+    for blok in kenmerken.values():
         def veld(naam):
             m = re.search(r"<top10nl:%s>(.*?)</top10nl:%s>" % (naam, naam), blok, re.S)
             return m.group(1).strip() if m else None
@@ -308,9 +346,11 @@ def main():
     for soort in sorted(telling, key=lambda s: TYPE_RANG[s]):
         print("   %-14s %4d" % (soort, telling[soort]))
 
-    hiaat = bepaal_hiaat(tekst, app)
+    hiaat = bepaal_hiaat(bronnen, app, uit)
     if hiaat:
         print("\nLET OP: " + hiaat)
+    else:
+        print("\nDekkingscontrole: elke gemeente heeft kernen en de provincie valt binnen de download.")
 
     doel = {
         "bron": "Kadaster/PDOK, BRT TOP10NL objecttype plaats",

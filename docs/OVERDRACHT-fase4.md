@@ -18,7 +18,7 @@ Alles uit de opdracht in §7 van de vorige overdracht zit erin:
 |---|---|
 | Basiskaart uit de varianten van fase 2 | vier presets plus losse laagschakelaars |
 | Vlaklaag: categorie óf kleurschaal, getal/tekst per gemeente | ja, met 7 kleurschalen uit het palet |
-| Puntlaag: klikken of plaatsnaam typen; stip, PNG-icoon, bel | ja, met autocomplete over 1074 plaatsen |
+| Puntlaag: klikken of plaatsnaam typen; stip, PNG-icoon, bel | ja, met autocomplete over 1143 plaatsen |
 | Tekstlaag: tekstblokken met optionele verbindingslijn | ja, sleepbaar in de kaart |
 | Legenda per symbooltype apart aan/uit | ja |
 | Data plakken uit spreadsheet én handmatig aanpassen | ja |
@@ -27,9 +27,9 @@ Alles uit de opdracht in §7 van de vorige overdracht zit erin:
 | Bibliotheek, bewerkbaar na opslaan, downloaden en openen | ja |
 | Export 1920×1080, 1080×1080, 1080×1920 als drie layouts | ja |
 
-**Nieuw databestand:** `data/plaatsen_overijssel.json` — 1074 plaatsen (152
-woonkernen, 12 deelkernen, 27 gehuchten, 217 buurtschappen, 16 industriekernen,
-10 stadsdelen, 426 wijken, 214 buurten), elk met gemeente, inwonertal en positie
+**Nieuw databestand:** `data/plaatsen_overijssel.json` — 1143 plaatsen (170
+woonkernen, 16 deelkernen, 35 gehuchten, 228 buurtschappen, 17 industriekernen,
+10 stadsdelen, 448 wijken, 219 buurten), elk met gemeente, inwonertal en positie
 in het 1920×1080-assenstelsel.
 
 ---
@@ -52,9 +52,12 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
   steekproeven geeft een spreiding van 0,65 px, dus de afwijking is ruim
   significant. Dit bevestigt de waarschuwing uit de vorige overdracht dat die
   coördinaten "afgeleid, niet officieel" zijn.
-- Van de 1074 plaatsen binnen de provincie is de gemeente-toewijzing gecontroleerd
-  op 44 bekende plaats-gemeentecombinaties: **44 goed, 0 fout**.
-- De TOP10NL-download dekt de provincie **niet volledig** — zie §4.
+- Van de 1143 plaatsen binnen de provincie is de gemeente-toewijzing gecontroleerd
+  op 55 bekende plaats-gemeentecombinaties: **55 goed, 0 fout**.
+- De dekking is compleet: elke gemeente heeft kernen, en de provincie valt binnen
+  de dekking van het bronbestand. De buitenste plaatsen van de download zijn
+  Overdinkel in het oosten en Bantega in het westen — echte plaatsen, geen
+  afkapping.
 
 ---
 
@@ -92,16 +95,14 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
 
 ## 4. Aandachtspunten en open eindjes
 
-- **Het noorden van Steenwijkerland ontbreekt in de plaatsenlijst.** De aangeleverde
-  TOP10NL-download loopt tot RD-y 530.795, de provincie tot 541.000: een strook van
-  ongeveer 10 km valt erbuiten, en in mindere mate ook stroken in het westen (2 km)
-  en oosten (1 km). Daardoor missen onder meer **Steenwijk**, Steenwijkerwold, Tuk,
-  Oldemarkt, Blokzijl, Kuinre, Ossenzijl, Willemsoord, Scheerwolde en Zuidveen in de
-  autocomplete. Punten plaatsen door in de kaart te klikken werkt er wel gewoon.
-  Oplossing: TOP10NL objecttype `plaats` opnieuw downloaden met een rechthoek die
-  heel Overijssel omsluit, dan `build_plaatsen.py` en `build_app.py` draaien. De
-  dekkingscontrole zit nu in de pijplijn, dus een volgende download meldt zelf of
-  hij compleet is.
+- **Opgelost: het noorden van Steenwijkerland.** De eerste TOP10NL-download liep
+  tot RD-y 530.795 en de provincie tot 541.000, waardoor een strook van ongeveer
+  10 km erbuiten viel en onder meer **Steenwijk** (20.350 inwoners), Oldemarkt,
+  Blokzijl, Kuinre, Ossenzijl en Willemsoord in de autocomplete ontbraken. Een
+  tweede download over het noorden heeft dat verholpen: Steenwijkerland ging van 18
+  naar 54 kernen en het totaal van 1074 naar 1143 plaatsen. De pijplijn leest nu
+  alle `top10nl_plaats*.gml(.gz)`-bestanden in `bron/` en ontdubbelt op `lokaalID`,
+  dus meerdere downloadrechthoeken mogen naast elkaar staan.
 - **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
   Gebiedsindelingen en houdt op bij de landsgrens, dus ten oosten van Twente wordt
   water getekend waar land ligt. Met het huidige krappe kaartvlak is dat een strook
@@ -113,6 +114,10 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
 - **Oldenzaal en Borne houden krappe labelruimte** (21 px). Het uitwijkmechanisme
   vangt dat op, maar bij vier of meer punten dicht op elkaar in Twente blijft het
   krap.
+- **De dekkingscontrole is een waarschuwing, geen bewijs.** Hij kijkt of elke
+  gemeente kernen heeft gekregen en of de provincie binnen de dekking valt. Dat had
+  het gat bij Steenwijk gevangen, maar een download die een enkel dorp mist midden
+  in een verder goed gevulde gemeente glipt er doorheen.
 - **De iconenbibliotheek deelt de `localStorage`-ruimte** (meestal 5 MB). Grote
   PNG's kunnen die vol maken; de tool meldt dat dan en laat de rest werken.
 

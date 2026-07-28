@@ -84,8 +84,8 @@ src/app.js                           toestand, bediening, opslag, export
 build/build_plaatsen.py              TOP10NL-plaatsen -> data/plaatsen_overijssel.json
 build/build_app.py                   src + data -> dist/kaartenbouwer-overijssel.html
 data/app_data.json                   kaartlagen uit fase 2, al geprojecteerd
-data/plaatsen_overijssel.json        1074 kernen, wijken en buurtschappen
-bron/top10nl_plaats.gml.gz           bronbestand Kadaster/PDOK
+data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
+bron/top10nl_plaats*.gml.gz          bronbestand(en) Kadaster/PDOK
 docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
 docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
 ```
@@ -136,24 +136,27 @@ De volledige afleiding staat bovenaan `build/build_plaatsen.py`; kort:
 Wordt `app_data.json` ooit vervangen, dan controleert `build_plaatsen.py` de schaal
 opnieuw en stopt met een foutmelding als die niet meer klopt.
 
-### Twee bekende hiaten
+### Meerdere brondownloads
 
-1. **Het noorden van Steenwijkerland ontbreekt in de plaatsenlijst.** De
-   TOP10NL-download loopt tot RD-y 530.795 en de provincie tot 541.000 — een strook
-   van ongeveer 10 km valt erbuiten. Daardoor missen onder meer **Steenwijk**,
-   Steenwijkerwold, Tuk, Oldemarkt, Blokzijl, Kuinre, Ossenzijl, Willemsoord,
-   Scheerwolde en Zuidveen in de autocomplete. Punten plaatsen door in de kaart te
-   klikken werkt daar gewoon. Op te lossen door TOP10NL objecttype `plaats`
-   opnieuw te downloaden met een rechthoek die heel Overijssel omsluit; daarna
-   `python3 build/build_plaatsen.py && python3 build/build_app.py`. De
-   dekkingscontrole zit in de pijplijn, dus een volgende download meldt zelf of hij
-   compleet is.
+De PDOK-downloadviewer levert per rechthoek. Past de provincie daar niet in, dan
+mogen er gewoon meerdere `top10nl_plaats*.gml(.gz)`-bestanden naast elkaar in
+`bron/` staan: `build_plaatsen.py` leest ze allemaal en haalt de overlap eruit op
+`lokaalID`. Dat is geen theorie — de eerste download miste het noorden van
+Steenwijkerland inclusief Steenwijk, en dat viel pas op door ernaar te zoeken.
 
-2. **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
-   Gebiedsindelingen en houdt op bij de landsgrens, dus het gebied ten oosten van
-   Twente wordt als water getekend. Met het huidige krappe kaartvlak is dat een
-   strook van ongeveer 26 px. Echt oplossen vraagt buitenlandse geometrie, die niet
-   in de fase 1/2-pijplijn zit.
+Daarom controleert de pijplijn nu zelf op dekking, op twee manieren: elke gemeente
+moet kernen hebben gekregen, en de provincie moet binnen de dekking van de
+bronbestanden vallen. Rammelt er iets, dan zegt het bouwscript dat, en zetten
+`data/plaatsen_overijssel.json` en de uitlegtekst in de tool het er als
+waarschuwing bij.
+
+### Eén bekend hiaat
+
+**Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
+Gebiedsindelingen en houdt op bij de landsgrens, dus het gebied ten oosten van
+Twente wordt als water getekend. Met het huidige krappe kaartvlak is dat een strook
+van ongeveer 26 px. Echt oplossen vraagt buitenlandse geometrie, die niet in de
+fase 1/2-pijplijn zit.
 
 ---
 
