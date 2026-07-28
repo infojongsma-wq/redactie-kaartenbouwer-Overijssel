@@ -87,6 +87,17 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
 - **Getalnotatie wordt afgeleid, niet aangenomen.** `1.234` is Nederlands voor
   1234, `1.5` een Engelse decimaal; bij twee scheidingstekens wint de laatste als
   decimaalteken.
+- **Stijl koppelt vulling aan lijnkleur.** De drie vulvarianten uit fase 2
+  verschillen niet alleen in vulling maar ook in lijnkleur (tint heeft witte
+  grenzen, lichtblauw en wit hebben blauwe). Als losse instellingen kost dat drie
+  handelingen; als stijlknop één. De losse regelaars staan er nog onder, in een
+  uitklapper, zodat de bovenlaag simpel blijft.
+- **Plaatspunten komen uit TOP10NL, niet uit `app_data.json`.** Anders zouden de
+  elf hoofdplaatsen de afwijking van 700 m houden terwijl de nieuw toegevoegde
+  kernen wel goed liggen. Nu staat alles in hetzelfde gecontroleerde stelsel.
+- **Naamgrootte hangt af van het aantal plaatsen.** Bij 57 kernen past de normale
+  maat er niet meer op. De factor loopt van 1,12 (tot 5 plaatsen) naar 0,63 (meer
+  dan 40).
 - **Opslag in `localStorage`, niet in cookies.** Lokaal, geen server, geen derde
   partij. De tool zegt er expliciet bij dat de bibliotheek verdwijnt als je je
   browsergegevens wist, en biedt downloaden als bestand als veilige route.

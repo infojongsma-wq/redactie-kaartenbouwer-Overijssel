@@ -33,8 +33,9 @@
           <input type="text" id="in-bron" maxlength="120" value="Bron: Kadaster/PDOK"></label>
         <label class="veld"><span>Uitlijning titel en kaart</span>
           <select id="in-uitlijning">
-            <option value="gecentreerd">Gecentreerd</option>
             <option value="links">Links</option>
+            <option value="midden">Midden</option>
+            <option value="rechts">Rechts</option>
           </select></label>
         <label class="veld"><span>Achtergrond</span>
           <select id="in-achtergrond">
@@ -42,7 +43,9 @@
             <option value="lichtblauw">Lichtblauw (#E7EEF9)</option>
             <option value="blauw">Oost Blauw (#1361FF)</option>
             <option value="donkerblauw">Donkerblauw (#131720)</option>
+            <option value="transparant">Transparant</option>
           </select></label>
+        <p class="hint" id="transparant-hint" hidden>Transparant levert een PNG zonder achtergrond. Zet ook <em>Water</em> uit bij Basiskaart als je alleen de provincievorm wilt uitsnijden.</p>
         <p class="hint">De bronvermelding <em>Bron: Kadaster/PDOK</em> is verplicht bij de kaartdata (CC BY 4.0). Vul je eigen databron ervoor of erachter aan.</p>
       </div>
     </section>
@@ -50,21 +53,40 @@
     <section class="paneel" data-paneel="basiskaart">
       <button class="paneel-kop" type="button">Basiskaart<span class="chevron"></span></button>
       <div class="paneel-body">
+        <label class="veld"><span>Stijl</span></label>
+        <div class="keuzerij" id="basiskaart-stijlen"></div>
+
+        <label class="veld"><span>Wat staat er op</span></label>
         <div class="keuzerij" id="basiskaart-presets"></div>
         <div class="schakelaars" id="basiskaart-lagen"></div>
-        <label class="veld"><span>Vulling gemeenten</span>
-          <select id="in-vulling">
-            <option value="tint">Tint (#8FB8FF)</option>
-            <option value="wit">Wit</option>
-            <option value="lichtblauw">Lichtblauw (#E7EEF9)</option>
-          </select></label>
+
         <label class="veld"><span>Plaatsen op de basiskaart</span>
           <select id="in-basisplaatsen">
             <option value="geen">Geen</option>
-            <option value="hoofd">Acht grootste plaatsen</option>
-            <option value="groot">Kernen vanaf 10.000 inwoners</option>
-            <option value="middel">Kernen vanaf 5.000 inwoners</option>
+            <option value="steden">Vier steden — Zwolle, Enschede, Deventer, Hardenberg</option>
+            <option value="hoofd">Elf grootste plaatsen</option>
+            <option value="groot">Kernen vanaf 10.000 inwoners (22)</option>
+            <option value="middel">Kernen vanaf 5.000 inwoners (37)</option>
+            <option value="klein">Kernen vanaf 2.500 inwoners (57)</option>
           </select></label>
+        <p class="hint">Hoe meer plaatsen, hoe kleiner de namen worden gezet.</p>
+
+        <details class="invoer">
+          <summary>Kleuren en lijnen</summary>
+          <label class="veld"><span>Vulling gemeenten</span></label>
+          <div class="kleurkiezer" id="kiezer-vulling"></div>
+          <label class="veld"><span>Kleur gemeentegrenzen</span></label>
+          <div class="kleurkiezer" id="kiezer-grens"></div>
+          <label class="veld"><span>Kleur provinciecontour</span></label>
+          <div class="kleurkiezer" id="kiezer-contour"></div>
+          <div class="tweekolom">
+            <label class="veld"><span>Dikte gemeentegrens</span>
+              <input type="range" id="in-grensdikte" min="0" max="3" step="0.25" value="1"></label>
+            <label class="veld"><span>Dikte contour</span>
+              <input type="range" id="in-contourdikte" min="0" max="4" step="0.25" value="1"></label>
+          </div>
+          <p class="hint" id="dikte-melding"></p>
+        </details>
       </div>
     </section>
 

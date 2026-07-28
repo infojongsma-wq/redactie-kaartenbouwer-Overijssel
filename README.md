@@ -39,6 +39,24 @@ door). Gemeentenamen mogen in elke schrijfwijze — hoofdletters, kleine letters
 met of zonder streepje. Wat niet herkend wordt, krijg je te horen; er verdwijnt
 nooit stilletjes een regel.
 
+### De basiskaart
+
+**Stijl** zet vulling en lijnkleur in één klik: *Tint* (blauwe vulling, witte
+lijnen), *Lichtblauw* of *Wit* (beide met blauwe lijnen). Onder *Kleuren en lijnen*
+kun je die daarna los bijstellen, inclusief lijndikte — op nul zet je een lijn
+helemaal uit.
+
+**Plaatsen** kun je kiezen van vier steden tot alle kernen vanaf 2.500 inwoners.
+Hoe meer plaatsen, hoe kleiner de namen worden gezet, en labels wijken automatisch
+voor elkaar uit. Bij de dichtste variant (57 kernen) worden de namen klein: kijk
+dan zeker even met de mobielcheck of het nog leesbaar is.
+
+**Uitlijning** (bij Kaart) zet titel én kaart links, in het midden of rechts.
+
+**Achtergrond** kan ook *transparant*. Dan komt er een PNG uit zonder ondergrond.
+Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de
+provincievorm wilt uitsnijden.
+
 ### Exporteren
 
 PNG in 16:9 (1920×1080), vierkant (1080×1080) en staand (1080×1920). **Die drie

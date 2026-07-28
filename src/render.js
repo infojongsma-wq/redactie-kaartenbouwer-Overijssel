@@ -98,12 +98,21 @@ const Render = (function () {
 
   const ACHTERGRONDEN = {
     wit:          { vlak: "#FFFFFF", tekst: "#131720", zacht: "#5C6577" },
+    transparant:  { vlak: null,      tekst: "#131720", zacht: "#5C6577" },
     lichtblauw:   { vlak: "#E7EEF9", tekst: "#131720", zacht: "#4A5568" },
     blauw:        { vlak: "#1361FF", tekst: "#FFFFFF", zacht: "rgba(255,255,255,.82)" },
     donkerblauw:  { vlak: "#131720", tekst: "#FFFFFF", zacht: "rgba(255,255,255,.75)" }
   };
 
   const VULLINGEN = { tint: "#8FB8FF", wit: "#FFFFFF", lichtblauw: "#E7EEF9" };
+
+  // De vulling is tegenwoordig een hex-kleur. Oudere opgeslagen kaarten hebben
+  // er nog een trefwoord staan; die blijven werken.
+  function vulKleur(b) {
+    const v = b && b.vulling;
+    if (typeof v === "string" && v.charAt(0) === "#") return v;
+    return VULLINGEN[v] || VULLINGEN.tint;
+  }
 
   /* -------------------------------------------------------- formaten */
 
@@ -426,7 +435,9 @@ const Render = (function () {
     const f = FORMATEN[formaat];
     const k = maatstaf(formaat);
     const m = f.marge;
-    const gecentreerd = staat.uitlijning !== "links";
+    // links = 0, midden = 0,5, rechts = 1 — zowel voor de titel als voor de
+    // groep kaart-plus-legenda, zodat de compositie als geheel meebeweegt.
+    const richting = staat.uitlijning === "links" ? 0 : staat.uitlijning === "rechts" ? 1 : 0.5;
 
     /* --- titelblok --- */
     const titelBreedte = f.breedte - 2 * m;
@@ -487,21 +498,21 @@ const Render = (function () {
     /* --- kaart en legenda plaatsen --- */
     let vakX, vakY, legenda = null;
     if (!items.length) {
-      vakX = m + (beschikbaarB - vakB) / 2;
+      vakX = m + (beschikbaarB - vakB) * richting;
       vakY = kaartTop + (beschikbaarH - vakH) * verdeling;
     } else if (legendaOnder) {
       const totaal = vakH + tussenruimte + legendaKop + gemeten.hoogte;
-      vakX = m + (beschikbaarB - vakB) / 2;
+      vakX = m + (beschikbaarB - vakB) * richting;
       vakY = kaartTop + Math.max(0, (beschikbaarH - totaal) * verdeling);
       legenda = {
-        x: m + (beschikbaarB - gemeten.breedte) / 2,
+        x: m + (beschikbaarB - gemeten.breedte) * richting,
         y: vakY + vakH + tussenruimte + legendaKop,
         b: gemeten.breedte, h: gemeten.hoogte, richting: "horizontaal", gemeten
       };
     } else {
       // kaart en legenda blijven als groep bij elkaar staan
       const groepB = vakB + gat + gemeten.breedte;
-      const groepX = gecentreerd ? m + (beschikbaarB - groepB) / 2 : m;
+      const groepX = m + (beschikbaarB - groepB) * richting;
       vakX = groepX;
       vakY = kaartTop + (beschikbaarH - vakH) * verdeling;
       legenda = {
@@ -516,7 +527,7 @@ const Render = (function () {
     const ty = vakY + rand - bb.y * s;
 
     return {
-      f, k, m, gecentreerd, titelRegels, onderRegels, titelEinde,
+      f, k, m, richting, titelRegels, onderRegels, titelEinde,
       kaart: vak, vak, legenda, items, transform: { s, tx, ty }, bodem, bronHoogte
     };
   }
@@ -530,12 +541,16 @@ const Render = (function () {
 
     ctx.save();
     ctx.clearRect(0, 0, f.breedte, f.hoogte);
-    ctx.fillStyle = thema.vlak;
-    ctx.fillRect(0, 0, f.breedte, f.hoogte);
+    // vlak === null: achtergrond blijft doorzichtig, zodat de PNG over een
+    // eigen ondergrond gelegd kan worden
+    if (thema.vlak) {
+      ctx.fillStyle = thema.vlak;
+      ctx.fillRect(0, 0, f.breedte, f.hoogte);
+    }
 
     /* --- titel --- */
-    const titelX = ind.gecentreerd ? f.breedte / 2 : m;
-    ctx.textAlign = ind.gecentreerd ? "center" : "left";
+    const titelX = m + (f.breedte - 2 * m) * ind.richting;
+    ctx.textAlign = ind.richting === 0 ? "left" : ind.richting === 1 ? "right" : "center";
     ctx.textBaseline = "alphabetic";
     let ty = m;
     if (ind.titelRegels.length) {
@@ -625,7 +640,7 @@ const Render = (function () {
     }
 
     // gemeentevlakken
-    const vulling = VULLINGEN[b.vulling] || VULLINGEN.tint;
+    const vulling = vulKleur(b);
     const kleurVan = hulp.gemeentekleur;
     Object.keys(kaartdata.gemeenten).forEach(code => {
       const p = pad("g:" + code, kaartdata.gemeenten[code].d);
@@ -644,9 +659,9 @@ const Render = (function () {
     });
 
     // gemeentegrenzen
-    if (b.gemeentegrenzen) {
-      ctx.strokeStyle = staat.achtergrond === "donkerblauw" ? "rgba(255,255,255,.55)" : "rgba(255,255,255,.85)";
-      ctx.lineWidth = lijn(LIJN.gemeente, s) / s;
+    if (b.gemeentegrenzen && (b.grensdikte === undefined || b.grensdikte > 0)) {
+      ctx.strokeStyle = b.grenskleur || "#FFFFFF";
+      ctx.lineWidth = lijn(LIJN.gemeente * (b.grensdikte || 1), s) / s;
       ctx.lineJoin = "round";
       Object.keys(kaartdata.gemeenten).forEach(code => ctx.stroke(pad("g:" + code, kaartdata.gemeenten[code].d)));
     }
@@ -664,9 +679,9 @@ const Render = (function () {
     }
 
     // provinciecontour
-    if (b.provinciecontour) {
-      ctx.strokeStyle = staat.achtergrond === "wit" || staat.achtergrond === "lichtblauw" ? "#FFFFFF" : "#FFFFFF";
-      ctx.lineWidth = lijn(LIJN.provincie, s) / s;
+    if (b.provinciecontour && (b.contourdikte === undefined || b.contourdikte > 0)) {
+      ctx.strokeStyle = b.contourkleur || "#FFFFFF";
+      ctx.lineWidth = lijn(LIJN.provincie * (b.contourdikte || 1), s) / s;
       ctx.lineJoin = "round";
       ctx.stroke(pad("prov", kaartdata.provinciegrens));
     }
@@ -685,53 +700,46 @@ const Render = (function () {
         const tekst = hulp.gemeentelabel(code);
         if (!tekst || !tekst.length) return;
         const p = naarScherm(g.labelX, g.labelY);
-        const achter = hulp.gemeentekleur ? hulp.gemeentekleur(code, VULLINGEN[b.vulling]) : VULLINGEN[b.vulling];
-        const tekstkleur = leesbaarOp(achter === "arcering" ? VULLINGEN[b.vulling] : achter);
+        const basis = vulKleur(b);
+        const achter = hulp.gemeentekleur ? hulp.gemeentekleur(code, basis) : basis;
+        const tekstkleur = leesbaarOp(achter === "arcering" ? basis : achter);
         tekenGemeenteLabel(ctx, tekst, p.x, p.y, ind.k, tekstkleur, genomen);
       });
     } else if (b.gemeentenamen) {
       Object.keys(kaartdata.gemeenten).forEach(code => {
         const g = kaartdata.gemeenten[code];
         const p = naarScherm(g.labelX, g.labelY);
-        const achter = VULLINGEN[b.vulling];
-        tekenGemeenteLabel(ctx, [g.naam], p.x, p.y, ind.k, leesbaarOp(achter), genomen);
+        tekenGemeenteLabel(ctx, [g.naam], p.x, p.y, ind.k, leesbaarOp(vulKleur(b)), genomen);
       });
     }
 
     // plaatsen van de basiskaart
     if (b.plaatsen !== "geen") {
       const lijst = hulp.basisplaatsen(b.plaatsen);
-      ctx.textBaseline = "middle";
+      // Hoe meer plaatsen op de kaart, hoe kleiner de naam. Bij 37 kernen vanaf
+      // 5.000 inwoners past de normale maat er domweg niet meer op.
+      const grootte = Math.round(ind.k.plaatslabel * naamFactor(lijst.length));
+      const straal = Math.max(3, Math.round(grootte * 0.24));
+
       lijst.forEach(pl => {
         const p = naarScherm(pl.x, pl.y);
-        const straal = pl.hoofdstad ? 6.5 : 5;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, straal, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, pl.hoofdstad ? straal * 1.3 : straal, 0, Math.PI * 2);
         ctx.fillStyle = "#131720";
         ctx.fill();
         ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = Math.max(1.2, straal * 0.4);
         ctx.stroke();
-        zetLetter(ctx, pl.hoofdstad ? "600" : "500", ind.k.plaatslabel);
-        const lb = ctx.measureText(pl.naam).width;
+        genomen.push({ x: p.x - straal, y: p.y - straal, b: straal * 2, h: straal * 2 });
+      });
 
-        // Een label dat buiten het kaartvlak zou vallen wordt weggeknipt door de
-        // clip. Zulke labels klappen daarom naar de andere kant van het punt.
-        let uitlijn = pl.anchor === "end" ? "right" : pl.anchor === "start" ? "left" : "center";
-        let dx = pl.dx || 0;
-        const linkerrand = ind.vak.x + 6, rechterrand = ind.vak.x + ind.vak.b - 6;
-        const linkerkant = (u, x) => u === "right" ? x - lb : u === "left" ? x : x - lb / 2;
-        if (linkerkant(uitlijn, p.x + dx) + lb > rechterrand) {
-          uitlijn = "right"; dx = -Math.abs(dx || 16);
-        } else if (linkerkant(uitlijn, p.x + dx) < linkerrand) {
-          uitlijn = "left"; dx = Math.abs(dx || 16);
-        }
-
-        const lx = p.x + dx, ly = p.y + (pl.dy || 0);
-        ctx.textAlign = uitlijn;
-        ctx.textBaseline = pl.baseline === "hanging" ? "top" : pl.baseline === "auto" ? "alphabetic" : "middle";
-        omlijndeTekst(ctx, pl.naam, lx, ly, "#131720");
-        genomen.push({ x: linkerkant(uitlijn, lx), y: ly - ind.k.plaatslabel / 2, b: lb, h: ind.k.plaatslabel });
+      // Namen pas na alle stippen, en met dezelfde uitwijkregels als de punt-
+      // laag: grootste plaats eerst, acht kandidaatposities, minste overlap wint.
+      const opGrootte = [...lijst].sort((a, c) => (c.inwoners || 0) - (a.inwoners || 0));
+      opGrootte.forEach(pl => {
+        const p = naarScherm(pl.x, pl.y);
+        zetLetter(ctx, pl.hoofdstad ? "600" : "500", grootte);
+        plaatsEtiket(ctx, pl.naam, p, straal + Math.round(grootte * 0.35), grootte, genomen, ind.vak, "#131720");
       });
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
@@ -856,31 +864,50 @@ const Render = (function () {
         else if (P.weergave === "icoon") afstand = P.icoongrootte / 2 + 6;
         else afstand = P.stipgrootte / 2 + 8;
 
-        const breedte = ctx.measureText(tekst).width;
-        const hoogte = k.puntlabel;
-        const voorkeur = punt.labelpositie || "onder";
-        const kandidaten = [voorkeur].concat(POSITIES.filter(v => v !== voorkeur));
-
-        // Geen enkel label wordt weggelaten — dat is voor een redactietool
-        // erger dan een label dat schuurt. In plaats daarvan wint de positie
-        // met de minste overlap, waarbij buiten het kaartvlak vallen zwaar telt.
-        let beste = null;
-        kandidaten.forEach((pos, i) => {
-          const vak = puntLabelVak(p, pos, afstand, breedte, hoogte);
-          const straf = overlap(vak, genomen) + buitenVak(vak, ind.vak) * 4 + i * 0.5;
-          if (!beste || straf < beste.straf) beste = { vak, straf };
-        });
-        genomen.push(beste.vak);
-
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        omlijndeTekst(ctx, tekst, beste.vak.x + breedte / 2, beste.vak.y + hoogte / 2, "#131720");
+        plaatsEtiket(ctx, tekst, p, afstand, k.puntlabel, genomen, ind.vak, "#131720", punt.labelpositie);
       });
       ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     }
   }
 
   const POSITIES = ["onder", "boven", "rechts", "links", "rechtsonder", "linksonder", "rechtsboven", "linksboven"];
+
+  // Naamgrootte omgekeerd evenredig met het aantal plaatsen op de kaart.
+  function naamFactor(aantal) {
+    if (aantal <= 5) return 1.12;
+    if (aantal <= 12) return 1;
+    if (aantal <= 25) return 0.84;
+    if (aantal <= 40) return 0.72;
+    return 0.63;
+  }
+
+  // Eén label plaatsen en tekenen. Geen enkel label wordt weggelaten — dat is
+  // voor een redactietool erger dan een label dat schuurt. In plaats daarvan
+  // wint de positie met de minste overlap, waarbij buiten het kaartvlak vallen
+  // zwaar telt omdat de clip het daar toch afsnijdt.
+  function plaatsEtiket(ctx, tekst, p, afstand, hoogte, genomen, kader, kleur, voorkeur) {
+    const breedte = ctx.measureText(tekst).width;
+    const eerst = voorkeur || "onder";
+    const kandidaten = [eerst].concat(POSITIES.filter(v => v !== eerst));
+    let beste = null;
+    kandidaten.forEach((pos, i) => {
+      const vak = puntLabelVak(p, pos, afstand, breedte, hoogte);
+      const straf = overlap(vak, genomen) + buitenVak(vak, kader) * 10 + i * 0.5;
+      if (!beste || straf < beste.straf) beste = { vak, straf };
+    });
+
+    // Steekt het beste vak er nog steeds uit — bij een plaats pal tegen de rand
+    // kan dat — dan schuift het label naar binnen. Een label half afgesneden
+    // door de clip is erger dan een label dat iets van zijn stip af staat.
+    const speling = 4;
+    beste.vak.x = Math.max(kader.x + speling, Math.min(beste.vak.x, kader.x + kader.b - breedte - speling));
+    beste.vak.y = Math.max(kader.y + speling, Math.min(beste.vak.y, kader.y + kader.h - hoogte - speling));
+    genomen.push(beste.vak);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    omlijndeTekst(ctx, tekst, beste.vak.x + breedte / 2, beste.vak.y + hoogte / 2, kleur);
+    return beste.vak;
+  }
 
   function puntLabelVak(p, pos, afstand, breedte, hoogte) {
     const schuin = afstand * 0.72 + 4;
