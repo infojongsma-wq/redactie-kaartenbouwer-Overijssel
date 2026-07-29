@@ -39,6 +39,16 @@ door). Gemeentenamen mogen in elke schrijfwijze — hoofdletters, kleine letters
 met of zonder streepje. Wat niet herkend wordt, krijg je te horen; er verdwijnt
 nooit stilletjes een regel.
 
+### Twee kaarten
+
+Bij *Basiskaart* kies je **Overijssel** (25 gemeenten) of **Nederland**
+(12 provincies, met een uit te lichten provincie). Beide kaarten werken met
+dezelfde lagen, dezelfde stijlen en dezelfde export.
+
+De vlaklaag past zich aan: op de Nederlandkaart plak je data per provincie in
+plaats van per gemeente. Ingevulde waarden blijven bewaard als je heen en weer
+schakelt — gemeenten en provincies staan naast elkaar in dezelfde tabel.
+
 ### De basiskaart
 
 **Stijl** zet vulling en lijnkleur in één klik: *Tint* (blauwe vulling, witte
@@ -103,7 +113,11 @@ build/build_plaatsen.py              TOP10NL-plaatsen -> data/plaatsen_overijsse
 build/build_app.py                   src + data -> dist/kaartenbouwer-overijssel.html
 data/app_data.json                   kaartlagen uit fase 2, al geprojecteerd
 data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
+data/nederland.json                  12 provincies, zelfde assenstelsel
+build/build_nederland.py             provinciegrenzen -> data/nederland.json
 bron/top10nl_plaats*.gml.gz          bronbestand(en) Kadaster/PDOK
+bron/provinciegrenzen.geojson        BRK Provinciegebied
+bron/landgebied.geojson              BRK Landgebied
 docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
 docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
 ```
@@ -168,7 +182,16 @@ bronbestanden vallen. Rammelt er iets, dan zegt het bouwscript dat, en zetten
 `data/plaatsen_overijssel.json` en de uitlegtekst in de tool het er als
 waarschuwing bij.
 
-### Eén bekend hiaat
+### Twee bekende hiaten
+
+**Het binnenwater zit in de provincies.** BRK Provinciegebied telt op tot
+41.543 km² — Nederland inclusief binnenwater. Op de Nederlandkaart zijn het
+IJsselmeer, het Markermeer, de Waddenzee en de Oosterschelde daardoor dichtgevuld
+in plaats van uitgesneden. De land/water-scheiding komt niet uit BRK maar uit CBS
+Gebiedsindelingen; datzelfde probleem speelde in fase 1 al. `build_nederland.py`
+merkt vanzelf of het aangeleverde landgebied land-only is: zit het onder
+40.000 km², dan knipt het script de provincies bij en controleert het de uitkomst
+tegen de CBS-landoppervlakte per provincie.
 
 **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
 Gebiedsindelingen en houdt op bij de landsgrens, dus het gebied ten oosten van

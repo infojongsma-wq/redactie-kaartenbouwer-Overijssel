@@ -7,7 +7,8 @@
 
   const KAART = JSON.parse(document.getElementById("kaartdata").textContent);
   const PLAATSEN = JSON.parse(document.getElementById("plaatsdata").textContent);
-  Render.zetData(KAART);
+  const NEDERLAND = JSON.parse(document.getElementById("nederlanddata").textContent);
+  Render.zetData(KAART, NEDERLAND);
 
   const $ = id => document.getElementById(id);
   const maak = (tag, klasse, tekst) => {
@@ -19,32 +20,55 @@
 
   /* ------------------------------------------------------- gemeenten */
 
-  const GEMEENTEN = Object.keys(KAART.gemeenten).map(code => ({ code, naam: KAART.gemeenten[code].naam }))
-    .sort((a, b) => a.naam.localeCompare(b.naam, "nl"));
+  // Twee gebiedsindelingen naast elkaar. De codes botsen niet (GM0141 tegenover
+  // 23), dus ingevulde waarden voor gemeenten en provincies kunnen tegelijk in
+  // dezelfde tabel staan: wisselen van kaartsoort gooit je invoer niet weg.
+  const GEBIEDEN = {
+    overijssel: Object.keys(KAART.gemeenten)
+      .map(code => ({ code, naam: KAART.gemeenten[code].naam }))
+      .sort((a, b) => a.naam.localeCompare(b.naam, "nl")),
+    nederland: Object.keys(NEDERLAND.provincies)
+      .map(code => ({ code, naam: NEDERLAND.provincies[code].naam }))
+      .sort((a, b) => a.naam.localeCompare(b.naam, "nl"))
+  };
+
+  function vlakken() { return GEBIEDEN[staat.kaartsoort] || GEBIEDEN.overijssel; }
+  function vlakNaam(code) {
+    const g = vlakken().find(v => v.code === code);
+    return g ? g.naam : code;
+  }
+  function vlakSoortWoord() { return staat.kaartsoort === "nederland" ? "provincies" : "gemeenten"; }
 
   const normaliseer = s => String(s || "")
     .toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]/g, "");
 
-  const GEMEENTE_INDEX = new Map();
-  GEMEENTEN.forEach(g => {
-    GEMEENTE_INDEX.set(normaliseer(g.naam), g.code);
-    GEMEENTE_INDEX.set(normaliseer(g.code), g.code);
-  });
-  // veelgebruikte schrijfwijzen die anders afvallen
-  [["hofvantwente", "Hof van Twente"], ["rijssenholten", "Rijssen-Holten"], ["olstwijhe", "Olst-Wijhe"],
-   ["zwartewaterland", "Zwartewaterland"], ["denhamtwenterand", "Twenterand"]].forEach(([sleutel, naam]) => {
-    const g = GEMEENTEN.find(x => x.naam === naam);
-    if (g) GEMEENTE_INDEX.set(sleutel, g.code);
+  // Alternatieve schrijfwijzen die anders niet gevonden worden.
+  const ALIASSEN = { "friesland": "Fryslân", "holland": null };
+
+  const INDEXEN = {};
+  Object.keys(GEBIEDEN).forEach(soort => {
+    const index = new Map();
+    GEBIEDEN[soort].forEach(g => {
+      index.set(normaliseer(g.naam), g.code);
+      index.set(normaliseer(g.code), g.code);
+    });
+    Object.keys(ALIASSEN).forEach(alias => {
+      const naam = ALIASSEN[alias];
+      if (!naam) return;
+      const g = GEBIEDEN[soort].find(x => x.naam === naam);
+      if (g) index.set(normaliseer(alias), g.code);
+    });
+    INDEXEN[soort] = index;
   });
 
   function zoekGemeente(tekst) {
+    const index = INDEXEN[staat.kaartsoort] || INDEXEN.overijssel;
     const n = normaliseer(tekst);
     if (!n) return null;
-    if (GEMEENTE_INDEX.has(n)) return GEMEENTE_INDEX.get(n);
-    // gemeente 's-Gravenhage-achtige varianten: val terug op beginmatch
-    for (const [sleutel, code] of GEMEENTE_INDEX) {
+    if (index.has(n)) return index.get(n);
+    for (const [sleutel, code] of index) {
       if (sleutel.length > 3 && (sleutel.startsWith(n) || n.startsWith(sleutel))) return code;
     }
     return null;
@@ -62,13 +86,15 @@
       achtergrond: "wit",
       uitlijning: "midden",
       formaat: "16:9",
+      kaartsoort: "overijssel",
       basiskaart: {
         preset: "gemeenten", stijl: "tint",
         context: true, water: true, wateren: false,
         gemeentegrenzen: true, provinciecontour: true, gemeentenamen: false,
         plaatsen: "geen",
         vulling: "#8FB8FF", grenskleur: "#FFFFFF", contourkleur: "#FFFFFF",
-        grensdikte: 1, contourdikte: 1
+        grensdikte: 1, contourdikte: 1,
+        uitgelicht: "23", uitlichtkleur: "#1361FF" 
       },
       vlaklaag: {
         actief: false, modus: "schaal", waarden: {}, categoriekleuren: {},
@@ -103,6 +129,7 @@
     });
     // waarden uit oudere versies omzetten
     if (basis.uitlijning === "gecentreerd") basis.uitlijning = "midden";
+    if (!GEBIEDEN[basis.kaartsoort]) basis.kaartsoort = "overijssel";
     const b = basis.basiskaart;
     if (typeof b.vulling === "string" && b.vulling.charAt(0) !== "#") {
       const oud = { tint: "#8FB8FF", wit: "#FFFFFF", lichtblauw: "#E7EEF9" };
@@ -150,8 +177,9 @@
 
   /* ------------------------------------------------- afgeleide waarden */
 
+  // alleen de waarden van de kaartsoort die nu getoond wordt
   function vlakWaarden() {
-    return Object.keys(staat.vlaklaag.waarden).map(code => staat.vlaklaag.waarden[code]);
+    return vlakken().map(v => staat.vlaklaag.waarden[v.code]).filter(Boolean);
   }
 
   function numeriekeGrenzen() {
@@ -167,7 +195,7 @@
 
   function categorieen() {
     const gezien = [];
-    GEMEENTEN.forEach(g => {
+    vlakken().forEach(g => {
       const w = staat.vlaklaag.waarden[g.code];
       if (!w) return;
       const naam = String(w.waarde === undefined || w.waarde === null ? "" : w.waarde).trim();
@@ -176,7 +204,7 @@
     return gezien.map((naam, i) => ({
       naam,
       kleur: staat.vlaklaag.categoriekleuren[naam] || Render.CATEGORIEKLEUREN[i % Render.CATEGORIEKLEUREN.length],
-      aantal: GEMEENTEN.filter(g => {
+      aantal: vlakken().filter(g => {
         const w = staat.vlaklaag.waarden[g.code];
         return w && String(w.waarde).trim() === naam;
       }).length
@@ -254,6 +282,23 @@
     const schaal = Render.schaalVan(staat.vlaklaag.schaal);
     const belg = belGrenzen();
     const groepen = puntgroepen();
+
+    // Alle waarden in dezelfde notatie: staat er ergens een decimaal, dan
+    // krijgt 3 ook "3,0". Anders lezen 3,2 en 3 in dezelfde kaart als twee
+    // verschillende soorten getallen.
+    let decimalen = 0;
+    vlakWaarden().forEach(w => {
+      const v = Number(w.waarde);
+      if (!Number.isFinite(v)) return;
+      const s2 = String(w.waarde);
+      const punt = s2.indexOf(".");
+      if (punt >= 0) decimalen = Math.max(decimalen, Math.min(2, s2.length - punt - 1));
+    });
+
+    const toonGetal = v => Number.isFinite(v)
+      ? v.toLocaleString("nl-NL", { minimumFractionDigits: decimalen, maximumFractionDigits: decimalen })
+      : Render.formatGetal(v);
+
     return {
       grenzen, categorieen: cats, belgrenzen: belg, puntgroepen: groepen,
       interactief: interactief !== false,
@@ -287,12 +332,12 @@
       gemeentelabel(code) {
         const modus = staat.vlaklaag.label;
         const w = staat.vlaklaag.waarden[code] || {};
-        const naam = KAART.gemeenten[code].naam;
+        const naam = vlakNaam(code);
         const ruwe = w.waarde;
         const heeft = ruwe !== undefined && ruwe !== null && String(ruwe).trim() !== "";
         const getal = Number(ruwe);
         const waardetekst = !heeft ? "" :
-          (Number.isFinite(getal) ? Render.formatGetal(getal) : String(ruwe)) +
+          (Number.isFinite(getal) ? toonGetal(getal) : String(ruwe)) +
           (staat.vlaklaag.eenheid && Number.isFinite(getal) ? " " + staat.vlaklaag.eenheid : "");
         if (modus === "naam") return [{ tekst: naam, groot: false }];
         if (modus === "waarde") return heeft ? [{ tekst: waardetekst, groot: true }] : [];
@@ -333,9 +378,9 @@
 
   function werkVoetBij() {
     const f = Render.FORMATEN[staat.formaat];
-    const aantalVlak = Object.keys(staat.vlaklaag.waarden).length;
+    const aantalVlak = vlakWaarden().length;
     const delen = [f.breedte + "×" + f.hoogte + " px"];
-    if (staat.vlaklaag.actief) delen.push(aantalVlak + " van 25 gemeenten met data");
+    if (staat.vlaklaag.actief) delen.push(vlakWaarden().length + " van " + vlakken().length + " " + vlakSoortWoord() + " met data");
     if (staat.puntlaag.actief) delen.push(staat.puntlaag.punten.length + " punten");
     if (staat.tekstlaag.actief) delen.push(staat.tekstlaag.blokken.length + " tekstblokken");
     $("voorbeeld-voet").textContent = delen.join("  ·  ");
@@ -427,6 +472,60 @@
     ["gemeentenamen", "Gemeentenamen"]
   ];
 
+  $("kaartsoortkeuze").querySelectorAll(".keuze").forEach(knop => {
+    knop.addEventListener("click", () => {
+      staat.kaartsoort = knop.dataset.waarde;
+      // Elke kaartsoort heeft zijn eigen vanzelfsprekende ondergrond. Bij
+      // Overijssel is de achtergrond water met omringend land eromheen. Bij
+      // Nederland is er geen context — alles buiten het land zou dan water
+      // worden, en een blauw uitgelicht gebied loopt daar tegen de oostgrens
+      // in over. Daarom staat het waterveld daar uit.
+      if (staat.kaartsoort === "nederland") {
+        staat.basiskaart.context = false;
+        staat.basiskaart.wateren = false;
+        staat.basiskaart.water = false;
+      } else {
+        staat.basiskaart.context = true;
+        staat.basiskaart.water = true;
+      }
+      vulAlles(); teken();
+    });
+  });
+
+  $("in-uitgelicht").addEventListener("change", () => {
+    staat.basiskaart.uitgelicht = $("in-uitgelicht").value;
+    vulBasiskaart(); teken();
+  });
+
+  function vulNederlandOpties() {
+    const aan = staat.kaartsoort === "nederland";
+    $("nederland-opties").hidden = !aan;
+    $("kaartsoortkeuze").querySelectorAll(".keuze").forEach(k => k.classList.toggle("aan", k.dataset.waarde === staat.kaartsoort));
+    const sel = $("in-uitgelicht");
+    if (aan && sel.options.length !== vlakken().length + 1) {
+      sel.innerHTML = "";
+      const geen = document.createElement("option");
+      geen.value = ""; geen.textContent = "Geen";
+      sel.appendChild(geen);
+      vlakken().forEach(v => {
+        const o = document.createElement("option");
+        o.value = v.code; o.textContent = v.naam;
+        sel.appendChild(o);
+      });
+    }
+    if (aan) {
+      sel.value = staat.basiskaart.uitgelicht || "";
+      bouwKleurkiezer($("kiezer-uitlicht"), staat.basiskaart.uitlichtkleur,
+        kleur => { staat.basiskaart.uitlichtkleur = kleur; vulBasiskaart(); teken(); });
+    }
+    // lagen die alleen bij Overijssel bestaan verbergen
+    $("basiskaart-lagen").querySelectorAll("label").forEach(l => {
+      const laag = l.querySelector("input").dataset.laag;
+      l.hidden = aan && (laag === "context" || laag === "wateren");
+    });
+    $("basiskaart-presets").hidden = aan;
+  }
+
   function bouwBasiskaart() {
     const stijlrij = $("basiskaart-stijlen");
     stijlrij.innerHTML = "";
@@ -479,6 +578,7 @@
 
   function vulBasiskaart() {
     const b = staat.basiskaart;
+    vulNederlandOpties();
     // de stijlknop licht alleen op zolang alle drie de kleuren nog kloppen
     const passend = STIJLEN.find(st => st.vulling === b.vulling
       && st.grenskleur === b.grenskleur && st.contourkleur === b.contourkleur);
@@ -579,7 +679,7 @@
     const alleGetallen = vlakWaarden().every(w => Number.isFinite(Number(w.waarde)));
     if (raak && !alleGetallen && staat.vlaklaag.modus === "schaal") staat.vlaklaag.modus = "categorie";
     if (raak && !staat.vlaklaag.actief) { staat.vlaklaag.actief = true; }
-    let bericht = raak + " van de 25 gemeenten ingevuld.";
+    let bericht = raak + " van de " + vlakken().length + " " + vlakSoortWoord() + " ingevuld.";
     if (mis.length) bericht += " Niet herkend: " + mis.slice(0, 5).join(", ") + (mis.length > 5 ? " …" : "") + ".";
     meld("vlak-plak-melding", bericht, mis.length ? "fout" : "goed");
     vulVlaklaag(); teken();
@@ -589,12 +689,13 @@
     const tabel = $("vlak-tabel");
     tabel.innerHTML = "";
     const kop = tabel.insertRow();
-    ["Gemeente", staat.vlaklaag.modus === "categorie" ? "Categorie" : "Waarde", "Eigen tekst", ""].forEach(t => {
+    [staat.kaartsoort === "nederland" ? "Provincie" : "Gemeente",
+     staat.vlaklaag.modus === "categorie" ? "Categorie" : "Waarde", "Eigen tekst", ""].forEach(t => {
       const th = document.createElement("th");
       th.textContent = t;
       kop.appendChild(th);
     });
-    GEMEENTEN.forEach(g => {
+    vlakken().forEach(g => {
       const w = staat.vlaklaag.waarden[g.code] || {};
       const heeft = w.waarde !== undefined && String(w.waarde).trim() !== "";
       const rij = tabel.insertRow();
@@ -1173,9 +1274,10 @@
   }
 
   function gemeenteOp(x, y) {
+    const gebied = Render.gebiedVan(staat);
     hitCtx.setTransform(1, 0, 0, 1, 0, 0);
-    for (const code of Object.keys(KAART.gemeenten)) {
-      if (hitCtx.isPointInPath(Render.pad("g:" + code, KAART.gemeenten[code].d), x, y)) return code;
+    for (const code of Object.keys(gebied.vlakken)) {
+      if (hitCtx.isPointInPath(Render.pad(gebied.sleutel + code, gebied.vlakken[code].d), x, y)) return code;
     }
     return null;
   }
@@ -1247,7 +1349,7 @@
     const code = gemeenteOp(pos.x, pos.y);
     if (!code) { tooltip.hidden = true; doek.classList.remove("sleepbaar"); return; }
     const w = staat.vlaklaag.waarden[code];
-    const naam = KAART.gemeenten[code].naam;
+    const naam = vlakNaam(code);
     tooltip.textContent = w && String(w.waarde).trim() !== "" ? naam + ": " + w.waarde : naam;
     const r = doek.getBoundingClientRect();
     const h = $("doek-houder").getBoundingClientRect();

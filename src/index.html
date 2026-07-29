@@ -53,6 +53,19 @@
     <section class="paneel" data-paneel="basiskaart">
       <button class="paneel-kop" type="button">Basiskaart<span class="chevron"></span></button>
       <div class="paneel-body">
+        <label class="veld"><span>Welke kaart</span></label>
+        <div class="keuzerij" id="kaartsoortkeuze">
+          <button type="button" class="keuze" data-waarde="overijssel">Overijssel — 25 gemeenten</button>
+          <button type="button" class="keuze" data-waarde="nederland">Nederland — 12 provincies</button>
+        </div>
+
+        <div id="nederland-opties" hidden>
+          <label class="veld"><span>Uitgelicht gebied</span>
+            <select id="in-uitgelicht"></select></label>
+          <label class="veld"><span>Kleur van het uitgelichte gebied</span></label>
+          <div class="kleurkiezer" id="kiezer-uitlicht"></div>
+        </div>
+
         <label class="veld"><span>Stijl</span></label>
         <div class="keuzerij" id="basiskaart-stijlen"></div>
 
@@ -319,6 +332,7 @@
 
 <script type="application/json" id="kaartdata">/*__KAARTDATA__*/</script>
 <script type="application/json" id="plaatsdata">/*__PLAATSDATA__*/</script>
+<script type="application/json" id="nederlanddata">/*__NEDERLANDDATA__*/</script>
 <script>/*__SCRIPT__*/</script>
 </body>
 </html>

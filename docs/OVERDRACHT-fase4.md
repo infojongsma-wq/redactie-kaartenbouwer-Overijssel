@@ -98,6 +98,25 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
 - **Naamgrootte hangt af van het aantal plaatsen.** Bij 57 kernen past de normale
   maat er niet meer op. De factor loopt van 1,12 (tot 5 plaatsen) naar 0,63 (meer
   dan 40).
+- **Twee kaartsoorten delen één tekenfunctie.** Nederland is met dezelfde
+  affiene transformatie geprojecteerd als Overijssel, dus beide leven in
+  hetzelfde assenstelsel; een punt uit de plaatsenlijst klopt op allebei zonder
+  omrekening. Alleen het kijkvenster en de beschikbare lagen verschillen.
+- **Provinciecodes en gemeentecodes botsen niet** (23 tegenover GM0141), dus de
+  ingevulde waarden van beide kaartsoorten kunnen in dezelfde tabel staan.
+  Wisselen van kaart gooit je invoer niet weg.
+- **Nederland krijgt geen waterachtergrond.** Buiten het land is er geen
+  contextlaag, dus alles eromheen zou water worden — en een blauw uitgelicht
+  Overijssel loopt dan tegen de oostgrens zo over in de achtergrond. Bij het
+  wisselen van kaartsoort gaat het waterveld daarom automatisch uit.
+- **Afronden op een raster in plaats van vereenvoudigen.** Douglas-Peucker per
+  provincie zou gaten tussen buren opleveren: een gedeelde grens wordt dan twee
+  keer verschillend vereenvoudigd. Afronden op een vast raster van 1 interne
+  pixel (ongeveer 102 m) heeft dat probleem niet, want dezelfde coordinaat rondt
+  aan beide kanten naar hetzelfde punt.
+- **Waarden krijgen allemaal evenveel decimalen.** Staat er ergens 3,2 dan wordt
+  3 ook 3,0; anders lezen die twee in dezelfde kaart als verschillende soorten
+  getallen.
 - **Opslag in `localStorage`, niet in cookies.** Lokaal, geen server, geen derde
   partij. De tool zegt er expliciet bij dat de bibliotheek verdwijnt als je je
   browsergegevens wist, en biedt downloaden als bestand als veilige route.
@@ -114,6 +133,15 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
   naar 54 kernen en het totaal van 1074 naar 1143 plaatsen. De pijplijn leest nu
   alle `top10nl_plaats*.gml(.gz)`-bestanden in `bron/` en ontdubbelt op `lokaalID`,
   dus meerdere downloadrechthoeken mogen naast elkaar staan.
+- **Het binnenwater zit in de provincies van de Nederlandkaart.** BRK
+  Provinciegebied telt op tot 41.543 km2, Nederland inclusief binnenwater;
+  Friesland +72 %, Flevoland +70 %, Zeeland +65 %. IJsselmeer, Markermeer,
+  Waddenzee en Oosterschelde zijn daardoor dichtgevuld. Het meegeleverde
+  `landgebied.geojson` lost dat niet op: dat is het staatsgebied en komt op
+  dezelfde 41.543 km2 uit, dus knippen levert niets. Nodig is CBS
+  Gebiedsindelingen (gegeneraliseerd), dezelfde bron als in fase 1. Zodra dat
+  bestand in `bron/` staat, knipt `build_nederland.py` vanzelf en controleert het
+  elke provincie tegen de CBS-landoppervlakte; boven 3 % afwijking stopt het.
 - **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
   Gebiedsindelingen en houdt op bij de landsgrens, dus ten oosten van Twente wordt
   water getekend waar land ligt. Met het huidige krappe kaartvlak is dat een strook

@@ -125,6 +125,7 @@ const Render = (function () {
   /* --------------------------------------------------- padcache (Path2D) */
 
   let kaartdata = null;
+  let nederlanddata = null;
   const padcache = new Map();
 
   function pad(sleutel, d) {
@@ -133,10 +134,34 @@ const Render = (function () {
     return p;
   }
 
-  function zetData(data) {
+  function zetData(data, nederland) {
     kaartdata = data;
+    nederlanddata = nederland || null;
     padcache.clear();
     kaartdata._bbox = bepaalBbox(kaartdata.provinciegrens);
+  }
+
+  /* Twee kaartsoorten delen dezelfde tekenfunctie. Ze verschillen alleen in
+     welke vlakken er liggen, hoe groot het kijkvenster is en of er context- en
+     waterlagen bij horen. Nederland is in hetzelfde assenstelsel geprojecteerd,
+     dus een punt uit de plaatsenlijst klopt op beide kaarten. */
+  function gebiedVan(staat) {
+    if (staat.kaartsoort === "nederland" && nederlanddata) {
+      return {
+        soort: "nederland",
+        vlakken: nederlanddata.provincies,
+        bbox: nederlanddata.bbox,
+        contour: nederlanddata.landcontour,
+        sleutel: "p:"
+      };
+    }
+    return {
+      soort: "overijssel",
+      vlakken: kaartdata.gemeenten,
+      bbox: kaartdata._bbox,
+      contour: kaartdata.provinciegrens,
+      sleutel: "g:"
+    };
   }
 
   function bepaalBbox(d) {
@@ -471,7 +496,7 @@ const Render = (function () {
     // strook over waarin het omringende land te zien is. Het watervlak volgt
     // die strook en niet het hele beschikbare vak, anders ontstaat een blauwe
     // band die de halve breedte van het beeld vult.
-    const bb = kaartdata._bbox;
+    const bb = gebiedVan(staat).bbox;
     const rand = Math.round(26 * k._s);
     const gat = Math.round(46 * k._s);
     const tussenruimte = Math.round(30 * k._s);
@@ -625,8 +650,11 @@ const Render = (function () {
       ctx.setTransform(s, 0, 0, s, tx, ty);
     }
 
-    // omringend land (Nederland en Duitsland)
-    if (b.context) {
+    const gebied = gebiedVan(staat);
+
+    // omringend land — alleen bij de Overijsselkaart; de Nederlandkaart heeft
+    // geen contextlaag, daar is het land zelf het onderwerp
+    if (b.context && gebied.soort === "overijssel") {
       ctx.save();
       ctx.clip(pad("masker", kaartdata.context.masker));
       ctx.fillStyle = kaartdata.kleuren.context_land;
@@ -639,18 +667,19 @@ const Render = (function () {
       ctx.globalAlpha = 1;
     }
 
-    // gemeentevlakken
+    // de vlakken zelf: gemeenten of provincies
     const vulling = vulKleur(b);
     const kleurVan = hulp.gemeentekleur;
-    Object.keys(kaartdata.gemeenten).forEach(code => {
-      const p = pad("g:" + code, kaartdata.gemeenten[code].d);
-      const kleur = kleurVan ? kleurVan(code, vulling) : vulling;
+    Object.keys(gebied.vlakken).forEach(code => {
+      const p = pad(gebied.sleutel + code, gebied.vlakken[code].d);
+      const basis = code === b.uitgelicht ? (b.uitlichtkleur || "#1361FF") : vulling;
+      const kleur = kleurVan ? kleurVan(code, basis) : basis;
       if (kleur === "arcering") {
         ctx.fillStyle = vulling;
         ctx.fill(p);
         ctx.save();
         ctx.clip(p);
-        tekenArcering(ctx, s);
+        tekenArcering(ctx, s, gebied.bbox);
         ctx.restore();
       } else {
         ctx.fillStyle = kleur;
@@ -663,11 +692,11 @@ const Render = (function () {
       ctx.strokeStyle = b.grenskleur || "#FFFFFF";
       ctx.lineWidth = lijn(LIJN.gemeente * (b.grensdikte || 1), s) / s;
       ctx.lineJoin = "round";
-      Object.keys(kaartdata.gemeenten).forEach(code => ctx.stroke(pad("g:" + code, kaartdata.gemeenten[code].d)));
+      Object.keys(gebied.vlakken).forEach(code => ctx.stroke(pad(gebied.sleutel + code, gebied.vlakken[code].d)));
     }
 
     // water in de provincie
-    if (b.wateren) {
+    if (b.wateren && gebied.soort === "overijssel") {
       ctx.fillStyle = kaartdata.kleuren.water;
       ctx.strokeStyle = kaartdata.kleuren.water;
       ctx.lineWidth = lijn(LIJN.water, s) / s;
@@ -683,7 +712,16 @@ const Render = (function () {
       ctx.strokeStyle = b.contourkleur || "#FFFFFF";
       ctx.lineWidth = lijn(LIJN.provincie * (b.contourdikte || 1), s) / s;
       ctx.lineJoin = "round";
-      ctx.stroke(pad("prov", kaartdata.provinciegrens));
+      ctx.stroke(pad(gebied.sleutel + "_contour", gebied.contour));
+    }
+
+    // het uitgelichte vlak krijgt altijd zijn eigen contour, ook als er data
+    // overheen ligt — anders valt de highlight weg zodra de vlaklaag aangaat
+    if (b.uitgelicht && gebied.vlakken[b.uitgelicht]) {
+      ctx.strokeStyle = b.contourkleur || "#FFFFFF";
+      ctx.lineWidth = lijn(LIJN.provincie * (b.contourdikte || 1), s) / s;
+      ctx.lineJoin = "round";
+      ctx.stroke(pad(gebied.sleutel + b.uitgelicht, gebied.vlakken[b.uitgelicht].d));
     }
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -695,21 +733,22 @@ const Render = (function () {
 
     // gemeentelabels en waarden uit de vlaklaag
     if (staat.vlaklaag.actief && staat.vlaklaag.label !== "geen") {
-      Object.keys(kaartdata.gemeenten).forEach(code => {
-        const g = kaartdata.gemeenten[code];
+      Object.keys(gebied.vlakken).forEach(code => {
+        const g = gebied.vlakken[code];
         const tekst = hulp.gemeentelabel(code);
         if (!tekst || !tekst.length) return;
         const p = naarScherm(g.labelX, g.labelY);
-        const basis = vulKleur(b);
+        const basis = code === b.uitgelicht ? (b.uitlichtkleur || "#1361FF") : vulKleur(b);
         const achter = hulp.gemeentekleur ? hulp.gemeentekleur(code, basis) : basis;
         const tekstkleur = leesbaarOp(achter === "arcering" ? basis : achter);
         tekenGemeenteLabel(ctx, tekst, p.x, p.y, ind.k, tekstkleur, genomen);
       });
     } else if (b.gemeentenamen) {
-      Object.keys(kaartdata.gemeenten).forEach(code => {
-        const g = kaartdata.gemeenten[code];
+      Object.keys(gebied.vlakken).forEach(code => {
+        const g = gebied.vlakken[code];
         const p = naarScherm(g.labelX, g.labelY);
-        tekenGemeenteLabel(ctx, [g.naam], p.x, p.y, ind.k, leesbaarOp(vulKleur(b)), genomen);
+        const achter = code === b.uitgelicht ? (b.uitlichtkleur || "#1361FF") : vulKleur(b);
+        tekenGemeenteLabel(ctx, [g.naam], p.x, p.y, ind.k, leesbaarOp(achter), genomen);
       });
     }
 
@@ -754,8 +793,7 @@ const Render = (function () {
     ctx.restore();
   }
 
-  function tekenArcering(ctx, s) {
-    const bb = kaartdata._bbox;
+  function tekenArcering(ctx, s, bb) {
     ctx.strokeStyle = "rgba(19,23,32,.24)";
     ctx.lineWidth = 1.2 / s;
     const stap = 9 / s;
@@ -1005,7 +1043,7 @@ const Render = (function () {
 
   return {
     PALET, AFGELEID, ALLE_KLEUREN, SCHALEN, CATEGORIEKLEUREN, ACHTERGRONDEN, VULLINGEN, FORMATEN,
-    zetData, tekenKaart, berekenIndeling, schaalKleur, schaalVan, meng, verschuif,
+    zetData, gebiedVan, tekenKaart, berekenIndeling, schaalKleur, schaalVan, meng, verschuif,
     leesbaarOp, contrast, formatGetal, luminantie, hexNaarRgb, rondeRechthoek, pad,
     get data() { return kaartdata; }
   };
