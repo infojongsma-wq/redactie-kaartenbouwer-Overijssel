@@ -126,6 +126,7 @@ const Render = (function () {
 
   let kaartdata = null;
   let nederlanddata = null;
+  let buitenlanddata = null;
   const padcache = new Map();
 
   function pad(sleutel, d) {
@@ -134,9 +135,10 @@ const Render = (function () {
     return p;
   }
 
-  function zetData(data, nederland) {
+  function zetData(data, nederland, buitenland) {
     kaartdata = data;
     nederlanddata = nederland || null;
+    buitenlanddata = buitenland && buitenland.pad ? buitenland : null;
     padcache.clear();
     kaartdata._bbox = bepaalBbox(kaartdata.provinciegrens);
   }
@@ -756,6 +758,14 @@ const Render = (function () {
     }
 
     const gebied = gebiedVan(staat);
+
+    // Duitsland en Belgie, onder alles wat Nederlands is. De vorm loopt met
+    // opzet 1,5 km over de grens heen; de contextlaag en de gemeenten dekken
+    // dat af, zodat de zichtbare naad de Nederlandse grens uit de BRK blijft.
+    if (b.context && buitenlanddata && gebied.soort === "overijssel") {
+      ctx.fillStyle = buitenlanddata.kleur;
+      ctx.fill(pad("buitenland", buitenlanddata.pad));
+    }
 
     // omringend land — alleen bij de Overijsselkaart; de Nederlandkaart heeft
     // geen contextlaag, daar is het land zelf het onderwerp

@@ -61,6 +61,10 @@ Hoe meer plaatsen, hoe kleiner de namen worden gezet, en labels wijken automatis
 voor elkaar uit. Bij de dichtste variant (57 kernen) worden de namen klein: kijk
 dan zeker even met de mobielcheck of het nog leesbaar is.
 
+**Omringend land** tekent alles buiten Overijssel als land: de Nederlandse buren én
+Duitsland. Duitsland krijgt een iets donkerder blauw, zodat je de landsgrens ziet
+zonder dat het water lijkt. Zet je de laag uit, dan wordt alles eromheen water.
+
 **Uitlijning** (bij Kaart) zet titel én kaart links, in het midden of rechts.
 
 **Kale kaart** (bij Kaart) is de tv-variant: geen titel, geen kader, geen bronregel,
@@ -122,11 +126,14 @@ data/app_data.json                   kaartlagen uit fase 2, al geprojecteerd
 data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
 data/nederland.json                  12 provincies, zelfde assenstelsel
 build/build_nederland.py             provinciegrenzen -> data/nederland.json
+data/buitenland.json                 Duitsland en Belgie, zelfde assenstelsel
+build/build_buitenland.py            Natural Earth -> data/buitenland.json
 bron/top10nl_plaats*.gml.gz          bronbestand(en) Kadaster/PDOK
 bron/provincies_zonder_water.geojson CBS Gebiedsindelingen — bron van de NL-kaart
 bron/gemeenten_zonder_water.geojson  CBS, 342 gemeenten (nog niet gebruikt)
 bron/provinciegrenzen.geojson        BRK Provinciegebied (terugval, mét water)
 bron/landgebied.geojson              BRK Landgebied
+bron/world-atlas-countries-10m.json  Natural Earth 1:10m - bron van Duitsland
 docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
 docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
 ```
@@ -191,13 +198,28 @@ bronbestanden vallen. Rammelt er iets, dan zegt het bouwscript dat, en zetten
 `data/plaatsen_overijssel.json` en de uitlegtekst in de tool het er als
 waarschuwing bij.
 
-### Eén bekend hiaat
+### Duitsland komt uit een andere bron
 
-**Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
-Gebiedsindelingen en houdt op bij de landsgrens, dus het gebied ten oosten van
-Twente wordt als water getekend. Met het huidige krappe kaartvlak is dat een strook
-van ongeveer 26 px. Echt oplossen vraagt buitenlandse geometrie, die niet in de
-fase 1/2-pijplijn zit.
+PDOK houdt op bij de landsgrens, dus ten oosten van Twente stond water waar land
+ligt. Duitsland en België komen daarom uit **Natural Earth 1:10m** (public domain),
+via het npm-pakket `world-atlas`. Zie `build/build_buitenland.py`.
+
+Dat is generalisatie op wereldschaal: de Duitse westgrens ligt tot 1077 m naast de
+Nederlandse oostgrens uit de BRK. Op deze kaart is dat 10 px — zichtbaar, als je het
+de naad laat zijn. Dat gebeurt niet. De vorm wordt 4 km opgeblazen, daarna
+teruggesneden tot 1,5 km bínnen de Nederlandse grens, en als onderste laag getekend:
+de contextlaag en de gemeenten komen eroverheen. De zichtbare naad blijft dus de
+BRK-grens, en de onnauwkeurigheid ligt onder Nederland. Waarom 1,5 km: de rand van
+de contextlaag ligt zelf al tot 720 m van de BRK-grens af, doordat CBS generaliseert
+en fase 2 daarna nog eens met 80 m tolerantie vereenvoudigt.
+
+Het bouwscript controleert dat: het bemonstert de landsgrens met Duitsland en België
+— door Natural Earth zelf aangewezen, zodat de Eemsmonding er niet bij zit, want daar
+is water aan beide kanten wél juist — en stopt als er ook maar één punt buiten de
+vorm valt.
+
+Duitsland is iets donkerder dan de omliggende provincies en duidelijk lichter dan
+water, zodat het als land leest zonder de aandacht van Overijssel weg te trekken.
 
 ---
 
@@ -208,5 +230,11 @@ fase 1/2-pijplijn zit.
 - **BRT TOP10NL, objecttype `waterdeel`** (Kadaster, via PDOK) — rivieren, kanalen, plassen
 - **BRT TOP10NL, objecttype `plaats`** (Kadaster, via PDOK) — kernen, wijken en buurtschappen
 
-Alles **CC BY 4.0**, bronvermelding *Bron: Kadaster/PDOK* verplicht.
+Die vier zijn **CC BY 4.0**, bronvermelding *Bron: Kadaster/PDOK* verplicht.
 CRS overal EPSG:28992 (RD New). Kaartschaal 1 px = 101,63 m.
+
+Duitsland en Belgie komen uit **Natural Earth 1:10m Admin 0** — public domain, geen
+bronvermelding vereist — herverpakt als TopoJSON in het npm-pakket
+[`world-atlas`](https://www.npmjs.com/package/world-atlas) (ISC, zie
+`bron/world-atlas-LICENSE`). Bijwerken gaat met `npm pack world-atlas@2`; leg
+`countries-10m.json` uit het pakket in `bron/` en draai `build_buitenland.py`.

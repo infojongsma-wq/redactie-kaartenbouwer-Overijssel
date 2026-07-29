@@ -8,7 +8,8 @@
   const KAART = JSON.parse(document.getElementById("kaartdata").textContent);
   const PLAATSEN = JSON.parse(document.getElementById("plaatsdata").textContent);
   const NEDERLAND = JSON.parse(document.getElementById("nederlanddata").textContent);
-  Render.zetData(KAART, NEDERLAND);
+  const BUITENLAND = JSON.parse(document.getElementById("buitenlanddata").textContent);
+  Render.zetData(KAART, NEDERLAND, BUITENLAND);
 
   const $ = id => document.getElementById(id);
   const maak = (tag, klasse, tekst) => {

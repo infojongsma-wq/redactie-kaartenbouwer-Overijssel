@@ -145,11 +145,16 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
   0,0 %, Gelderland -0,4 %, Overijssel -0,4 %). `build_nederland.py` pakt dat
   bestand vanzelf als het in `bron/` staat en valt anders met een waarschuwing
   terug op BRK.
-- **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
-  Gebiedsindelingen en houdt op bij de landsgrens, dus ten oosten van Twente wordt
-  water getekend waar land ligt. Met het huidige krappe kaartvlak is dat een strook
-  van ongeveer 26 px. Echt oplossen vraagt buitenlandse geometrie, die niet in de
-  pijplijn van fase 1/2 zit.
+- **Duitsland komt uit een andere bron dan de rest van de kaart** — Natural Earth
+  1:10m in plaats van PDOK, want PDOK houdt op bij de landsgrens. Zie
+  `build/build_buitenland.py`. Die generalisatie op wereldschaal is grof: de Duitse
+  westgrens ligt tot 1077 m naast de Nederlandse oostgrens uit de BRK. Daarom is de
+  vorm 4 km opgeblazen en pas daarna teruggesneden tot 1,5 km binnen de Nederlandse
+  grens, en gaat hij als onderste laag onder de contextlaag en de gemeenten door. De
+  zichtbare naad is dus nog steeds de BRK-grens; wat Natural Earth ernaast zit, ligt
+  onder Nederland. Het bouwscript controleert dat ook: het bemonstert de landsgrens
+  en stopt als er ook maar één punt buiten de vorm valt. Wat je wél van Natural Earth
+  ziet is de buitenrand ver van de provincie, en daar valt generalisatie niet op.
 - **`context.land` en `context.lijnen` in `app_data.json` zijn hetzelfde pad.** De
   lijnenlaag voegt dus alleen een contour aan de landvlakken toe. Geen probleem,
   maar goed om te weten voordat iemand naar het verschil zoekt.
