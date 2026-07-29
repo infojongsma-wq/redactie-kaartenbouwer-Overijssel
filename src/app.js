@@ -341,10 +341,14 @@
         const waardetekst = !heeft ? "" :
           (Number.isFinite(getal) ? toonGetal(getal) : String(ruwe)) +
           (staat.vlaklaag.eenheid && Number.isFinite(getal) ? " " + staat.vlaklaag.eenheid : "");
-        if (modus === "naam") return [{ tekst: naam, groot: false }];
+        // Een label hoort bij een waarde. Zonder waarde geen label, ook niet de
+        // kale naam: dan zou de kaart de gemeenten waar het juist niet over gaat
+        // net zo hard benoemen. Wie toch alle namen wil, zet de laag
+        // Gemeentenamen aan bij Basiskaart; die vult de rest dan in.
+        if (modus === "naam") return heeft ? [{ tekst: naam, groot: false }] : [];
         if (modus === "waarde") return heeft ? [{ tekst: waardetekst, groot: true }] : [];
         if (modus === "naam-waarde") {
-          return heeft ? [{ tekst: naam, groot: false }, { tekst: waardetekst, groot: true }] : [{ tekst: naam, groot: false }];
+          return heeft ? [{ tekst: naam, groot: false }, { tekst: waardetekst, groot: true }] : [];
         }
         if (modus === "tekst") return w.tekst ? [{ tekst: w.tekst, groot: false }] : [];
         return [];

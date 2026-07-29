@@ -30,6 +30,12 @@ uit de export komt — alleen kleiner weergegeven.
 Punten kun je een **groep** geven (derde kolom bij plakken). Elke groep krijgt een
 eigen kleur en komt automatisch in de legenda — zo maak je een symbolenkaart.
 
+Bij de vlaklaag kies je wat er in het vlak komt te staan: niets, alleen de naam,
+alleen de waarde, naam plus waarde, of je eigen tekst uit een derde kolom. Dat
+label komt **alleen in vlakken met een waarde** — de gemeenten waar het niet over
+gaat blijven leeg. Wil je die namen er toch bij, zet dan *Gemeentenamen* aan bij
+Basiskaart; die vult dan de rest in.
+
 ### Data plakken
 
 Kopieer uit Excel of Google Sheets en plak. De tool herkent tabs, puntkomma's en

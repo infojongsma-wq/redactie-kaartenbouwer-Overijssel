@@ -846,7 +846,11 @@ const Render = (function () {
     if (staat.vlaklaag.actief && staat.vlaklaag.label !== "geen") {
       Object.keys(gebied.vlakken).forEach(code => {
         const g = gebied.vlakken[code];
-        const tekst = hulp.gemeentelabel(code);
+        let tekst = hulp.gemeentelabel(code);
+        // Gemeenten zonder waarde krijgen geen label. Staat de laag
+        // Gemeentenamen aan, dan is de naam de terugval — zo sluiten de twee
+        // keuzes elkaar niet uit.
+        if ((!tekst || !tekst.length) && b.gemeentenamen) tekst = [{ tekst: g.naam, groot: false }];
         if (!tekst || !tekst.length) return;
         const p = naarScherm(g.labelX, g.labelY);
         const basis = code === b.uitgelicht ? (b.uitlichtkleur || "#1361FF") : vulKleur(b);

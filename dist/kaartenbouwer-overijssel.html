@@ -577,14 +577,16 @@ details.invoer[open] > summary { margin-bottom: 8px; }
             <div class="categorielijst" id="vlak-categorielijst"></div>
           </div>
 
-          <label class="veld"><span>Label in de gemeente</span>
+          <label class="veld"><span>Label in het vlak</span>
             <select id="in-vlak-label">
               <option value="geen">Geen</option>
-              <option value="naam">Gemeentenaam</option>
-              <option value="waarde">Waarde</option>
+              <option value="naam">Alleen de naam</option>
+              <option value="waarde">Alleen de waarde</option>
               <option value="naam-waarde">Naam + waarde</option>
               <option value="tekst">Eigen tekst (derde kolom)</option>
             </select></label>
+          <p class="hint">Een label komt alleen in vlakken met een waarde. Wil je de namen
+            van de andere er ook bij, zet dan <em>Gemeentenamen</em> aan bij Basiskaart.</p>
           <label class="veld"><span>Gemeenten zonder data</span>
             <select id="in-vlak-leeg">
               <option value="grijs">Grijs invullen</option>
@@ -1626,7 +1628,11 @@ const Render = (function () {
     if (staat.vlaklaag.actief && staat.vlaklaag.label !== "geen") {
       Object.keys(gebied.vlakken).forEach(code => {
         const g = gebied.vlakken[code];
-        const tekst = hulp.gemeentelabel(code);
+        let tekst = hulp.gemeentelabel(code);
+        // Gemeenten zonder waarde krijgen geen label. Staat de laag
+        // Gemeentenamen aan, dan is de naam de terugval — zo sluiten de twee
+        // keuzes elkaar niet uit.
+        if ((!tekst || !tekst.length) && b.gemeentenamen) tekst = [{ tekst: g.naam, groot: false }];
         if (!tekst || !tekst.length) return;
         const p = naarScherm(g.labelX, g.labelY);
         const basis = code === b.uitgelicht ? (b.uitlichtkleur || "#1361FF") : vulKleur(b);
@@ -2284,10 +2290,14 @@ const Render = (function () {
         const waardetekst = !heeft ? "" :
           (Number.isFinite(getal) ? toonGetal(getal) : String(ruwe)) +
           (staat.vlaklaag.eenheid && Number.isFinite(getal) ? " " + staat.vlaklaag.eenheid : "");
-        if (modus === "naam") return [{ tekst: naam, groot: false }];
+        // Een label hoort bij een waarde. Zonder waarde geen label, ook niet de
+        // kale naam: dan zou de kaart de gemeenten waar het juist niet over gaat
+        // net zo hard benoemen. Wie toch alle namen wil, zet de laag
+        // Gemeentenamen aan bij Basiskaart; die vult de rest dan in.
+        if (modus === "naam") return heeft ? [{ tekst: naam, groot: false }] : [];
         if (modus === "waarde") return heeft ? [{ tekst: waardetekst, groot: true }] : [];
         if (modus === "naam-waarde") {
-          return heeft ? [{ tekst: naam, groot: false }, { tekst: waardetekst, groot: true }] : [{ tekst: naam, groot: false }];
+          return heeft ? [{ tekst: naam, groot: false }, { tekst: waardetekst, groot: true }] : [];
         }
         if (modus === "tekst") return w.tekst ? [{ tekst: w.tekst, groot: false }] : [];
         return [];
