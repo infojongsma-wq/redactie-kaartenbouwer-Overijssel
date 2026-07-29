@@ -46,7 +46,7 @@
             <option value="transparant">Transparant</option>
           </select></label>
         <label class="schakel"><input type="checkbox" id="in-kaal"><span>Kale kaart — voor tv</span></label>
-        <p class="hint" id="kaal-hint" hidden>Alleen de kaart, groter in het kader: geen titel, legenda of bronregel. Kies daarbij het formaat 16:9. <strong>Let op:</strong> de verplichte vermelding <em>Bron: Kadaster/PDOK</em> moet dan in de uitzending of het onderschrift staan.</p>
+        <p class="hint" id="kaal-hint" hidden>Beeldvullend: de kaart loopt tot de beeldrand, zonder titel, kader of bronregel. Kies daarbij het formaat 16:9. Een legenda staat dan als laag óp de kaart — waar, kies je bij Legenda. <strong>Let op:</strong> de verplichte vermelding <em>Bron: Kadaster/PDOK</em> moet dan in de uitzending of het onderschrift staan.</p>
         <p class="hint" id="transparant-hint" hidden>Transparant levert een PNG zonder achtergrond. Zet ook <em>Water</em> uit bij Basiskaart als je alleen de provincievorm wilt uitsnijden.</p>
         <p class="hint">De bronvermelding <em>Bron: Kadaster/PDOK</em> is verplicht bij de kaartdata (CC BY 4.0). Vul je eigen databron ervoor of erachter aan.</p>
       </div>
@@ -257,12 +257,22 @@
       <div class="paneel-body">
         <label class="veld"><span>Kop boven de legenda</span><input type="text" id="in-legenda-titel" maxlength="60" placeholder="Optioneel"></label>
         <div class="schakelaars" id="legenda-schakelaars"></div>
-        <label class="veld"><span>Plaats bij 16:9</span>
+        <label class="veld" id="veld-legenda-plaats"><span>Plaats bij 16:9</span>
           <select id="in-legenda-plaats">
             <option value="rechts">Rechts naast de kaart</option>
             <option value="onder">Onder de kaart</option>
           </select></label>
-        <p class="hint">Bij vierkant en staand staat de legenda altijd onder de kaart — die formaten zijn opnieuw ingedeeld, geen uitsnede.</p>
+        <label class="veld" id="veld-tv-legenda" hidden><span>Plaats op de kale kaart</span>
+          <select id="in-tv-legenda">
+            <option value="rechts">Rechts, midden</option>
+            <option value="rechtsboven">Rechtsboven</option>
+            <option value="rechtsonder">Rechtsonder</option>
+            <option value="linksboven">Linksboven</option>
+            <option value="linksonder">Linksonder</option>
+            <option value="geen">Geen legenda</option>
+          </select></label>
+        <p class="hint" id="hint-legenda-plaats">Bij vierkant en staand staat de legenda altijd onder de kaart — die formaten zijn opnieuw ingedeeld, geen uitsnede.</p>
+        <p class="hint" id="hint-tv-legenda" hidden>Op de kale kaart ligt de legenda als laag óp de kaart; er is geen ruimte ernaast. Houd hem kort — twee of drie regels leest op tv nog net.</p>
       </div>
     </section>
 

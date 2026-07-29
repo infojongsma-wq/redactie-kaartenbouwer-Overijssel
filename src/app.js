@@ -108,7 +108,7 @@
         label: "naam", eenheid: "", legendalabel: "Locatie", groepkleuren: {}
       },
       tekstlaag: { actief: false, blokken: [] },
-      legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts" }
+      legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts", tvplaats: "rechts" }
     };
   }
 
@@ -1247,6 +1247,17 @@
 
   $("in-legenda-titel").addEventListener("input", () => { staat.legenda.titel = $("in-legenda-titel").value; teken(); });
   $("in-legenda-plaats").addEventListener("change", () => { staat.legenda.plaats = $("in-legenda-plaats").value; teken(); });
+  $("in-tv-legenda").addEventListener("change", () => { staat.legenda.tvplaats = $("in-tv-legenda").value; teken(); });
+
+  // De kale kaart heeft geen ruimte naast de kaart, dus daar geldt een andere
+  // keuze: waar de legenda als laag op de kaart komt te liggen.
+  function vulLegendaPlaats() {
+    const kaal = !!staat.kaal;
+    $("veld-legenda-plaats").hidden = kaal;
+    $("hint-legenda-plaats").hidden = kaal;
+    $("veld-tv-legenda").hidden = !kaal;
+    $("hint-tv-legenda").hidden = !kaal;
+  }
 
   /* ---------------------------------------------------------- formaat */
 
@@ -1589,6 +1600,8 @@
     $("in-kaartnaam").value = staat.naam;
     $("in-legenda-titel").value = staat.legenda.titel;
     $("in-legenda-plaats").value = staat.legenda.plaats;
+    $("in-tv-legenda").value = staat.legenda.tvplaats;
+    vulLegendaPlaats();
     vulBasiskaart();
     vulVlaklaag();
     vulPuntlaag();

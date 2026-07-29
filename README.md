@@ -63,9 +63,12 @@ dan zeker even met de mobielcheck of het nog leesbaar is.
 
 **Uitlijning** (bij Kaart) zet titel én kaart links, in het midden of rechts.
 
-**Kale kaart** (bij Kaart) haalt titel, legenda en bronregel weg en legt de kaart
-groter in het kader. Bedoeld voor tv: kies daarbij 16:9. De verplichte vermelding
-*Bron: Kadaster/PDOK* moet dan in de uitzending of het onderschrift staan.
+**Kale kaart** (bij Kaart) is de tv-variant: geen titel, geen kader, geen bronregel,
+en de provincie beeldvullend — het omringende land en het water lopen door tot de
+beeldrand. Kies daarbij 16:9. Een legenda verdwijnt niet maar komt als laag óp de
+kaart; bij *Legenda* kies je welke hoek (of *Geen legenda*). De provincie schuift
+weg van die hoek, zodat er nooit tekst op de gemeenten belandt. De verplichte
+vermelding *Bron: Kadaster/PDOK* moet in de uitzending of het onderschrift staan.
 
 **Achtergrond** kan ook *transparant*. Dan komt er een PNG uit zonder ondergrond.
 Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de
