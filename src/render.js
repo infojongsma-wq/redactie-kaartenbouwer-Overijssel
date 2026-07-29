@@ -459,7 +459,11 @@ const Render = (function () {
   function berekenIndeling(ctx, staat, formaat, hulp) {
     const f = FORMATEN[formaat];
     const k = maatstaf(formaat);
-    const m = f.marge;
+    // Kale kaart: alleen de kaart op de achtergrond, zonder titel, legenda of
+    // bronregel, met een ruimere kaart in het kader. Bedoeld voor tv, waar de
+    // tekst uit de uitzending komt en niet uit het beeld.
+    const kaal = !!staat.kaal;
+    const m = kaal ? Math.round(f.breedte * 0.045) : f.marge;
     // links = 0, midden = 0,5, rechts = 1 — zowel voor de titel als voor de
     // groep kaart-plus-legenda, zodat de compositie als geheel meebeweegt.
     const richting = staat.uitlijning === "links" ? 0 : staat.uitlijning === "rechts" ? 1 : 0.5;
@@ -468,19 +472,19 @@ const Render = (function () {
     const titelBreedte = f.breedte - 2 * m;
     let titelRegels = [], onderRegels = [];
     let y = m;
-    if ((staat.titel || "").trim()) {
+    if (!kaal && (staat.titel || "").trim()) {
       zetLetter(ctx, "700", f.titelgrootte);
       titelRegels = breekTekst(ctx, staat.titel, titelBreedte);
       y += titelRegels.length * f.titelgrootte * 1.16;
     }
-    if ((staat.ondertitel || "").trim()) {
+    if (!kaal && (staat.ondertitel || "").trim()) {
       zetLetter(ctx, "400", f.ondertitelgrootte);
       onderRegels = breekTekst(ctx, staat.ondertitel, titelBreedte);
       y += (titelRegels.length ? 10 : 0) + onderRegels.length * f.ondertitelgrootte * 1.3;
     }
     const titelEinde = y;
     const kaartTop = titelEinde + (titelRegels.length || onderRegels.length ? Math.round(34 * k._s) : 0);
-    const bronHoogte = Math.round(f.brongrootte * 1.6) + 14;
+    const bronHoogte = kaal ? 0 : Math.round(f.brongrootte * 1.6) + 14;
     const bodem = f.hoogte - m - bronHoogte;
 
     const beschikbaarB = f.breedte - 2 * m;
@@ -489,7 +493,7 @@ const Render = (function () {
     // Overijssel is bijna vierkant en vult een staand kader nooit helemaal.
     // De overgebleven hoogte gaat daarom niet half-half maar grotendeels naar
     // onderen: de kaart hangt dan onder de titel in plaats van te zweven.
-    const verdeling = formaat === "9:16" ? 0.32 : 0.45;
+    const verdeling = kaal ? 0.5 : (formaat === "9:16" ? 0.32 : 0.45);
 
     /* --- maat van de kaart bepalen --- */
     // De provincie wordt zo groot mogelijk gelegd; rondom blijft een smalle
@@ -501,7 +505,7 @@ const Render = (function () {
     const gat = Math.round(46 * k._s);
     const tussenruimte = Math.round(30 * k._s);
 
-    const items = bouwLegenda(staat, hulp);
+    const items = kaal ? [] : bouwLegenda(staat, hulp);
     const legendaOnder = formaat !== "16:9" || staat.legenda.plaats === "onder";
     const legendaKop = (staat.legenda.titel || "").trim() ? Math.round(k.legendaTekst + 16) : 0;
 
@@ -552,7 +556,7 @@ const Render = (function () {
     const ty = vakY + rand - bb.y * s;
 
     return {
-      f, k, m, richting, titelRegels, onderRegels, titelEinde,
+      f, k, m, richting, kaal, titelRegels, onderRegels, titelEinde,
       kaart: vak, vak, legenda, items, transform: { s, tx, ty }, bodem, bronHoogte
     };
   }
@@ -621,7 +625,7 @@ const Render = (function () {
     }
 
     /* --- bronregel --- */
-    if ((staat.bron || "").trim()) {
+    if (!ind.kaal && (staat.bron || "").trim()) {
       zetLetter(ctx, "400", f.brongrootte);
       ctx.fillStyle = thema.zacht;
       ctx.textAlign = "right";

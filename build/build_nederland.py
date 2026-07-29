@@ -2,21 +2,22 @@
 """
 build_nederland.py — Nederland met provincies, in hetzelfde assenstelsel.
 
-Leest `bron/provinciegrenzen.geojson` (BRK Provinciegebied) en
-`bron/landgebied.geojson` (BRK Landgebied) en schrijft `data/nederland.json`:
-twaalf provincies als SVG-pad, plus de landcontour, geprojecteerd met exact
-dezelfde transformatie als `data/app_data.json`.
+Schrijft `data/nederland.json`: twaalf provincies als SVG-pad, plus de
+landcontour, geprojecteerd met exact dezelfde transformatie als
+`data/app_data.json`.
 
 --------------------------------------------------------------------------
 Drie dingen die niet vanzelf spreken
 --------------------------------------------------------------------------
 
-**De provincievlakken zijn inclusief water en worden dus geknipt.** BRK
-Provinciegebied telt op tot 41.543 km2 — Nederland inclusief binnenwater. Het
-scheelt fors: Friesland +72 %, Flevoland +70 %, Zeeland +65 %. Zonder knippen
-loopt de kaart door over het IJsselmeer en de Waddenzee, en zou de vulkleur van
-Friesland doorlopen tot halverwege de Afsluitdijk. Daarom wordt elke provincie
-gesneden met het landgebied. Controle achteraf op de CBS-landoppervlakte.
+**De bron moet CBS zijn, niet BRK.** BRK Provinciegebied telt op tot 41.543 km2
+— Nederland inclusief binnenwater. Het scheelt fors: Friesland +72 %,
+Flevoland +70 %, Zeeland +65 %. Daarmee lopen IJsselmeer, Markermeer, Waddenzee
+en Oosterschelde vol met provinciekleur. CBS Gebiedsindelingen levert de
+provincies zonder water; dat is dezelfde bron waarmee fase 1 en 2 gebouwd zijn.
+Het script pakt `bron/provincies_zonder_water.geojson` als dat er ligt en valt
+anders terug op BRK, met een waarschuwing. Controle achteraf op de
+CBS-landoppervlakte per provincie.
 
 **Hetzelfde assenstelsel als Overijssel.** De projectie is dezelfde affiene
 transformatie die in `build_plaatsen.py` is afgeleid. Nederland is daarin
@@ -44,6 +45,9 @@ from shapely.geometry import shape, mapping
 from shapely.ops import unary_union
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# CBS Gebiedsindelingen levert de provincies zonder water; BRK doet dat niet en
+# is alleen de terugval. Ligt het CBS-bestand er, dan wint dat.
+CBS_PROVINCIES = os.path.join(ROOT, "bron", "provincies_zonder_water.geojson")
 PROVINCIES = os.path.join(ROOT, "bron", "provinciegrenzen.geojson")
 LANDGEBIED = os.path.join(ROOT, "bron", "landgebied.geojson")
 UIT = os.path.join(ROOT, "data", "nederland.json")
@@ -130,36 +134,66 @@ def naar_pad(geom):
     return "".join(delen), opp_px2
 
 
-def main():
-    if not os.path.exists(PROVINCIES) or not os.path.exists(LANDGEBIED):
-        sys.exit("Bronbestanden ontbreken: %s en %s" % (PROVINCIES, LANDGEBIED))
+def lees_provincies():
+    """De provincievlakken, bij voorkeur die zonder water.
 
-    land = unary_union([shape(f["geometry"]) for f in json.load(open(LANDGEBIED, encoding="utf-8"))["features"]])
-    if not land.is_valid:
-        land = land.buffer(0)
-    land_km2 = land.area / 1e6
-    print("Landgebied ingelezen: %.0f km2" % land_km2)
+    CBS Gebiedsindelingen (`provincies_zonder_water.geojson`) heeft het
+    binnenwater er al uit; dat is de bron waarmee fase 1 en 2 gebouwd zijn.
+    Ontbreekt dat bestand, dan valt het script terug op BRK Provinciegebied —
+    maar dat is inclusief IJsselmeer, Waddenzee en Oosterschelde.
+
+    Retourneert (lijst van (naam, code, vlak), bronomschrijving, zonder_water).
+    """
+    if os.path.exists(CBS_PROVINCIES):
+        bron = json.load(open(CBS_PROVINCIES, encoding="utf-8"))
+        uit = []
+        for f in bron["features"]:
+            p = f["properties"]
+            # statcode "PV23" -> "23", zodat de codes gelijk blijven aan de
+            # BRK-variant en opgeslagen kaarten blijven werken
+            code = str(p.get("statcode", "")).replace("PV", "") or str(p.get("code"))
+            uit.append((p.get("statnaam") or p.get("naam"), code, shape(f["geometry"])))
+        return uit, "CBS Gebiedsindelingen, provincies zonder water", True
+
+    if not os.path.exists(PROVINCIES):
+        sys.exit("Geen provinciebestand gevonden in bron/ (%s of %s)"
+                 % (os.path.basename(CBS_PROVINCIES), os.path.basename(PROVINCIES)))
+
+    bron = json.load(open(PROVINCIES, encoding="utf-8"))
+    uit = [(f["properties"]["naam"], f["properties"]["code"], shape(f["geometry"]))
+           for f in bron["features"]]
+    return uit, "BRK Provinciegebied (inclusief binnenwater)", False
+
+
+def main():
+    provinciebron, bronnaam, zonder_water = lees_provincies()
+    print("Provincies uit: %s" % bronnaam)
+
+    land = None
+    land_km2 = 0.0
+    if not zonder_water and os.path.exists(LANDGEBIED):
+        land = unary_union([shape(f["geometry"]) for f in json.load(open(LANDGEBIED, encoding="utf-8"))["features"]])
+        if not land.is_valid:
+            land = land.buffer(0)
+        land_km2 = land.area / 1e6
+        print("Landgebied ingelezen: %.0f km2" % land_km2)
 
     # BRK Landgebied blijkt het staatsgebied te zijn, inclusief binnenwater: het
     # telt op tot dezelfde 41.543 km2 als de provincies samen. Knippen levert dan
     # niets op. De land/water-scheiding komt bij CBS vandaan, niet bij BRK — dat
     # stond ook al in de overdracht van fase 1.
-    knipt = land_km2 < 40000
-    if not knipt:
+    knipt = land is not None and land_km2 < 40000
+    if not zonder_water and not knipt:
         print("LET OP: het landgebied bevat binnenwater (%.0f km2) en snijdt dus niets weg.\n"
               "        De provincies komen inclusief IJsselmeer, Markermeer en Waddenzee op de\n"
               "        kaart. Voor de land/water-scheiding is CBS Gebiedsindelingen nodig; zie\n"
               "        docs/OVERDRACHT-fase4.md." % land_km2)
 
-    bron = json.load(open(PROVINCIES, encoding="utf-8"))
     provincies = {}
     totaal_px2 = 0.0
-    print("\n%-16s %10s %10s %9s" % ("provincie", "geknipt", "CBS land", "afwijking"))
+    print("\n%-16s %10s %10s %9s" % ("provincie", "vlak", "CBS land", "afwijking"))
     afwijkingen = []
-    for f in bron["features"]:
-        naam = f["properties"]["naam"]
-        code = f["properties"]["code"]
-        vlak = shape(f["geometry"])
+    for naam, code, vlak in provinciebron:
         if not vlak.is_valid:
             vlak = vlak.buffer(0)
         geknipt = vlak.intersection(land) if knipt else vlak
@@ -193,14 +227,21 @@ def main():
     totaal_km2 = totaal_px2 * M_PER_PX * M_PER_PX / 1e6
     print("%-16s %10.0f %10d %+8.1f%%" % ("TOTAAL", totaal_km2, sum(CBS_LAND.values()),
                                           (totaal_km2 / sum(CBS_LAND.values()) - 1) * 100))
+    if zonder_water and max(afwijkingen) > 10.0:
+        sys.exit("Een provincie wijkt meer dan 10 % af van de CBS-landoppervlakte — klopt het bronbestand?")
     if knipt and max(afwijkingen) > 3.0:
         sys.exit("Een provincie wijkt meer dan 3 % af van de CBS-landoppervlakte — controleer het knippen.")
-    if not knipt:
+    if zonder_water:
+        print("\nDe kleine plussen hierboven zijn de binnenwateren die CBS wel meetelt;\n"
+              "de provincies met weinig groot water komen op nul uit: Drenthe 0,0 %,\n"
+              "Gelderland -0,3 %, Overijssel -0,4 %.")
+    elif not knipt:
         print("\nDe afwijking hierboven is het binnenwater, niet een fout in de projectie:\n"
               "Overijssel, Gelderland en Drenthe komen op 0,0 % uit omdat daar nauwelijks\n"
               "groot water aan de provincie is toegewezen.")
 
-    contour, _ = naar_pad(land)
+    contour, _ = naar_pad(land if land is not None
+                          else unary_union([v for _, _, v in provinciebron]))
 
     punten = [p for pad in provincies.values() for p in pad["d"]].count("M")
     xs, ys = [], []
@@ -213,7 +254,7 @@ def main():
     print("\nSchermbbox Nederland: x %.0f y %.0f breedte %.0f hoogte %.0f" % (bbox["x"], bbox["y"], bbox["b"], bbox["h"]))
 
     doel = {
-        "bron": "Kadaster/PDOK, BRK Bestuurlijke Gebieden (provincie- en landgebied)",
+        "bron": bronnaam,
         "licentie": "CC BY 4.0",
         "transformatie": {"a": A, "b": B, "c": C, "m_per_px": M_PER_PX},
         "raster_px": RASTER,

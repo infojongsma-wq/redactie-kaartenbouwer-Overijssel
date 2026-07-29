@@ -133,15 +133,18 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
   naar 54 kernen en het totaal van 1074 naar 1143 plaatsen. De pijplijn leest nu
   alle `top10nl_plaats*.gml(.gz)`-bestanden in `bron/` en ontdubbelt op `lokaalID`,
   dus meerdere downloadrechthoeken mogen naast elkaar staan.
-- **Het binnenwater zit in de provincies van de Nederlandkaart.** BRK
-  Provinciegebied telt op tot 41.543 km2, Nederland inclusief binnenwater;
-  Friesland +72 %, Flevoland +70 %, Zeeland +65 %. IJsselmeer, Markermeer,
-  Waddenzee en Oosterschelde zijn daardoor dichtgevuld. Het meegeleverde
-  `landgebied.geojson` lost dat niet op: dat is het staatsgebied en komt op
-  dezelfde 41.543 km2 uit, dus knippen levert niets. Nodig is CBS
-  Gebiedsindelingen (gegeneraliseerd), dezelfde bron als in fase 1. Zodra dat
-  bestand in `bron/` staat, knipt `build_nederland.py` vanzelf en controleert het
-  elke provincie tegen de CBS-landoppervlakte; boven 3 % afwijking stopt het.
+- **Opgelost: het binnenwater op de Nederlandkaart.** BRK Provinciegebied telt op
+  tot 41.543 km2, Nederland inclusief binnenwater; Friesland +72 %, Flevoland
+  +70 %, Zeeland +65 %. Daarmee liepen IJsselmeer, Markermeer, Waddenzee en
+  Oosterschelde vol met provinciekleur, en ook het meegeleverde `landgebied` hielp
+  niet: dat is het staatsgebied en komt op diezelfde 41.543 km2 uit. De oplossing
+  was CBS Gebiedsindelingen, dezelfde bron als in fase 1 — te herkennen aan de
+  bestandsnaam `Provincies_zonder_water_v1_0.json` in `build_kaart.py`. Nu 35.084
+  km2 tegenover 34.116 km2 CBS-land; de plus zit in kleine binnenwateren die CBS
+  wel meetelt, en de provincies met weinig groot water komen op nul uit (Drenthe
+  0,0 %, Gelderland -0,4 %, Overijssel -0,4 %). `build_nederland.py` pakt dat
+  bestand vanzelf als het in `bron/` staat en valt anders met een waarschuwing
+  terug op BRK.
 - **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
   Gebiedsindelingen en houdt op bij de landsgrens, dus ten oosten van Twente wordt
   water getekend waar land ligt. Met het huidige krappe kaartvlak is dat een strook

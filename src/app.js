@@ -87,6 +87,7 @@
       uitlijning: "midden",
       formaat: "16:9",
       kaartsoort: "overijssel",
+      kaal: false,
       basiskaart: {
         preset: "gemeenten", stijl: "tint",
         context: true, water: true, wateren: false,
@@ -435,6 +436,10 @@
     $("transparant-hint").hidden = v !== "transparant";
   });
   koppelKeuze("in-uitlijning", v => staat.uitlijning = v);
+  $("in-kaal").addEventListener("change", () => {
+    staat.kaal = $("in-kaal").checked;
+    vulAlles(); teken();
+  });
 
   function koppelTekst(id, zet) {
     const el = $(id);
@@ -492,6 +497,10 @@
       const b = staat.basiskaart;
       if (staat.kaartsoort === "nederland") {
         b.context = false; b.wateren = false; b.water = false;
+        // De plaatsenlijst gaat alleen over Overijssel; op landschaal wordt dat
+        // een kluitje stippen in het oosten. Standaard dus uit, aan te zetten
+        // door wie er bewust een plaats bij wil.
+        b.plaatsen = "geen";
         const st = NL_STIJLEN[2];        // lichtblauw: dezelfde als de fase 2-kaart
         b.vulling = st.vulling; b.uitlichtkleur = st.uitlichtkleur;
         b.grenskleur = st.lijn; b.contourkleur = st.lijn;
@@ -1575,6 +1584,8 @@
       $("transparant-hint").hidden = staat.achtergrond !== "transparant";
     }
     if ($("in-uitlijning")) $("in-uitlijning").value = staat.uitlijning;
+    $("in-kaal").checked = !!staat.kaal;
+    $("kaal-hint").hidden = !staat.kaal;
     $("in-kaartnaam").value = staat.naam;
     $("in-legenda-titel").value = staat.legenda.titel;
     $("in-legenda-plaats").value = staat.legenda.plaats;

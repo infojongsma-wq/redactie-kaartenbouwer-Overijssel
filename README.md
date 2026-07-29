@@ -63,6 +63,10 @@ dan zeker even met de mobielcheck of het nog leesbaar is.
 
 **Uitlijning** (bij Kaart) zet titel én kaart links, in het midden of rechts.
 
+**Kale kaart** (bij Kaart) haalt titel, legenda en bronregel weg en legt de kaart
+groter in het kader. Bedoeld voor tv: kies daarbij 16:9. De verplichte vermelding
+*Bron: Kadaster/PDOK* moet dan in de uitzending of het onderschrift staan.
+
 **Achtergrond** kan ook *transparant*. Dan komt er een PNG uit zonder ondergrond.
 Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de
 provincievorm wilt uitsnijden.
@@ -116,7 +120,9 @@ data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
 data/nederland.json                  12 provincies, zelfde assenstelsel
 build/build_nederland.py             provinciegrenzen -> data/nederland.json
 bron/top10nl_plaats*.gml.gz          bronbestand(en) Kadaster/PDOK
-bron/provinciegrenzen.geojson        BRK Provinciegebied
+bron/provincies_zonder_water.geojson CBS Gebiedsindelingen — bron van de NL-kaart
+bron/gemeenten_zonder_water.geojson  CBS, 342 gemeenten (nog niet gebruikt)
+bron/provinciegrenzen.geojson        BRK Provinciegebied (terugval, mét water)
 bron/landgebied.geojson              BRK Landgebied
 docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
 docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
@@ -182,16 +188,7 @@ bronbestanden vallen. Rammelt er iets, dan zegt het bouwscript dat, en zetten
 `data/plaatsen_overijssel.json` en de uitlegtekst in de tool het er als
 waarschuwing bij.
 
-### Twee bekende hiaten
-
-**Het binnenwater zit in de provincies.** BRK Provinciegebied telt op tot
-41.543 km² — Nederland inclusief binnenwater. Op de Nederlandkaart zijn het
-IJsselmeer, het Markermeer, de Waddenzee en de Oosterschelde daardoor dichtgevuld
-in plaats van uitgesneden. De land/water-scheiding komt niet uit BRK maar uit CBS
-Gebiedsindelingen; datzelfde probleem speelde in fase 1 al. `build_nederland.py`
-merkt vanzelf of het aangeleverde landgebied land-only is: zit het onder
-40.000 km², dan knipt het script de provincies bij en controleert het de uitkomst
-tegen de CBS-landoppervlakte per provincie.
+### Eén bekend hiaat
 
 **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
 Gebiedsindelingen en houdt op bij de landsgrens, dus het gebied ten oosten van
