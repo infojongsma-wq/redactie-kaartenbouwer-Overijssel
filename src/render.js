@@ -670,7 +670,12 @@ const Render = (function () {
     // de vlakken zelf: gemeenten of provincies
     const vulling = vulKleur(b);
     const kleurVan = hulp.gemeentekleur;
-    Object.keys(gebied.vlakken).forEach(code => {
+    // Het uitgelichte vlak gaat als laatste, zodat zijn rand niet door de buren
+    // wordt overgetekend — dezelfde volgorde als in de fase 2-pijplijn.
+    const volgorde = Object.keys(gebied.vlakken)
+      .filter(c => c !== b.uitgelicht)
+      .concat(gebied.vlakken[b.uitgelicht] ? [b.uitgelicht] : []);
+    volgorde.forEach(code => {
       const p = pad(gebied.sleutel + code, gebied.vlakken[code].d);
       const basis = code === b.uitgelicht ? (b.uitlichtkleur || "#1361FF") : vulling;
       const kleur = kleurVan ? kleurVan(code, basis) : basis;
@@ -692,7 +697,7 @@ const Render = (function () {
       ctx.strokeStyle = b.grenskleur || "#FFFFFF";
       ctx.lineWidth = lijn(LIJN.gemeente * (b.grensdikte || 1), s) / s;
       ctx.lineJoin = "round";
-      Object.keys(gebied.vlakken).forEach(code => ctx.stroke(pad(gebied.sleutel + code, gebied.vlakken[code].d)));
+      volgorde.forEach(code => ctx.stroke(pad(gebied.sleutel + code, gebied.vlakken[code].d)));
     }
 
     // water in de provincie
@@ -713,15 +718,6 @@ const Render = (function () {
       ctx.lineWidth = lijn(LIJN.provincie * (b.contourdikte || 1), s) / s;
       ctx.lineJoin = "round";
       ctx.stroke(pad(gebied.sleutel + "_contour", gebied.contour));
-    }
-
-    // het uitgelichte vlak krijgt altijd zijn eigen contour, ook als er data
-    // overheen ligt — anders valt de highlight weg zodra de vlaklaag aangaat
-    if (b.uitgelicht && gebied.vlakken[b.uitgelicht]) {
-      ctx.strokeStyle = b.contourkleur || "#FFFFFF";
-      ctx.lineWidth = lijn(LIJN.provincie * (b.contourdikte || 1), s) / s;
-      ctx.lineJoin = "round";
-      ctx.stroke(pad(gebied.sleutel + b.uitgelicht, gebied.vlakken[b.uitgelicht].d));
     }
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);

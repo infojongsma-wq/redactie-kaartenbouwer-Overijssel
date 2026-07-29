@@ -456,6 +456,15 @@
     { id: "wit",        naam: "Wit",        vulling: "#FFFFFF", grenskleur: "#1361FF", contourkleur: "#1361FF" }
   ];
 
+  // De vier Nederlandvarianten uit build_fase2.py, letterlijk overgenomen zodat
+  // de tool dezelfde kaarten maakt als de pijplijn van fase 2.
+  const NL_STIJLEN = [
+    { id: "nl-blauw",      naam: "Blauw",       achtergrond: "blauw",      vulling: "#E7EEF9", uitlichtkleur: "#131720", lijn: "#AFC4E0" },
+    { id: "nl-wit",        naam: "Wit",         achtergrond: "wit",        vulling: "#1361FF", uitlichtkleur: "#E7EEF9", lijn: "#5B8CFF" },
+    { id: "nl-lichtblauw", naam: "Lichtblauw",  achtergrond: "lichtblauw", vulling: "#1361FF", uitlichtkleur: "#FFFFFF", lijn: "#5B8CFF" },
+    { id: "nl-omgekeerd",  naam: "Omgekeerd",   achtergrond: "lichtblauw", vulling: "#FFFFFF", uitlichtkleur: "#1361FF", lijn: "#AFC4E0" }
+  ];
+
   const PRESETS = [
     { id: "gemeenten", naam: "Gemeenten", lagen: { context: true, water: true, wateren: false, gemeentegrenzen: true, provinciecontour: true, gemeentenamen: false }, plaatsen: "geen" },
     { id: "gemeenten-plaatsen", naam: "Gemeenten + plaatsen", lagen: { context: true, water: true, wateren: false, gemeentegrenzen: true, provinciecontour: true, gemeentenamen: false }, plaatsen: "hoofd" },
@@ -480,14 +489,23 @@
       // Nederland is er geen context — alles buiten het land zou dan water
       // worden, en een blauw uitgelicht gebied loopt daar tegen de oostgrens
       // in over. Daarom staat het waterveld daar uit.
+      const b = staat.basiskaart;
       if (staat.kaartsoort === "nederland") {
-        staat.basiskaart.context = false;
-        staat.basiskaart.wateren = false;
-        staat.basiskaart.water = false;
+        b.context = false; b.wateren = false; b.water = false;
+        const st = NL_STIJLEN[2];        // lichtblauw: dezelfde als de fase 2-kaart
+        b.vulling = st.vulling; b.uitlichtkleur = st.uitlichtkleur;
+        b.grenskleur = st.lijn; b.contourkleur = st.lijn;
+        b.grensdikte = 0.8; b.contourdikte = 0.8;
+        staat.achtergrond = st.achtergrond;
+        if (!b.uitgelicht) b.uitgelicht = "23";
       } else {
-        staat.basiskaart.context = true;
-        staat.basiskaart.water = true;
+        b.context = true; b.water = true;
+        const st = STIJLEN[0];
+        b.vulling = st.vulling; b.grenskleur = st.grenskleur; b.contourkleur = st.contourkleur;
+        b.grensdikte = 1; b.contourdikte = 1;
+        staat.achtergrond = "wit";
       }
+      bouwStijlrij();
       vulAlles(); teken();
     });
   });
@@ -526,22 +544,38 @@
     $("basiskaart-presets").hidden = aan;
   }
 
-  function bouwBasiskaart() {
+  function bouwStijlrij() {
     const stijlrij = $("basiskaart-stijlen");
     stijlrij.innerHTML = "";
-    STIJLEN.forEach(st => {
+    const lijst = staat.kaartsoort === "nederland" ? NL_STIJLEN : STIJLEN;
+    lijst.forEach(st => {
       const knop = maak("button", "keuze", st.naam);
       knop.type = "button";
+      knop.dataset.stijl = st.id;
       knop.addEventListener("click", () => {
-        staat.basiskaart.stijl = st.id;
-        staat.basiskaart.vulling = st.vulling;
-        staat.basiskaart.grenskleur = st.grenskleur;
-        staat.basiskaart.contourkleur = st.contourkleur;
-        vulBasiskaart(); teken();
+        const b = staat.basiskaart;
+        b.stijl = st.id;
+        b.vulling = st.vulling;
+        if (st.lijn) {
+          // Nederlandvariant: een enkele fijne scheidingslijn, zoals in fase 2
+          b.grenskleur = st.lijn;
+          b.contourkleur = st.lijn;
+          b.uitlichtkleur = st.uitlichtkleur;
+          b.grensdikte = 0.8;
+          b.contourdikte = 0.8;
+          staat.achtergrond = st.achtergrond;
+        } else {
+          b.grenskleur = st.grenskleur;
+          b.contourkleur = st.contourkleur;
+        }
+        vulAlles(); teken();
       });
       stijlrij.appendChild(knop);
     });
+  }
 
+  function bouwBasiskaart() {
+    bouwStijlrij();
     const rij = $("basiskaart-presets");
     rij.innerHTML = "";
     PRESETS.forEach(p => {
@@ -579,11 +613,14 @@
   function vulBasiskaart() {
     const b = staat.basiskaart;
     vulNederlandOpties();
-    // de stijlknop licht alleen op zolang alle drie de kleuren nog kloppen
-    const passend = STIJLEN.find(st => st.vulling === b.vulling
-      && st.grenskleur === b.grenskleur && st.contourkleur === b.contourkleur);
+    // de stijlknop licht alleen op zolang de kleuren nog bij de stijl horen
+    const passend = staat.kaartsoort === "nederland"
+      ? NL_STIJLEN.find(st => st.vulling === b.vulling && st.uitlichtkleur === b.uitlichtkleur
+          && st.lijn === b.grenskleur && st.achtergrond === staat.achtergrond)
+      : STIJLEN.find(st => st.vulling === b.vulling
+          && st.grenskleur === b.grenskleur && st.contourkleur === b.contourkleur);
     b.stijl = passend ? passend.id : "";
-    $("basiskaart-stijlen").querySelectorAll(".keuze").forEach((k, i) => k.classList.toggle("aan", STIJLEN[i].id === b.stijl));
+    $("basiskaart-stijlen").querySelectorAll(".keuze").forEach(k => k.classList.toggle("aan", k.dataset.stijl === b.stijl));
     $("basiskaart-presets").querySelectorAll(".keuze").forEach((k, i) => k.classList.toggle("aan", PRESETS[i].id === b.preset));
     $("basiskaart-lagen").querySelectorAll("input").forEach(inv => { inv.checked = !!b[inv.dataset.laag]; });
     $("in-basisplaatsen").value = b.plaatsen;
