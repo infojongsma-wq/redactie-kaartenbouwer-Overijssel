@@ -1,0 +1,9153 @@
+{
+"bron": "GeoNames Gazetteer, via het npm-pakket cities.json",
+"licentie": "CC BY 4.0",
+"crs": "EPSG:4326 (WGS84), graden",
+"provincies_admin1": {
+"01": "Drenthe",
+"02": "Friesland",
+"03": "Gelderland",
+"04": "Groningen",
+"05": "Limburg",
+"06": "North Brabant",
+"07": "North Holland",
+"09": "Utrecht",
+"10": "Zeeland",
+"11": "South Holland",
+"15": "Overijssel",
+"16": "Flevoland"
+},
+"plaatsen": [
+{
+"naam": "Aalden",
+"lat": 52.79,
+"lon": 6.71806,
+"admin1": "01"
+},
+{
+"naam": "Angelslo",
+"lat": 52.7809,
+"lon": 6.92645,
+"admin1": "01"
+},
+{
+"naam": "Annen",
+"lat": 53.0575,
+"lon": 6.71944,
+"admin1": "01"
+},
+{
+"naam": "Assen",
+"lat": 52.99667,
+"lon": 6.5625,
+"admin1": "01"
+},
+{
+"naam": "Ballast",
+"lat": 52.67218,
+"lon": 6.73299,
+"admin1": "01"
+},
+{
+"naam": "Barger-Oosterveld",
+"lat": 52.77,
+"lon": 6.95833,
+"admin1": "01"
+},
+{
+"naam": "Bargeres",
+"lat": 52.76152,
+"lon": 6.88145,
+"admin1": "01"
+},
+{
+"naam": "Beilen",
+"lat": 52.86333,
+"lon": 6.51389,
+"admin1": "01"
+},
+{
+"naam": "Borger",
+"lat": 52.92333,
+"lon": 6.79306,
+"admin1": "01"
+},
+{
+"naam": "Coevorden",
+"lat": 52.66103,
+"lon": 6.74046,
+"admin1": "01"
+},
+{
+"naam": "Dalen",
+"lat": 52.69917,
+"lon": 6.75556,
+"admin1": "01"
+},
+{
+"naam": "De Loo",
+"lat": 52.67167,
+"lon": 6.73967,
+"admin1": "01"
+},
+{
+"naam": "De Wijk",
+"lat": 52.67333,
+"lon": 6.29028,
+"admin1": "01"
+},
+{
+"naam": "Diever",
+"lat": 52.85417,
+"lon": 6.31806,
+"admin1": "01"
+},
+{
+"naam": "Dwingeloo",
+"lat": 52.83417,
+"lon": 6.36944,
+"admin1": "01"
+},
+{
+"naam": "Eelde",
+"lat": 53.13583,
+"lon": 6.5625,
+"admin1": "01"
+},
+{
+"naam": "Eext",
+"lat": 53.0175,
+"lon": 6.73472,
+"admin1": "01"
+},
+{
+"naam": "Emmen",
+"lat": 52.77917,
+"lon": 6.90694,
+"admin1": "01"
+},
+{
+"naam": "Emmer-Compascuum",
+"lat": 52.81167,
+"lon": 7.04722,
+"admin1": "01"
+},
+{
+"naam": "Emmer-Erfscheidenveen",
+"lat": 52.80667,
+"lon": 6.98889,
+"admin1": "01"
+},
+{
+"naam": "Emmerhout",
+"lat": 52.78755,
+"lon": 6.93881,
+"admin1": "01"
+},
+{
+"naam": "Emmermeer",
+"lat": 52.80071,
+"lon": 6.89315,
+"admin1": "01"
+},
+{
+"naam": "Emmerschans",
+"lat": 52.80083,
+"lon": 6.93889,
+"admin1": "01"
+},
+{
+"naam": "Exloo",
+"lat": 52.8825,
+"lon": 6.86389,
+"admin1": "01"
+},
+{
+"naam": "Gasselte",
+"lat": 52.97167,
+"lon": 6.79444,
+"admin1": "01"
+},
+{
+"naam": "Gasselternijveen",
+"lat": 52.98833,
+"lon": 6.85278,
+"admin1": "01"
+},
+{
+"naam": "Gieten",
+"lat": 53.005,
+"lon": 6.76389,
+"admin1": "01"
+},
+{
+"naam": "Havelte",
+"lat": 52.76941,
+"lon": 6.24015,
+"admin1": "01"
+},
+{
+"naam": "Hollandscheveld",
+"lat": 52.70583,
+"lon": 6.53889,
+"admin1": "01"
+},
+{
+"naam": "Hoogeveen",
+"lat": 52.7225,
+"lon": 6.47639,
+"admin1": "01"
+},
+{
+"naam": "Klazienaveen",
+"lat": 52.72417,
+"lon": 6.99028,
+"admin1": "01"
+},
+{
+"naam": "Koekange",
+"lat": 52.69917,
+"lon": 6.31667,
+"admin1": "01"
+},
+{
+"naam": "Krakeel",
+"lat": 52.72339,
+"lon": 6.51146,
+"admin1": "01"
+},
+{
+"naam": "Marsdijk",
+"lat": 53.01766,
+"lon": 6.58527,
+"admin1": "01"
+},
+{
+"naam": "Meppel",
+"lat": 52.69583,
+"lon": 6.19444,
+"admin1": "01"
+},
+{
+"naam": "Nieuw-Amsterdam",
+"lat": 52.71167,
+"lon": 6.85556,
+"admin1": "01"
+},
+{
+"naam": "Nieuw-Buinen",
+"lat": 52.9625,
+"lon": 6.95,
+"admin1": "01"
+},
+{
+"naam": "Nieuw-Dordrecht",
+"lat": 52.74833,
+"lon": 6.96806,
+"admin1": "01"
+},
+{
+"naam": "Nieuw-Roden",
+"lat": 53.13167,
+"lon": 6.39722,
+"admin1": "01"
+},
+{
+"naam": "Noordbarge",
+"lat": 52.77237,
+"lon": 6.88713,
+"admin1": "01"
+},
+{
+"naam": "Norg",
+"lat": 53.06667,
+"lon": 6.45833,
+"admin1": "01"
+},
+{
+"naam": "Odoorn",
+"lat": 52.84917,
+"lon": 6.85139,
+"admin1": "01"
+},
+{
+"naam": "Oosterhesselen",
+"lat": 52.75417,
+"lon": 6.72222,
+"admin1": "01"
+},
+{
+"naam": "Paterswolde",
+"lat": 53.145,
+"lon": 6.56528,
+"admin1": "01"
+},
+{
+"naam": "Peelo",
+"lat": 53.01719,
+"lon": 6.56208,
+"admin1": "01"
+},
+{
+"naam": "Peize",
+"lat": 53.14667,
+"lon": 6.49722,
+"admin1": "01"
+},
+{
+"naam": "Pesse",
+"lat": 52.7725,
+"lon": 6.45417,
+"admin1": "01"
+},
+{
+"naam": "Roden",
+"lat": 53.1375,
+"lon": 6.42083,
+"admin1": "01"
+},
+{
+"naam": "Rolde",
+"lat": 52.98417,
+"lon": 6.64861,
+"admin1": "01"
+},
+{
+"naam": "Ruinen",
+"lat": 52.7625,
+"lon": 6.35417,
+"admin1": "01"
+},
+{
+"naam": "Ruinerwold",
+"lat": 52.72333,
+"lon": 6.24861,
+"admin1": "01"
+},
+{
+"naam": "Schoonebeek",
+"lat": 52.6625,
+"lon": 6.88472,
+"admin1": "01"
+},
+{
+"naam": "Schoonoord",
+"lat": 52.84583,
+"lon": 6.75556,
+"admin1": "01"
+},
+{
+"naam": "Sleen",
+"lat": 52.77167,
+"lon": 6.80278,
+"admin1": "01"
+},
+{
+"naam": "Tweede Exloërmond",
+"lat": 52.90917,
+"lon": 6.93333,
+"admin1": "01"
+},
+{
+"naam": "Tynaarlo",
+"lat": 53.0775,
+"lon": 6.61667,
+"admin1": "01"
+},
+{
+"naam": "Uffelte",
+"lat": 52.79,
+"lon": 6.28056,
+"admin1": "01"
+},
+{
+"naam": "Valthe",
+"lat": 52.84583,
+"lon": 6.89444,
+"admin1": "01"
+},
+{
+"naam": "Valthermond",
+"lat": 52.88167,
+"lon": 6.9625,
+"admin1": "01"
+},
+{
+"naam": "Veenoord",
+"lat": 52.71087,
+"lon": 6.84869,
+"admin1": "01"
+},
+{
+"naam": "Vledder",
+"lat": 52.85583,
+"lon": 6.20833,
+"admin1": "01"
+},
+{
+"naam": "Vries",
+"lat": 53.07417,
+"lon": 6.57778,
+"admin1": "01"
+},
+{
+"naam": "Weiteveen",
+"lat": 52.6725,
+"lon": 6.9875,
+"admin1": "01"
+},
+{
+"naam": "Westerbork",
+"lat": 52.85,
+"lon": 6.60833,
+"admin1": "01"
+},
+{
+"naam": "Westlaren",
+"lat": 53.0848,
+"lon": 6.66469,
+"admin1": "01"
+},
+{
+"naam": "Wolfsbos",
+"lat": 52.71734,
+"lon": 6.49881,
+"admin1": "01"
+},
+{
+"naam": "Zuidlaren",
+"lat": 53.09417,
+"lon": 6.68194,
+"admin1": "01"
+},
+{
+"naam": "Akkrum",
+"lat": 53.05024,
+"lon": 5.83087,
+"admin1": "02"
+},
+{
+"naam": "Aldeboarn",
+"lat": 53.05,
+"lon": 5.9,
+"admin1": "02"
+},
+{
+"naam": "Aldlân-Oost",
+"lat": 53.1886,
+"lon": 5.82825,
+"admin1": "02"
+},
+{
+"naam": "Appelscha",
+"lat": 52.95526,
+"lon": 6.35053,
+"admin1": "02"
+},
+{
+"naam": "Augustinusga",
+"lat": 53.21785,
+"lon": 6.1617,
+"admin1": "02"
+},
+{
+"naam": "Bakhuizen",
+"lat": 52.86975,
+"lon": 5.45926,
+"admin1": "02"
+},
+{
+"naam": "Bakkeveen",
+"lat": 53.08072,
+"lon": 6.25671,
+"admin1": "02"
+},
+{
+"naam": "Balk",
+"lat": 52.89756,
+"lon": 5.57964,
+"admin1": "02"
+},
+{
+"naam": "Beetsterzwaag",
+"lat": 53.05914,
+"lon": 6.07711,
+"admin1": "02"
+},
+{
+"naam": "Berltsum",
+"lat": 53.2437,
+"lon": 5.65101,
+"admin1": "02"
+},
+{
+"naam": "Bilgaard",
+"lat": 53.21551,
+"lon": 5.79574,
+"admin1": "02"
+},
+{
+"naam": "Bolsward",
+"lat": 53.06555,
+"lon": 5.53176,
+"admin1": "02"
+},
+{
+"naam": "Boornbergum",
+"lat": 53.08284,
+"lon": 6.04578,
+"admin1": "02"
+},
+{
+"naam": "Broeksterwâld",
+"lat": 53.27466,
+"lon": 5.99648,
+"admin1": "02"
+},
+{
+"naam": "Buitenpost",
+"lat": 53.25166,
+"lon": 6.14483,
+"admin1": "02"
+},
+{
+"naam": "Burdaard",
+"lat": 53.29421,
+"lon": 5.87897,
+"admin1": "02"
+},
+{
+"naam": "Burgum",
+"lat": 53.19243,
+"lon": 5.99009,
+"admin1": "02"
+},
+{
+"naam": "Camminghaburen",
+"lat": 53.20973,
+"lon": 5.84318,
+"admin1": "02"
+},
+{
+"naam": "Damwâld",
+"lat": 53.29046,
+"lon": 5.99785,
+"admin1": "02"
+},
+{
+"naam": "De Domp",
+"lat": 53.03113,
+"lon": 5.67716,
+"admin1": "02"
+},
+{
+"naam": "De Drait",
+"lat": 53.09743,
+"lon": 6.06791,
+"admin1": "02"
+},
+{
+"naam": "De Greiden",
+"lat": 52.9496,
+"lon": 5.91366,
+"admin1": "02"
+},
+{
+"naam": "De Knipe",
+"lat": 52.96829,
+"lon": 5.97116,
+"admin1": "02"
+},
+{
+"naam": "De Westereen",
+"lat": 53.25731,
+"lon": 6.0363,
+"admin1": "02"
+},
+{
+"naam": "Dokkum",
+"lat": 53.32224,
+"lon": 5.99697,
+"admin1": "02"
+},
+{
+"naam": "Donkerbroek",
+"lat": 53.01734,
+"lon": 6.23927,
+"admin1": "02"
+},
+{
+"naam": "Drachten",
+"lat": 53.11254,
+"lon": 6.0989,
+"admin1": "02"
+},
+{
+"naam": "Drachtstercompagnie",
+"lat": 53.13462,
+"lon": 6.14153,
+"admin1": "02"
+},
+{
+"naam": "Drogeham",
+"lat": 53.20213,
+"lon": 6.11183,
+"admin1": "02"
+},
+{
+"naam": "Dronryp",
+"lat": 53.2,
+"lon": 5.65,
+"admin1": "02"
+},
+{
+"naam": "Eastermar",
+"lat": 53.17466,
+"lon": 6.05999,
+"admin1": "02"
+},
+{
+"naam": "Echtenerbrug",
+"lat": 52.87141,
+"lon": 5.82147,
+"admin1": "02"
+},
+{
+"naam": "Feanwâlden",
+"lat": 53.23558,
+"lon": 5.98832,
+"admin1": "02"
+},
+{
+"naam": "Ferwert",
+"lat": 53.33784,
+"lon": 5.82533,
+"admin1": "02"
+},
+{
+"naam": "Franeker",
+"lat": 53.18546,
+"lon": 5.54123,
+"admin1": "02"
+},
+{
+"naam": "Garyp",
+"lat": 53.16667,
+"lon": 5.96667,
+"admin1": "02"
+},
+{
+"naam": "Gorredijk",
+"lat": 53.00659,
+"lon": 6.06402,
+"admin1": "02"
+},
+{
+"naam": "Goutum",
+"lat": 53.17734,
+"lon": 5.8037,
+"admin1": "02"
+},
+{
+"naam": "Grou",
+"lat": 53.09456,
+"lon": 5.83745,
+"admin1": "02"
+},
+{
+"naam": "Gytsjerk",
+"lat": 53.24293,
+"lon": 5.89502,
+"admin1": "02"
+},
+{
+"naam": "Hallum",
+"lat": 53.30657,
+"lon": 5.78379,
+"admin1": "02"
+},
+{
+"naam": "Harkema",
+"lat": 53.18333,
+"lon": 6.13333,
+"admin1": "02"
+},
+{
+"naam": "Harlingen",
+"lat": 53.17477,
+"lon": 5.42244,
+"admin1": "02"
+},
+{
+"naam": "Haulerwijk",
+"lat": 53.06468,
+"lon": 6.33453,
+"admin1": "02"
+},
+{
+"naam": "Heechterp",
+"lat": 53.20963,
+"lon": 5.8225,
+"admin1": "02"
+},
+{
+"naam": "Heeg",
+"lat": 52.9686,
+"lon": 5.61075,
+"admin1": "02"
+},
+{
+"naam": "Heerenveen",
+"lat": 52.95929,
+"lon": 5.91854,
+"admin1": "02"
+},
+{
+"naam": "Hoek",
+"lat": 53.20455,
+"lon": 5.80192,
+"admin1": "02"
+},
+{
+"naam": "Hollum",
+"lat": 53.4394,
+"lon": 5.63805,
+"admin1": "02"
+},
+{
+"naam": "Holwerd",
+"lat": 53.36815,
+"lon": 5.90073,
+"admin1": "02"
+},
+{
+"naam": "Huizum",
+"lat": 53.1917,
+"lon": 5.81119,
+"admin1": "02"
+},
+{
+"naam": "Hurdegaryp",
+"lat": 53.21333,
+"lon": 5.94137,
+"admin1": "02"
+},
+{
+"naam": "IJlst",
+"lat": 53.01009,
+"lon": 5.62312,
+"admin1": "02"
+},
+{
+"naam": "Jirnsum",
+"lat": 53.07753,
+"lon": 5.79254,
+"admin1": "02"
+},
+{
+"naam": "Joure",
+"lat": 52.9657,
+"lon": 5.80301,
+"admin1": "02"
+},
+{
+"naam": "Jubbega",
+"lat": 53.00396,
+"lon": 6.12183,
+"admin1": "02"
+},
+{
+"naam": "Kollum",
+"lat": 53.27695,
+"lon": 6.15293,
+"admin1": "02"
+},
+{
+"naam": "Kollumersweach",
+"lat": 53.26224,
+"lon": 6.07544,
+"admin1": "02"
+},
+{
+"naam": "Kootstertille",
+"lat": 53.21261,
+"lon": 6.09209,
+"admin1": "02"
+},
+{
+"naam": "Koudum",
+"lat": 52.91551,
+"lon": 5.44834,
+"admin1": "02"
+},
+{
+"naam": "Langweer",
+"lat": 52.95836,
+"lon": 5.72173,
+"admin1": "02"
+},
+{
+"naam": "Leeuwarden",
+"lat": 53.20271,
+"lon": 5.80973,
+"admin1": "02"
+},
+{
+"naam": "Lemmer",
+"lat": 52.84618,
+"lon": 5.70912,
+"admin1": "02"
+},
+{
+"naam": "Makkum",
+"lat": 53.05458,
+"lon": 5.40231,
+"admin1": "02"
+},
+{
+"naam": "Mantgum",
+"lat": 53.12865,
+"lon": 5.71924,
+"admin1": "02"
+},
+{
+"naam": "Marrum",
+"lat": 53.32277,
+"lon": 5.80198,
+"admin1": "02"
+},
+{
+"naam": "Marsum",
+"lat": 53.2105,
+"lon": 5.72637,
+"admin1": "02"
+},
+{
+"naam": "Menaam",
+"lat": 53.21797,
+"lon": 5.66124,
+"admin1": "02"
+},
+{
+"naam": "Minnertsga",
+"lat": 53.25104,
+"lon": 5.59513,
+"admin1": "02"
+},
+{
+"naam": "Nes",
+"lat": 53.44502,
+"lon": 5.774,
+"admin1": "02"
+},
+{
+"naam": "Nes",
+"lat": 53.05207,
+"lon": 5.85223,
+"admin1": "02"
+},
+{
+"naam": "Nieuwehorne",
+"lat": 52.95113,
+"lon": 6.06342,
+"admin1": "02"
+},
+{
+"naam": "Noardburgum",
+"lat": 53.22135,
+"lon": 6.00523,
+"admin1": "02"
+},
+{
+"naam": "Noordwolde",
+"lat": 52.88964,
+"lon": 6.14153,
+"admin1": "02"
+},
+{
+"naam": "Oentsjerk",
+"lat": 53.25,
+"lon": 5.9,
+"admin1": "02"
+},
+{
+"naam": "Oldeberkoop",
+"lat": 52.93788,
+"lon": 6.13089,
+"admin1": "02"
+},
+{
+"naam": "Oost-Vlieland",
+"lat": 53.29703,
+"lon": 5.07431,
+"admin1": "02"
+},
+{
+"naam": "Oosterwolde",
+"lat": 52.99164,
+"lon": 6.29096,
+"admin1": "02"
+},
+{
+"naam": "Opeinde",
+"lat": 53.1341,
+"lon": 6.05656,
+"admin1": "02"
+},
+{
+"naam": "Oppenhuizen",
+"lat": 53.01194,
+"lon": 5.69495,
+"admin1": "02"
+},
+{
+"naam": "Oranjewoud",
+"lat": 52.94579,
+"lon": 5.95038,
+"admin1": "02"
+},
+{
+"naam": "Oudega",
+"lat": 53.12504,
+"lon": 5.99888,
+"admin1": "02"
+},
+{
+"naam": "Oudehaske",
+"lat": 52.95709,
+"lon": 5.87095,
+"admin1": "02"
+},
+{
+"naam": "Oudemirdum",
+"lat": 52.85019,
+"lon": 5.53544,
+"admin1": "02"
+},
+{
+"naam": "Oudeschoot",
+"lat": 52.93343,
+"lon": 5.95579,
+"admin1": "02"
+},
+{
+"naam": "Rottevalle",
+"lat": 53.14523,
+"lon": 6.10411,
+"admin1": "02"
+},
+{
+"naam": "Scharnegoutum",
+"lat": 53.06051,
+"lon": 5.67822,
+"admin1": "02"
+},
+{
+"naam": "Schiermonnikoog",
+"lat": 53.48025,
+"lon": 6.15209,
+"admin1": "02"
+},
+{
+"naam": "Sexbierum",
+"lat": 53.21823,
+"lon": 5.48402,
+"admin1": "02"
+},
+{
+"naam": "Sint Annaparochie",
+"lat": 53.2762,
+"lon": 5.65727,
+"admin1": "02"
+},
+{
+"naam": "Sint Jacobiparochie",
+"lat": 53.27291,
+"lon": 5.60354,
+"admin1": "02"
+},
+{
+"naam": "Sint Nicolaasga",
+"lat": 52.92293,
+"lon": 5.74242,
+"admin1": "02"
+},
+{
+"naam": "Sintjohannesga",
+"lat": 52.93157,
+"lon": 5.85588,
+"admin1": "02"
+},
+{
+"naam": "Sneek",
+"lat": 53.03297,
+"lon": 5.6589,
+"admin1": "02"
+},
+{
+"naam": "Stadsfenne",
+"lat": 53.03987,
+"lon": 5.67844,
+"admin1": "02"
+},
+{
+"naam": "Stiens",
+"lat": 53.26234,
+"lon": 5.75769,
+"admin1": "02"
+},
+{
+"naam": "Surhuisterveen",
+"lat": 53.18477,
+"lon": 6.17031,
+"admin1": "02"
+},
+{
+"naam": "Ternaard",
+"lat": 53.38203,
+"lon": 5.96523,
+"admin1": "02"
+},
+{
+"naam": "Tijnje",
+"lat": 53.03058,
+"lon": 5.99193,
+"admin1": "02"
+},
+{
+"naam": "Tinga",
+"lat": 53.02064,
+"lon": 5.64575,
+"admin1": "02"
+},
+{
+"naam": "Twijzel",
+"lat": 53.23152,
+"lon": 6.08952,
+"admin1": "02"
+},
+{
+"naam": "Twijzelerheide",
+"lat": 53.24015,
+"lon": 6.04591,
+"admin1": "02"
+},
+{
+"naam": "Tytsjerk",
+"lat": 53.21343,
+"lon": 5.90961,
+"admin1": "02"
+},
+{
+"naam": "Tzum",
+"lat": 53.15899,
+"lon": 5.56277,
+"admin1": "02"
+},
+{
+"naam": "Tzummarum",
+"lat": 53.23733,
+"lon": 5.54612,
+"admin1": "02"
+},
+{
+"naam": "Ureterp",
+"lat": 53.09244,
+"lon": 6.16718,
+"admin1": "02"
+},
+{
+"naam": "Warga",
+"lat": 53.15145,
+"lon": 5.84404,
+"admin1": "02"
+},
+{
+"naam": "West-Terschelling",
+"lat": 53.35911,
+"lon": 5.21482,
+"admin1": "02"
+},
+{
+"naam": "Westeinde",
+"lat": 53.20853,
+"lon": 5.76812,
+"admin1": "02"
+},
+{
+"naam": "Wijnjewoude",
+"lat": 53.05814,
+"lon": 6.2047,
+"admin1": "02"
+},
+{
+"naam": "Wirdum",
+"lat": 53.14893,
+"lon": 5.80387,
+"admin1": "02"
+},
+{
+"naam": "Witmarsum",
+"lat": 53.10452,
+"lon": 5.46902,
+"admin1": "02"
+},
+{
+"naam": "Wolvega",
+"lat": 52.87545,
+"lon": 5.99691,
+"admin1": "02"
+},
+{
+"naam": "Wommels",
+"lat": 53.10883,
+"lon": 5.58749,
+"admin1": "02"
+},
+{
+"naam": "Workum",
+"lat": 52.97969,
+"lon": 5.4471,
+"admin1": "02"
+},
+{
+"naam": "Woudsend",
+"lat": 52.94357,
+"lon": 5.62843,
+"admin1": "02"
+},
+{
+"naam": "Zuiderburen",
+"lat": 53.1734,
+"lon": 5.84271,
+"admin1": "02"
+},
+{
+"naam": "'s-Heerenberg",
+"lat": 51.8767,
+"lon": 6.25877,
+"admin1": "03"
+},
+{
+"naam": "Aalst",
+"lat": 51.7825,
+"lon": 5.12778,
+"admin1": "03"
+},
+{
+"naam": "Aalten",
+"lat": 51.925,
+"lon": 6.58056,
+"admin1": "03"
+},
+{
+"naam": "Afferden",
+"lat": 51.88,
+"lon": 5.63472,
+"admin1": "03"
+},
+{
+"naam": "Alverna",
+"lat": 51.80417,
+"lon": 5.75972,
+"admin1": "03"
+},
+{
+"naam": "Ammerzoden",
+"lat": 51.74917,
+"lon": 5.22083,
+"admin1": "03"
+},
+{
+"naam": "Andelst",
+"lat": 51.90833,
+"lon": 5.72917,
+"admin1": "03"
+},
+{
+"naam": "Angeren",
+"lat": 51.91583,
+"lon": 5.95833,
+"admin1": "03"
+},
+{
+"naam": "Angerlo",
+"lat": 51.99583,
+"lon": 6.13472,
+"admin1": "03"
+},
+{
+"naam": "Anklaar",
+"lat": 52.23111,
+"lon": 5.98497,
+"admin1": "03"
+},
+{
+"naam": "Apeldoorn",
+"lat": 52.21,
+"lon": 5.96944,
+"admin1": "03"
+},
+{
+"naam": "Arnhem",
+"lat": 51.98,
+"lon": 5.91111,
+"admin1": "03"
+},
+{
+"naam": "Babberich",
+"lat": 51.9075,
+"lon": 6.11111,
+"admin1": "03"
+},
+{
+"naam": "Bakenberg",
+"lat": 52.00511,
+"lon": 5.8771,
+"admin1": "03"
+},
+{
+"naam": "Barneveld",
+"lat": 52.14,
+"lon": 5.58472,
+"admin1": "03"
+},
+{
+"naam": "Beek gem Montferland",
+"lat": 51.90667,
+"lon": 6.1875,
+"admin1": "03"
+},
+{
+"naam": "Beekbergen",
+"lat": 52.16,
+"lon": 5.96389,
+"admin1": "03"
+},
+{
+"naam": "Beesd",
+"lat": 51.8875,
+"lon": 5.19167,
+"admin1": "03"
+},
+{
+"naam": "Beltrum",
+"lat": 52.06667,
+"lon": 6.56389,
+"admin1": "03"
+},
+{
+"naam": "Bemmel",
+"lat": 51.89167,
+"lon": 5.89861,
+"admin1": "03"
+},
+{
+"naam": "Bennekom",
+"lat": 51.99833,
+"lon": 5.67639,
+"admin1": "03"
+},
+{
+"naam": "Berg en Bos",
+"lat": 52.22009,
+"lon": 5.9334,
+"admin1": "03"
+},
+{
+"naam": "Berg en Dal",
+"lat": 51.82167,
+"lon": 5.91667,
+"admin1": "03"
+},
+{
+"naam": "Bergharen",
+"lat": 51.85083,
+"lon": 5.66944,
+"admin1": "03"
+},
+{
+"naam": "Beuningen",
+"lat": 51.86083,
+"lon": 5.76667,
+"admin1": "03"
+},
+{
+"naam": "Beusichem",
+"lat": 51.95,
+"lon": 5.29167,
+"admin1": "03"
+},
+{
+"naam": "Binnenstad",
+"lat": 52.21304,
+"lon": 5.95957,
+"admin1": "03"
+},
+{
+"naam": "Borculo",
+"lat": 52.11583,
+"lon": 6.52222,
+"admin1": "03"
+},
+{
+"naam": "Brakel",
+"lat": 51.8175,
+"lon": 5.09028,
+"admin1": "03"
+},
+{
+"naam": "Brakkenstein",
+"lat": 51.81324,
+"lon": 5.86539,
+"admin1": "03"
+},
+{
+"naam": "Bredevoort",
+"lat": 51.94167,
+"lon": 6.62083,
+"admin1": "03"
+},
+{
+"naam": "Bredeweg",
+"lat": 51.76019,
+"lon": 5.94189,
+"admin1": "03"
+},
+{
+"naam": "Brinkhorst",
+"lat": 52.21302,
+"lon": 5.95167,
+"admin1": "03"
+},
+{
+"naam": "Bruchem",
+"lat": 51.78667,
+"lon": 5.23611,
+"admin1": "03"
+},
+{
+"naam": "Brummelhof",
+"lat": 52.20503,
+"lon": 5.96789,
+"admin1": "03"
+},
+{
+"naam": "Brummen",
+"lat": 52.09,
+"lon": 6.15556,
+"admin1": "03"
+},
+{
+"naam": "Buren",
+"lat": 51.91167,
+"lon": 5.33194,
+"admin1": "03"
+},
+{
+"naam": "Burgemeesterswijk",
+"lat": 51.98943,
+"lon": 5.89597,
+"admin1": "03"
+},
+{
+"naam": "Componistenkwartier",
+"lat": 52.18977,
+"lon": 5.96609,
+"admin1": "03"
+},
+{
+"naam": "Corlaer",
+"lat": 52.21639,
+"lon": 5.46535,
+"admin1": "03"
+},
+{
+"naam": "Culemborg",
+"lat": 51.955,
+"lon": 5.22778,
+"admin1": "03"
+},
+{
+"naam": "De Bouwhof",
+"lat": 52.18546,
+"lon": 5.94704,
+"admin1": "03"
+},
+{
+"naam": "De Haven",
+"lat": 52.21045,
+"lon": 5.97407,
+"admin1": "03"
+},
+{
+"naam": "De Heeze",
+"lat": 52.20061,
+"lon": 5.95365,
+"admin1": "03"
+},
+{
+"naam": "De Mheen",
+"lat": 52.21954,
+"lon": 5.99141,
+"admin1": "03"
+},
+{
+"naam": "Deest",
+"lat": 51.89,
+"lon": 5.66667,
+"admin1": "03"
+},
+{
+"naam": "Deil",
+"lat": 51.88417,
+"lon": 5.24306,
+"admin1": "03"
+},
+{
+"naam": "Didam",
+"lat": 51.94083,
+"lon": 6.13194,
+"admin1": "03"
+},
+{
+"naam": "Dieren",
+"lat": 52.0512,
+"lon": 6.103,
+"admin1": "03"
+},
+{
+"naam": "Dinxperlo",
+"lat": 51.86417,
+"lon": 6.4875,
+"admin1": "03"
+},
+{
+"naam": "Dodewaard",
+"lat": 51.9125,
+"lon": 5.65556,
+"admin1": "03"
+},
+{
+"naam": "Doesburg",
+"lat": 52.06667,
+"lon": 5.61667,
+"admin1": "03"
+},
+{
+"naam": "Doesburg",
+"lat": 52.0125,
+"lon": 6.13889,
+"admin1": "03"
+},
+{
+"naam": "Doetinchem",
+"lat": 51.965,
+"lon": 6.28889,
+"admin1": "03"
+},
+{
+"naam": "Doornenburg",
+"lat": 51.89,
+"lon": 6.0,
+"admin1": "03"
+},
+{
+"naam": "Doornspijk",
+"lat": 52.41833,
+"lon": 5.81806,
+"admin1": "03"
+},
+{
+"naam": "Doornsteeg",
+"lat": 52.23,
+"lon": 5.45417,
+"admin1": "03"
+},
+{
+"naam": "Doorwerth",
+"lat": 51.97917,
+"lon": 5.79722,
+"admin1": "03"
+},
+{
+"naam": "Driehuizen",
+"lat": 52.20879,
+"lon": 5.94442,
+"admin1": "03"
+},
+{
+"naam": "Driel",
+"lat": 51.95917,
+"lon": 5.81389,
+"admin1": "03"
+},
+{
+"naam": "Drumpt",
+"lat": 51.897,
+"lon": 5.41043,
+"admin1": "03"
+},
+{
+"naam": "Druten",
+"lat": 51.88833,
+"lon": 5.60556,
+"admin1": "03"
+},
+{
+"naam": "Duiven",
+"lat": 51.94667,
+"lon": 6.01389,
+"admin1": "03"
+},
+{
+"naam": "Ede",
+"lat": 52.03333,
+"lon": 5.65833,
+"admin1": "03"
+},
+{
+"naam": "Ederveen",
+"lat": 52.06333,
+"lon": 5.57778,
+"admin1": "03"
+},
+{
+"naam": "Eefde",
+"lat": 52.16667,
+"lon": 6.225,
+"admin1": "03"
+},
+{
+"naam": "Eerbeek",
+"lat": 52.105,
+"lon": 6.05833,
+"admin1": "03"
+},
+{
+"naam": "Eibergen",
+"lat": 52.1,
+"lon": 6.64861,
+"admin1": "03"
+},
+{
+"naam": "Elburg",
+"lat": 52.4475,
+"lon": 5.84306,
+"admin1": "03"
+},
+{
+"naam": "Elden",
+"lat": 51.95833,
+"lon": 5.88194,
+"admin1": "03"
+},
+{
+"naam": "Ellecom",
+"lat": 52.0325,
+"lon": 6.0875,
+"admin1": "03"
+},
+{
+"naam": "Elspeet",
+"lat": 52.29167,
+"lon": 5.78889,
+"admin1": "03"
+},
+{
+"naam": "Elst",
+"lat": 51.91917,
+"lon": 5.84167,
+"admin1": "03"
+},
+{
+"naam": "Emst",
+"lat": 52.31583,
+"lon": 5.97361,
+"admin1": "03"
+},
+{
+"naam": "Epe",
+"lat": 52.3475,
+"lon": 5.98333,
+"admin1": "03"
+},
+{
+"naam": "Epse",
+"lat": 52.225,
+"lon": 6.2,
+"admin1": "03"
+},
+{
+"naam": "Ermelo",
+"lat": 52.29833,
+"lon": 5.62222,
+"admin1": "03"
+},
+{
+"naam": "Etten",
+"lat": 51.91667,
+"lon": 6.33611,
+"admin1": "03"
+},
+{
+"naam": "Gaanderen",
+"lat": 51.92859,
+"lon": 6.34634,
+"admin1": "03"
+},
+{
+"naam": "Gameren",
+"lat": 51.80083,
+"lon": 5.20417,
+"admin1": "03"
+},
+{
+"naam": "Garderen",
+"lat": 52.23083,
+"lon": 5.71389,
+"admin1": "03"
+},
+{
+"naam": "Geitenkamp",
+"lat": 52.00379,
+"lon": 5.93862,
+"admin1": "03"
+},
+{
+"naam": "Geldermalsen",
+"lat": 51.88083,
+"lon": 5.28889,
+"admin1": "03"
+},
+{
+"naam": "Geldermalsen-West",
+"lat": 51.87968,
+"lon": 5.28015,
+"admin1": "03"
+},
+{
+"naam": "Gendringen",
+"lat": 51.87333,
+"lon": 6.37639,
+"admin1": "03"
+},
+{
+"naam": "Gendt",
+"lat": 51.8775,
+"lon": 5.97083,
+"admin1": "03"
+},
+{
+"naam": "Giesbeek",
+"lat": 51.99333,
+"lon": 6.06667,
+"admin1": "03"
+},
+{
+"naam": "Gorssel",
+"lat": 52.20167,
+"lon": 6.20139,
+"admin1": "03"
+},
+{
+"naam": "Groenlo",
+"lat": 52.04167,
+"lon": 6.61111,
+"admin1": "03"
+},
+{
+"naam": "Groesbeek",
+"lat": 51.77667,
+"lon": 5.93611,
+"admin1": "03"
+},
+{
+"naam": "Groessen",
+"lat": 51.93167,
+"lon": 6.02639,
+"admin1": "03"
+},
+{
+"naam": "Gulden Bodem",
+"lat": 51.99428,
+"lon": 5.8908,
+"admin1": "03"
+},
+{
+"naam": "Haaften",
+"lat": 51.81583,
+"lon": 5.21111,
+"admin1": "03"
+},
+{
+"naam": "Haalderen",
+"lat": 51.8875,
+"lon": 5.92917,
+"admin1": "03"
+},
+{
+"naam": "Harderwijk",
+"lat": 52.34167,
+"lon": 5.62083,
+"admin1": "03"
+},
+{
+"naam": "Harskamp",
+"lat": 52.13,
+"lon": 5.75278,
+"admin1": "03"
+},
+{
+"naam": "Hatert",
+"lat": 51.80635,
+"lon": 5.83057,
+"admin1": "03"
+},
+{
+"naam": "Hattem",
+"lat": 52.475,
+"lon": 6.06389,
+"admin1": "03"
+},
+{
+"naam": "Hattemerbroek",
+"lat": 52.47417,
+"lon": 6.02222,
+"admin1": "03"
+},
+{
+"naam": "Hedel",
+"lat": 51.74802,
+"lon": 5.26134,
+"admin1": "03"
+},
+{
+"naam": "Heelsum",
+"lat": 51.98417,
+"lon": 5.75833,
+"admin1": "03"
+},
+{
+"naam": "Heerde",
+"lat": 52.38723,
+"lon": 6.04016,
+"admin1": "03"
+},
+{
+"naam": "Heerewaarden",
+"lat": 51.81769,
+"lon": 5.393,
+"admin1": "03"
+},
+{
+"naam": "Hees",
+"lat": 51.84136,
+"lon": 5.82846,
+"admin1": "03"
+},
+{
+"naam": "Hengelo",
+"lat": 52.05083,
+"lon": 6.30972,
+"admin1": "03"
+},
+{
+"naam": "Hengstdal",
+"lat": 51.83333,
+"lon": 5.88333,
+"admin1": "03"
+},
+{
+"naam": "Herwijnen",
+"lat": 51.82667,
+"lon": 5.12917,
+"admin1": "03"
+},
+{
+"naam": "Het Loo",
+"lat": 52.2339,
+"lon": 5.95275,
+"admin1": "03"
+},
+{
+"naam": "Heteren",
+"lat": 51.95667,
+"lon": 5.75556,
+"admin1": "03"
+},
+{
+"naam": "Heumen",
+"lat": 51.765,
+"lon": 5.84444,
+"admin1": "03"
+},
+{
+"naam": "Hierden",
+"lat": 52.35833,
+"lon": 5.67778,
+"admin1": "03"
+},
+{
+"naam": "Hoevelaken",
+"lat": 52.175,
+"lon": 5.45833,
+"admin1": "03"
+},
+{
+"naam": "Hoogkamp",
+"lat": 51.9963,
+"lon": 5.88026,
+"admin1": "03"
+},
+{
+"naam": "Horssen",
+"lat": 51.85583,
+"lon": 5.60972,
+"admin1": "03"
+},
+{
+"naam": "Huissen",
+"lat": 51.93833,
+"lon": 5.93333,
+"admin1": "03"
+},
+{
+"naam": "Hummelo",
+"lat": 52.00417,
+"lon": 6.23333,
+"admin1": "03"
+},
+{
+"naam": "Hunnerberg",
+"lat": 51.84209,
+"lon": 5.87876,
+"admin1": "03"
+},
+{
+"naam": "Ingen",
+"lat": 51.95917,
+"lon": 5.48472,
+"admin1": "03"
+},
+{
+"naam": "Keijenborg",
+"lat": 52.02917,
+"lon": 6.29444,
+"admin1": "03"
+},
+{
+"naam": "Kerkdriel",
+"lat": 51.77167,
+"lon": 5.33472,
+"admin1": "03"
+},
+{
+"naam": "Kerschoten",
+"lat": 52.23333,
+"lon": 5.96667,
+"admin1": "03"
+},
+{
+"naam": "Kesteren",
+"lat": 51.935,
+"lon": 5.56944,
+"admin1": "03"
+},
+{
+"naam": "Kootwijkerbroek",
+"lat": 52.15083,
+"lon": 5.66944,
+"admin1": "03"
+},
+{
+"naam": "Laren",
+"lat": 52.19417,
+"lon": 6.36528,
+"admin1": "03"
+},
+{
+"naam": "Leesten",
+"lat": 52.1279,
+"lon": 6.23217,
+"admin1": "03"
+},
+{
+"naam": "Lent",
+"lat": 51.86167,
+"lon": 5.86667,
+"admin1": "03"
+},
+{
+"naam": "Leuth",
+"lat": 51.83917,
+"lon": 5.99167,
+"admin1": "03"
+},
+{
+"naam": "Lichtenvoorde",
+"lat": 51.98667,
+"lon": 6.56667,
+"admin1": "03"
+},
+{
+"naam": "Lienden",
+"lat": 51.94833,
+"lon": 5.51806,
+"admin1": "03"
+},
+{
+"naam": "Lindenholt",
+"lat": 51.8327,
+"lon": 5.7934,
+"admin1": "03"
+},
+{
+"naam": "Lobith",
+"lat": 51.8625,
+"lon": 6.11806,
+"admin1": "03"
+},
+{
+"naam": "Lochem",
+"lat": 52.15917,
+"lon": 6.41111,
+"admin1": "03"
+},
+{
+"naam": "Loenen",
+"lat": 52.1175,
+"lon": 6.01944,
+"admin1": "03"
+},
+{
+"naam": "Lunteren",
+"lat": 52.085,
+"lon": 5.62222,
+"admin1": "03"
+},
+{
+"naam": "Malburgen West",
+"lat": 51.96811,
+"lon": 5.89743,
+"admin1": "03"
+},
+{
+"naam": "Matendonk",
+"lat": 52.19766,
+"lon": 6.01115,
+"admin1": "03"
+},
+{
+"naam": "Matendreef",
+"lat": 52.19993,
+"lon": 5.98592,
+"admin1": "03"
+},
+{
+"naam": "Matengaarde",
+"lat": 52.19793,
+"lon": 5.9957,
+"admin1": "03"
+},
+{
+"naam": "Matenhoeve",
+"lat": 52.19056,
+"lon": 6.01338,
+"admin1": "03"
+},
+{
+"naam": "Matenhorst",
+"lat": 52.20482,
+"lon": 5.99304,
+"admin1": "03"
+},
+{
+"naam": "Matenveld",
+"lat": 52.18767,
+"lon": 5.99879,
+"admin1": "03"
+},
+{
+"naam": "Maurik",
+"lat": 51.96083,
+"lon": 5.42222,
+"admin1": "03"
+},
+{
+"naam": "Meteren",
+"lat": 51.865,
+"lon": 5.28333,
+"admin1": "03"
+},
+{
+"naam": "Nederhemert",
+"lat": 51.76518,
+"lon": 5.16817,
+"admin1": "03"
+},
+{
+"naam": "Nederhemert-Noord",
+"lat": 51.76322,
+"lon": 5.17305,
+"admin1": "03"
+},
+{
+"naam": "Nederwoud",
+"lat": 52.10083,
+"lon": 5.57083,
+"admin1": "03"
+},
+{
+"naam": "Neede",
+"lat": 52.13417,
+"lon": 6.61389,
+"admin1": "03"
+},
+{
+"naam": "Nieuw-Wehl",
+"lat": 51.9675,
+"lon": 6.17361,
+"admin1": "03"
+},
+{
+"naam": "Nijkerk",
+"lat": 52.22,
+"lon": 5.48611,
+"admin1": "03"
+},
+{
+"naam": "Nijkerkerveen",
+"lat": 52.195,
+"lon": 5.46667,
+"admin1": "03"
+},
+{
+"naam": "Nijmegen",
+"lat": 51.8425,
+"lon": 5.85278,
+"admin1": "03"
+},
+{
+"naam": "Nunspeet",
+"lat": 52.37917,
+"lon": 5.78611,
+"admin1": "03"
+},
+{
+"naam": "Ochten",
+"lat": 51.91,
+"lon": 5.56944,
+"admin1": "03"
+},
+{
+"naam": "Oldebroek",
+"lat": 52.445,
+"lon": 5.90139,
+"admin1": "03"
+},
+{
+"naam": "Ooij",
+"lat": 51.85465,
+"lon": 5.93915,
+"admin1": "03"
+},
+{
+"naam": "Oosseld",
+"lat": 51.94926,
+"lon": 6.31242,
+"admin1": "03"
+},
+{
+"naam": "Oostendorp",
+"lat": 52.44722,
+"lon": 5.85443,
+"admin1": "03"
+},
+{
+"naam": "Oosterbeek",
+"lat": 51.98583,
+"lon": 5.84583,
+"admin1": "03"
+},
+{
+"naam": "Oosterhout",
+"lat": 51.88,
+"lon": 5.82639,
+"admin1": "03"
+},
+{
+"naam": "Ooy",
+"lat": 51.91917,
+"lon": 6.05833,
+"admin1": "03"
+},
+{
+"naam": "Ooyerhoek",
+"lat": 52.12838,
+"lon": 6.22307,
+"admin1": "03"
+},
+{
+"naam": "Ophemert",
+"lat": 51.845,
+"lon": 5.3875,
+"admin1": "03"
+},
+{
+"naam": "Opheusden",
+"lat": 51.93167,
+"lon": 5.63194,
+"admin1": "03"
+},
+{
+"naam": "Opijnen",
+"lat": 51.82917,
+"lon": 5.29861,
+"admin1": "03"
+},
+{
+"naam": "Orden",
+"lat": 52.20113,
+"lon": 5.93417,
+"admin1": "03"
+},
+{
+"naam": "Otterlo",
+"lat": 52.1,
+"lon": 5.77222,
+"admin1": "03"
+},
+{
+"naam": "Overasselt",
+"lat": 51.76,
+"lon": 5.78889,
+"admin1": "03"
+},
+{
+"naam": "Pannerden",
+"lat": 51.89083,
+"lon": 6.03889,
+"admin1": "03"
+},
+{
+"naam": "Puiflijk",
+"lat": 51.87833,
+"lon": 5.59028,
+"admin1": "03"
+},
+{
+"naam": "Putten",
+"lat": 52.25917,
+"lon": 5.60694,
+"admin1": "03"
+},
+{
+"naam": "Renkum",
+"lat": 51.97667,
+"lon": 5.73333,
+"admin1": "03"
+},
+{
+"naam": "Rheden",
+"lat": 52.005,
+"lon": 6.02917,
+"admin1": "03"
+},
+{
+"naam": "Rivierenkwartier",
+"lat": 52.18914,
+"lon": 5.97665,
+"admin1": "03"
+},
+{
+"naam": "Rossum",
+"lat": 51.80083,
+"lon": 5.33333,
+"admin1": "03"
+},
+{
+"naam": "Rozendaal",
+"lat": 52.00583,
+"lon": 5.9625,
+"admin1": "03"
+},
+{
+"naam": "Ruurlo",
+"lat": 52.08833,
+"lon": 6.45,
+"admin1": "03"
+},
+{
+"naam": "Scherpenzeel",
+"lat": 52.08,
+"lon": 5.48889,
+"admin1": "03"
+},
+{
+"naam": "Silvolde",
+"lat": 51.90917,
+"lon": 6.3875,
+"admin1": "03"
+},
+{
+"naam": "Sluisoord",
+"lat": 52.22291,
+"lon": 5.98145,
+"admin1": "03"
+},
+{
+"naam": "Spainkbos",
+"lat": 52.22228,
+"lon": 5.94738,
+"admin1": "03"
+},
+{
+"naam": "Sprengenbos",
+"lat": 52.21902,
+"lon": 5.94163,
+"admin1": "03"
+},
+{
+"naam": "Sprengenweg-Noord",
+"lat": 52.21839,
+"lon": 5.95068,
+"admin1": "03"
+},
+{
+"naam": "Sprenkelaar",
+"lat": 52.22512,
+"lon": 5.99922,
+"admin1": "03"
+},
+{
+"naam": "Staatsliedenkwartier",
+"lat": 52.19951,
+"lon": 5.97691,
+"admin1": "03"
+},
+{
+"naam": "Steenderen",
+"lat": 52.06417,
+"lon": 6.1875,
+"admin1": "03"
+},
+{
+"naam": "Stegeslag",
+"lat": 51.94151,
+"lon": 6.06194,
+"admin1": "03"
+},
+{
+"naam": "Sterrenberg",
+"lat": 51.9935,
+"lon": 5.88387,
+"admin1": "03"
+},
+{
+"naam": "Terborg",
+"lat": 51.92,
+"lon": 6.35417,
+"admin1": "03"
+},
+{
+"naam": "Terschuur",
+"lat": 52.165,
+"lon": 5.51667,
+"admin1": "03"
+},
+{
+"naam": "Terwolde",
+"lat": 52.28333,
+"lon": 6.1,
+"admin1": "03"
+},
+{
+"naam": "Tiel",
+"lat": 51.88667,
+"lon": 5.42917,
+"admin1": "03"
+},
+{
+"naam": "Tolkamer",
+"lat": 51.855,
+"lon": 6.10278,
+"admin1": "03"
+},
+{
+"naam": "Tricht",
+"lat": 51.89083,
+"lon": 5.26806,
+"admin1": "03"
+},
+{
+"naam": "Twello",
+"lat": 52.23667,
+"lon": 6.10278,
+"admin1": "03"
+},
+{
+"naam": "Uddel",
+"lat": 52.25917,
+"lon": 5.78056,
+"admin1": "03"
+},
+{
+"naam": "Ugchelen",
+"lat": 52.18464,
+"lon": 5.93177,
+"admin1": "03"
+},
+{
+"naam": "Ulft",
+"lat": 51.89,
+"lon": 6.37778,
+"admin1": "03"
+},
+{
+"naam": "Vaassen",
+"lat": 52.28583,
+"lon": 5.96667,
+"admin1": "03"
+},
+{
+"naam": "Valburg",
+"lat": 51.91167,
+"lon": 5.79028,
+"admin1": "03"
+},
+{
+"naam": "Valendries",
+"lat": 51.80658,
+"lon": 5.73445,
+"admin1": "03"
+},
+{
+"naam": "Varsseveld",
+"lat": 51.94333,
+"lon": 6.45833,
+"admin1": "03"
+},
+{
+"naam": "Veldhuizen",
+"lat": 52.04442,
+"lon": 5.64201,
+"admin1": "03"
+},
+{
+"naam": "Velp",
+"lat": 51.995,
+"lon": 5.97361,
+"admin1": "03"
+},
+{
+"naam": "Vogelkwartier",
+"lat": 52.19777,
+"lon": 5.96721,
+"admin1": "03"
+},
+{
+"naam": "Voorst",
+"lat": 52.17,
+"lon": 6.14167,
+"admin1": "03"
+},
+{
+"naam": "Voorthuizen",
+"lat": 52.18667,
+"lon": 5.60556,
+"admin1": "03"
+},
+{
+"naam": "Vorden",
+"lat": 52.105,
+"lon": 6.30972,
+"admin1": "03"
+},
+{
+"naam": "Vredenburg",
+"lat": 51.95355,
+"lon": 5.90284,
+"admin1": "03"
+},
+{
+"naam": "Vuren",
+"lat": 51.825,
+"lon": 5.04583,
+"admin1": "03"
+},
+{
+"naam": "Waardenburg",
+"lat": 51.8325,
+"lon": 5.25694,
+"admin1": "03"
+},
+{
+"naam": "Wageningen",
+"lat": 51.97,
+"lon": 5.66667,
+"admin1": "03"
+},
+{
+"naam": "Wapenveld",
+"lat": 52.42917,
+"lon": 6.07361,
+"admin1": "03"
+},
+{
+"naam": "Warnsveld",
+"lat": 52.1375,
+"lon": 6.23056,
+"admin1": "03"
+},
+{
+"naam": "Wehl",
+"lat": 51.96083,
+"lon": 6.21111,
+"admin1": "03"
+},
+{
+"naam": "Wekerom",
+"lat": 52.1125,
+"lon": 5.71389,
+"admin1": "03"
+},
+{
+"naam": "Welgelegen",
+"lat": 52.21397,
+"lon": 5.97643,
+"admin1": "03"
+},
+{
+"naam": "Westeneng",
+"lat": 52.1275,
+"lon": 5.71528,
+"admin1": "03"
+},
+{
+"naam": "Westenenk",
+"lat": 52.19624,
+"lon": 5.95656,
+"admin1": "03"
+},
+{
+"naam": "Westervoort",
+"lat": 51.95583,
+"lon": 5.97222,
+"admin1": "03"
+},
+{
+"naam": "Wezep",
+"lat": 52.46167,
+"lon": 5.99861,
+"admin1": "03"
+},
+{
+"naam": "Wijchen",
+"lat": 51.80917,
+"lon": 5.725,
+"admin1": "03"
+},
+{
+"naam": "Winkewijert",
+"lat": 52.19082,
+"lon": 5.95794,
+"admin1": "03"
+},
+{
+"naam": "Winterswijk",
+"lat": 51.9725,
+"lon": 6.71944,
+"admin1": "03"
+},
+{
+"naam": "Wisch",
+"lat": 51.92648,
+"lon": 6.41705,
+"admin1": "03"
+},
+{
+"naam": "Wolfheze",
+"lat": 52.00333,
+"lon": 5.79028,
+"admin1": "03"
+},
+{
+"naam": "Woudhuis",
+"lat": 52.21323,
+"lon": 6.01124,
+"admin1": "03"
+},
+{
+"naam": "Zaltbommel",
+"lat": 51.81,
+"lon": 5.24444,
+"admin1": "03"
+},
+{
+"naam": "Zeddam",
+"lat": 51.90333,
+"lon": 6.25972,
+"admin1": "03"
+},
+{
+"naam": "Zelhem",
+"lat": 52.00667,
+"lon": 6.34861,
+"admin1": "03"
+},
+{
+"naam": "Zetten",
+"lat": 51.92833,
+"lon": 5.71389,
+"admin1": "03"
+},
+{
+"naam": "Zevenaar",
+"lat": 51.93,
+"lon": 6.07083,
+"admin1": "03"
+},
+{
+"naam": "Zevenhuizen",
+"lat": 52.21816,
+"lon": 5.97841,
+"admin1": "03"
+},
+{
+"naam": "Zoelen",
+"lat": 51.9125,
+"lon": 5.40278,
+"admin1": "03"
+},
+{
+"naam": "Zonnemaat",
+"lat": 51.93115,
+"lon": 6.06235,
+"admin1": "03"
+},
+{
+"naam": "Zuilichem",
+"lat": 51.80917,
+"lon": 5.13611,
+"admin1": "03"
+},
+{
+"naam": "Zutphen",
+"lat": 52.13833,
+"lon": 6.20139,
+"admin1": "03"
+},
+{
+"naam": "t Harde",
+"lat": 52.41583,
+"lon": 5.87917,
+"admin1": "03"
+},
+{
+"naam": "t Loo",
+"lat": 52.44417,
+"lon": 5.95139,
+"admin1": "03"
+},
+{
+"naam": "Aduard",
+"lat": 53.25667,
+"lon": 6.45972,
+"admin1": "04"
+},
+{
+"naam": "Alteveer",
+"lat": 53.05083,
+"lon": 6.99444,
+"admin1": "04"
+},
+{
+"naam": "Appingedam",
+"lat": 53.32167,
+"lon": 6.85833,
+"admin1": "04"
+},
+{
+"naam": "Baflo",
+"lat": 53.3625,
+"lon": 6.51389,
+"admin1": "04"
+},
+{
+"naam": "Bedum",
+"lat": 53.30083,
+"lon": 6.60278,
+"admin1": "04"
+},
+{
+"naam": "Bellingwolde",
+"lat": 53.11583,
+"lon": 7.16528,
+"admin1": "04"
+},
+{
+"naam": "Blijham",
+"lat": 53.10917,
+"lon": 7.07639,
+"admin1": "04"
+},
+{
+"naam": "Coendersborg",
+"lat": 53.1941,
+"lon": 6.58944,
+"admin1": "04"
+},
+{
+"naam": "De Wijert",
+"lat": 53.1945,
+"lon": 6.57117,
+"admin1": "04"
+},
+{
+"naam": "Delfzijl",
+"lat": 53.33,
+"lon": 6.91806,
+"admin1": "04"
+},
+{
+"naam": "Eenrum",
+"lat": 53.3625,
+"lon": 6.45833,
+"admin1": "04"
+},
+{
+"naam": "Eexta",
+"lat": 53.16386,
+"lon": 6.98344,
+"admin1": "04"
+},
+{
+"naam": "Farmsum",
+"lat": 53.32167,
+"lon": 6.92639,
+"admin1": "04"
+},
+{
+"naam": "Glimmen",
+"lat": 53.13917,
+"lon": 6.62917,
+"admin1": "04"
+},
+{
+"naam": "Grijpskerk",
+"lat": 53.2625,
+"lon": 6.30833,
+"admin1": "04"
+},
+{
+"naam": "Groningen",
+"lat": 53.21917,
+"lon": 6.56667,
+"admin1": "04"
+},
+{
+"naam": "Grootegast",
+"lat": 53.2125,
+"lon": 6.27361,
+"admin1": "04"
+},
+{
+"naam": "Haren",
+"lat": 53.17209,
+"lon": 6.60931,
+"admin1": "04"
+},
+{
+"naam": "Harkstede",
+"lat": 53.21333,
+"lon": 6.69861,
+"admin1": "04"
+},
+{
+"naam": "Heiligerlee",
+"lat": 53.15667,
+"lon": 7.00972,
+"admin1": "04"
+},
+{
+"naam": "Helpman",
+"lat": 53.19794,
+"lon": 6.57978,
+"admin1": "04"
+},
+{
+"naam": "Hoogezand",
+"lat": 53.16167,
+"lon": 6.76111,
+"admin1": "04"
+},
+{
+"naam": "Hoogkerk",
+"lat": 53.21083,
+"lon": 6.50139,
+"admin1": "04"
+},
+{
+"naam": "Korrewegwijk",
+"lat": 53.23235,
+"lon": 6.56804,
+"admin1": "04"
+},
+{
+"naam": "Leek",
+"lat": 53.1625,
+"lon": 6.37639,
+"admin1": "04"
+},
+{
+"naam": "Leens",
+"lat": 53.36,
+"lon": 6.37917,
+"admin1": "04"
+},
+{
+"naam": "Loppersum",
+"lat": 53.33167,
+"lon": 6.74722,
+"admin1": "04"
+},
+{
+"naam": "Marum",
+"lat": 53.14417,
+"lon": 6.2625,
+"admin1": "04"
+},
+{
+"naam": "Meeden",
+"lat": 53.14,
+"lon": 6.92639,
+"admin1": "04"
+},
+{
+"naam": "Middelstum",
+"lat": 53.34667,
+"lon": 6.64167,
+"admin1": "04"
+},
+{
+"naam": "Midwolda",
+"lat": 53.195,
+"lon": 7.01389,
+"admin1": "04"
+},
+{
+"naam": "Musselkanaal",
+"lat": 52.9325,
+"lon": 7.01528,
+"admin1": "04"
+},
+{
+"naam": "Niekerk",
+"lat": 53.225,
+"lon": 6.35278,
+"admin1": "04"
+},
+{
+"naam": "Nieuwe Pekela",
+"lat": 53.07917,
+"lon": 6.96528,
+"admin1": "04"
+},
+{
+"naam": "Nieuwolda",
+"lat": 53.24417,
+"lon": 6.975,
+"admin1": "04"
+},
+{
+"naam": "Noordbroek",
+"lat": 53.195,
+"lon": 6.87361,
+"admin1": "04"
+},
+{
+"naam": "Noordhorn",
+"lat": 53.26167,
+"lon": 6.39583,
+"admin1": "04"
+},
+{
+"naam": "Obergum",
+"lat": 53.33333,
+"lon": 6.51667,
+"admin1": "04"
+},
+{
+"naam": "Oldehove",
+"lat": 53.30333,
+"lon": 6.39583,
+"admin1": "04"
+},
+{
+"naam": "Ommelanderwijk",
+"lat": 53.08917,
+"lon": 6.90556,
+"admin1": "04"
+},
+{
+"naam": "Onstwedde",
+"lat": 53.035,
+"lon": 7.04028,
+"admin1": "04"
+},
+{
+"naam": "Oosterhoogebrug",
+"lat": 53.22892,
+"lon": 6.60141,
+"admin1": "04"
+},
+{
+"naam": "Oosterpark",
+"lat": 53.2237,
+"lon": 6.5853,
+"admin1": "04"
+},
+{
+"naam": "Opende",
+"lat": 53.17333,
+"lon": 6.19861,
+"admin1": "04"
+},
+{
+"naam": "Oude Pekela",
+"lat": 53.10417,
+"lon": 7.00972,
+"admin1": "04"
+},
+{
+"naam": "Reitdiep",
+"lat": 53.24252,
+"lon": 6.51957,
+"admin1": "04"
+},
+{
+"naam": "Sappemeer",
+"lat": 53.16417,
+"lon": 6.79028,
+"admin1": "04"
+},
+{
+"naam": "Scheemda",
+"lat": 53.17333,
+"lon": 6.97222,
+"admin1": "04"
+},
+{
+"naam": "Schildwolde",
+"lat": 53.23327,
+"lon": 6.81566,
+"admin1": "04"
+},
+{
+"naam": "Sellingen",
+"lat": 52.94583,
+"lon": 7.15139,
+"admin1": "04"
+},
+{
+"naam": "Selwerd",
+"lat": 53.2352,
+"lon": 6.5545,
+"admin1": "04"
+},
+{
+"naam": "Siddeburen",
+"lat": 53.25,
+"lon": 6.86806,
+"admin1": "04"
+},
+{
+"naam": "Slochteren",
+"lat": 53.22078,
+"lon": 6.80547,
+"admin1": "04"
+},
+{
+"naam": "Spijk",
+"lat": 53.39,
+"lon": 6.8375,
+"admin1": "04"
+},
+{
+"naam": "Stadskanaal",
+"lat": 52.98947,
+"lon": 6.9504,
+"admin1": "04"
+},
+{
+"naam": "Ten Boer",
+"lat": 53.27583,
+"lon": 6.69444,
+"admin1": "04"
+},
+{
+"naam": "Ter Apel",
+"lat": 52.87667,
+"lon": 7.05972,
+"admin1": "04"
+},
+{
+"naam": "Tuikwerd",
+"lat": 53.31667,
+"lon": 6.9,
+"admin1": "04"
+},
+{
+"naam": "Uithuizen",
+"lat": 53.4075,
+"lon": 6.67083,
+"admin1": "04"
+},
+{
+"naam": "Uithuizermeeden",
+"lat": 53.41417,
+"lon": 6.72361,
+"admin1": "04"
+},
+{
+"naam": "Ulrum",
+"lat": 53.35917,
+"lon": 6.33333,
+"admin1": "04"
+},
+{
+"naam": "Usquert",
+"lat": 53.4025,
+"lon": 6.61111,
+"admin1": "04"
+},
+{
+"naam": "Veendam",
+"lat": 53.10667,
+"lon": 6.87917,
+"admin1": "04"
+},
+{
+"naam": "Vlagtwedde",
+"lat": 53.0275,
+"lon": 7.10833,
+"admin1": "04"
+},
+{
+"naam": "Wagenborgen",
+"lat": 53.25583,
+"lon": 6.93333,
+"admin1": "04"
+},
+{
+"naam": "Warffum",
+"lat": 53.3925,
+"lon": 6.55833,
+"admin1": "04"
+},
+{
+"naam": "Westerlee",
+"lat": 53.14583,
+"lon": 6.9875,
+"admin1": "04"
+},
+{
+"naam": "Wildervank",
+"lat": 53.08083,
+"lon": 6.8625,
+"admin1": "04"
+},
+{
+"naam": "Winschoten",
+"lat": 53.14417,
+"lon": 7.03472,
+"admin1": "04"
+},
+{
+"naam": "Winsum",
+"lat": 53.33,
+"lon": 6.52083,
+"admin1": "04"
+},
+{
+"naam": "Zoutkamp",
+"lat": 53.33917,
+"lon": 6.30417,
+"admin1": "04"
+},
+{
+"naam": "Zuidbroek",
+"lat": 53.16333,
+"lon": 6.86111,
+"admin1": "04"
+},
+{
+"naam": "Zuidhorn",
+"lat": 53.24667,
+"lon": 6.40278,
+"admin1": "04"
+},
+{
+"naam": "Abdissenbosch",
+"lat": 50.91667,
+"lon": 6.03333,
+"admin1": "05"
+},
+{
+"naam": "Amby",
+"lat": 50.86215,
+"lon": 5.73226,
+"admin1": "05"
+},
+{
+"naam": "America",
+"lat": 51.43667,
+"lon": 5.97917,
+"admin1": "05"
+},
+{
+"naam": "Amstenrade",
+"lat": 50.93917,
+"lon": 5.92361,
+"admin1": "05"
+},
+{
+"naam": "Arcen",
+"lat": 51.47667,
+"lon": 6.18056,
+"admin1": "05"
+},
+{
+"naam": "Baarlo",
+"lat": 51.33083,
+"lon": 6.09444,
+"admin1": "05"
+},
+{
+"naam": "Banholt",
+"lat": 50.79,
+"lon": 5.80833,
+"admin1": "05"
+},
+{
+"naam": "Beegden",
+"lat": 51.18917,
+"lon": 5.91944,
+"admin1": "05"
+},
+{
+"naam": "Beek",
+"lat": 50.94083,
+"lon": 5.79722,
+"admin1": "05"
+},
+{
+"naam": "Beersdal",
+"lat": 50.90597,
+"lon": 5.9644,
+"admin1": "05"
+},
+{
+"naam": "Beesel",
+"lat": 51.26833,
+"lon": 6.03889,
+"admin1": "05"
+},
+{
+"naam": "Belfeld",
+"lat": 51.3125,
+"lon": 6.11528,
+"admin1": "05"
+},
+{
+"naam": "Belfort",
+"lat": 50.84698,
+"lon": 5.65991,
+"admin1": "05"
+},
+{
+"naam": "Berg",
+"lat": 51.00417,
+"lon": 5.77083,
+"admin1": "05"
+},
+{
+"naam": "Berg",
+"lat": 50.86167,
+"lon": 5.78333,
+"admin1": "05"
+},
+{
+"naam": "Beringe",
+"lat": 51.33667,
+"lon": 5.94861,
+"admin1": "05"
+},
+{
+"naam": "Biesland",
+"lat": 50.8411,
+"lon": 5.67573,
+"admin1": "05"
+},
+{
+"naam": "Bleijerheide",
+"lat": 50.85538,
+"lon": 6.06789,
+"admin1": "05"
+},
+{
+"naam": "Blerick",
+"lat": 51.37167,
+"lon": 6.14861,
+"admin1": "05"
+},
+{
+"naam": "Blitterswijck",
+"lat": 51.53083,
+"lon": 6.10833,
+"admin1": "05"
+},
+{
+"naam": "Bocholtz",
+"lat": 50.81833,
+"lon": 6.00556,
+"admin1": "05"
+},
+{
+"naam": "Borgharen",
+"lat": 50.8775,
+"lon": 5.6875,
+"admin1": "05"
+},
+{
+"naam": "Born",
+"lat": 51.03167,
+"lon": 5.80972,
+"admin1": "05"
+},
+{
+"naam": "Brabander",
+"lat": 51.53583,
+"lon": 5.96806,
+"admin1": "05"
+},
+{
+"naam": "Brachterbeek",
+"lat": 51.14694,
+"lon": 5.90446,
+"admin1": "05"
+},
+{
+"naam": "Broekhem",
+"lat": 50.87119,
+"lon": 5.82069,
+"admin1": "05"
+},
+{
+"naam": "Broeksittard",
+"lat": 51.0029,
+"lon": 5.89511,
+"admin1": "05"
+},
+{
+"naam": "Brukske",
+"lat": 51.52101,
+"lon": 5.9927,
+"admin1": "05"
+},
+{
+"naam": "Brunssum",
+"lat": 50.94667,
+"lon": 5.97083,
+"admin1": "05"
+},
+{
+"naam": "Buchten",
+"lat": 51.04333,
+"lon": 5.80972,
+"admin1": "05"
+},
+{
+"naam": "Budschop",
+"lat": 51.28511,
+"lon": 5.75898,
+"admin1": "05"
+},
+{
+"naam": "Bunde",
+"lat": 50.89667,
+"lon": 5.73194,
+"admin1": "05"
+},
+{
+"naam": "Chevremont",
+"lat": 50.87554,
+"lon": 6.05981,
+"admin1": "05"
+},
+{
+"naam": "De Heeg",
+"lat": 50.82454,
+"lon": 5.72309,
+"admin1": "05"
+},
+{
+"naam": "Doenrade",
+"lat": 50.9675,
+"lon": 5.90694,
+"admin1": "05"
+},
+{
+"naam": "Echt",
+"lat": 51.10583,
+"lon": 5.87361,
+"admin1": "05"
+},
+{
+"naam": "Egchel",
+"lat": 51.31417,
+"lon": 5.97222,
+"admin1": "05"
+},
+{
+"naam": "Eijsden",
+"lat": 50.78,
+"lon": 5.7177,
+"admin1": "05"
+},
+{
+"naam": "Einighausen",
+"lat": 51.00167,
+"lon": 5.82778,
+"admin1": "05"
+},
+{
+"naam": "Elsloo",
+"lat": 50.94917,
+"lon": 5.77083,
+"admin1": "05"
+},
+{
+"naam": "Geleen",
+"lat": 50.97417,
+"lon": 5.82917,
+"admin1": "05"
+},
+{
+"naam": "Gennep",
+"lat": 51.69833,
+"lon": 5.97361,
+"admin1": "05"
+},
+{
+"naam": "Gracht",
+"lat": 50.85175,
+"lon": 6.02793,
+"admin1": "05"
+},
+{
+"naam": "Grashoek",
+"lat": 51.36083,
+"lon": 5.94306,
+"admin1": "05"
+},
+{
+"naam": "Grevenbicht",
+"lat": 51.03833,
+"lon": 5.775,
+"admin1": "05"
+},
+{
+"naam": "Gronsveld",
+"lat": 50.81083,
+"lon": 5.73056,
+"admin1": "05"
+},
+{
+"naam": "Grubbenvorst",
+"lat": 51.42,
+"lon": 6.14583,
+"admin1": "05"
+},
+{
+"naam": "Gulpen",
+"lat": 50.81583,
+"lon": 5.88889,
+"admin1": "05"
+},
+{
+"naam": "Guttecoven",
+"lat": 51.015,
+"lon": 5.81806,
+"admin1": "05"
+},
+{
+"naam": "Haanrade",
+"lat": 50.87981,
+"lon": 6.07411,
+"admin1": "05"
+},
+{
+"naam": "Haelen",
+"lat": 51.23583,
+"lon": 5.95694,
+"admin1": "05"
+},
+{
+"naam": "Heel",
+"lat": 51.17917,
+"lon": 5.89444,
+"admin1": "05"
+},
+{
+"naam": "Heer",
+"lat": 50.83836,
+"lon": 5.72989,
+"admin1": "05"
+},
+{
+"naam": "Heerlen",
+"lat": 50.88365,
+"lon": 5.98154,
+"admin1": "05"
+},
+{
+"naam": "Hegelsom",
+"lat": 51.43917,
+"lon": 6.03889,
+"admin1": "05"
+},
+{
+"naam": "Heide",
+"lat": 51.06833,
+"lon": 5.87222,
+"admin1": "05"
+},
+{
+"naam": "Heijen",
+"lat": 51.675,
+"lon": 5.98056,
+"admin1": "05"
+},
+{
+"naam": "Heksenberg",
+"lat": 50.92068,
+"lon": 5.97373,
+"admin1": "05"
+},
+{
+"naam": "Helden",
+"lat": 51.31917,
+"lon": 6.0,
+"admin1": "05"
+},
+{
+"naam": "Herkenbosch",
+"lat": 51.15333,
+"lon": 6.06389,
+"admin1": "05"
+},
+{
+"naam": "Herten",
+"lat": 51.18083,
+"lon": 5.9625,
+"admin1": "05"
+},
+{
+"naam": "Heugem",
+"lat": 50.82791,
+"lon": 5.70774,
+"admin1": "05"
+},
+{
+"naam": "Heythuysen",
+"lat": 51.25,
+"lon": 5.89861,
+"admin1": "05"
+},
+{
+"naam": "Hoensbroek",
+"lat": 50.92387,
+"lon": 5.92528,
+"admin1": "05"
+},
+{
+"naam": "Holtum",
+"lat": 51.0475,
+"lon": 5.82222,
+"admin1": "05"
+},
+{
+"naam": "Holz",
+"lat": 50.86415,
+"lon": 6.07424,
+"admin1": "05"
+},
+{
+"naam": "Hopel",
+"lat": 50.89245,
+"lon": 6.05046,
+"admin1": "05"
+},
+{
+"naam": "Horst",
+"lat": 51.45417,
+"lon": 6.05139,
+"admin1": "05"
+},
+{
+"naam": "Hout-Blerick",
+"lat": 51.35833,
+"lon": 6.13056,
+"admin1": "05"
+},
+{
+"naam": "Houthem",
+"lat": 50.8725,
+"lon": 5.79306,
+"admin1": "05"
+},
+{
+"naam": "Hulsberg",
+"lat": 50.88917,
+"lon": 5.85556,
+"admin1": "05"
+},
+{
+"naam": "Husken",
+"lat": 50.89567,
+"lon": 5.95648,
+"admin1": "05"
+},
+{
+"naam": "Kaalheide",
+"lat": 50.86505,
+"lon": 6.03643,
+"admin1": "05"
+},
+{
+"naam": "Kakert",
+"lat": 50.90414,
+"lon": 6.00463,
+"admin1": "05"
+},
+{
+"naam": "Keent",
+"lat": 51.24218,
+"lon": 5.70079,
+"admin1": "05"
+},
+{
+"naam": "Kelpen-Oler",
+"lat": 51.21817,
+"lon": 5.82602,
+"admin1": "05"
+},
+{
+"naam": "Kerensheide",
+"lat": 50.9721,
+"lon": 5.77666,
+"admin1": "05"
+},
+{
+"naam": "Kerkrade",
+"lat": 50.86583,
+"lon": 6.0625,
+"admin1": "05"
+},
+{
+"naam": "Kessel",
+"lat": 51.29167,
+"lon": 6.05417,
+"admin1": "05"
+},
+{
+"naam": "Klimmen",
+"lat": 50.87583,
+"lon": 5.88056,
+"admin1": "05"
+},
+{
+"naam": "Koningsbosch",
+"lat": 51.05167,
+"lon": 5.95833,
+"admin1": "05"
+},
+{
+"naam": "Koningslust",
+"lat": 51.3575,
+"lon": 5.99306,
+"admin1": "05"
+},
+{
+"naam": "Kruisberg",
+"lat": 50.94234,
+"lon": 5.96519,
+"admin1": "05"
+},
+{
+"naam": "Kunrade",
+"lat": 50.87769,
+"lon": 5.93107,
+"admin1": "05"
+},
+{
+"naam": "Lauradorp",
+"lat": 50.91229,
+"lon": 6.04591,
+"admin1": "05"
+},
+{
+"naam": "Leeuwen",
+"lat": 51.21032,
+"lon": 5.99862,
+"admin1": "05"
+},
+{
+"naam": "Leuken",
+"lat": 51.25288,
+"lon": 5.7346,
+"admin1": "05"
+},
+{
+"naam": "Leunen",
+"lat": 51.51,
+"lon": 5.97917,
+"admin1": "05"
+},
+{
+"naam": "Lichtenberg",
+"lat": 50.9022,
+"lon": 6.02523,
+"admin1": "05"
+},
+{
+"naam": "Limbricht",
+"lat": 51.01167,
+"lon": 5.8375,
+"admin1": "05"
+},
+{
+"naam": "Limmel",
+"lat": 50.86718,
+"lon": 5.70719,
+"admin1": "05"
+},
+{
+"naam": "Lindenheuvel",
+"lat": 50.98509,
+"lon": 5.81667,
+"admin1": "05"
+},
+{
+"naam": "Linne",
+"lat": 51.155,
+"lon": 5.93889,
+"admin1": "05"
+},
+{
+"naam": "Lomm",
+"lat": 51.44833,
+"lon": 6.17222,
+"admin1": "05"
+},
+{
+"naam": "Lottum",
+"lat": 51.46167,
+"lon": 6.16111,
+"admin1": "05"
+},
+{
+"naam": "Maasbracht",
+"lat": 51.13929,
+"lon": 5.88627,
+"admin1": "05"
+},
+{
+"naam": "Maasbree",
+"lat": 51.3575,
+"lon": 6.04861,
+"admin1": "05"
+},
+{
+"naam": "Maastricht",
+"lat": 50.84833,
+"lon": 5.68889,
+"admin1": "05"
+},
+{
+"naam": "Malberg",
+"lat": 50.86244,
+"lon": 5.65419,
+"admin1": "05"
+},
+{
+"naam": "Margraten",
+"lat": 50.82083,
+"lon": 5.82083,
+"admin1": "05"
+},
+{
+"naam": "Mariarade",
+"lat": 50.92906,
+"lon": 5.92738,
+"admin1": "05"
+},
+{
+"naam": "Mechelen",
+"lat": 50.79583,
+"lon": 5.92639,
+"admin1": "05"
+},
+{
+"naam": "Meerlo",
+"lat": 51.51333,
+"lon": 6.08472,
+"admin1": "05"
+},
+{
+"naam": "Meerssen",
+"lat": 50.8875,
+"lon": 5.75,
+"admin1": "05"
+},
+{
+"naam": "Meezenbroek",
+"lat": 50.8968,
+"lon": 5.99051,
+"admin1": "05"
+},
+{
+"naam": "Meijel",
+"lat": 51.34417,
+"lon": 5.88472,
+"admin1": "05"
+},
+{
+"naam": "Melderslo",
+"lat": 51.46167,
+"lon": 6.08611,
+"admin1": "05"
+},
+{
+"naam": "Melick",
+"lat": 51.15917,
+"lon": 6.01667,
+"admin1": "05"
+},
+{
+"naam": "Merkelbeek",
+"lat": 50.95389,
+"lon": 5.94069,
+"admin1": "05"
+},
+{
+"naam": "Merselo",
+"lat": 51.53,
+"lon": 5.92778,
+"admin1": "05"
+},
+{
+"naam": "Merum",
+"lat": 51.17333,
+"lon": 5.95972,
+"admin1": "05"
+},
+{
+"naam": "Milsbeek",
+"lat": 51.725,
+"lon": 5.94861,
+"admin1": "05"
+},
+{
+"naam": "Moesel",
+"lat": 51.23828,
+"lon": 5.71778,
+"admin1": "05"
+},
+{
+"naam": "Montfort",
+"lat": 51.12583,
+"lon": 5.94861,
+"admin1": "05"
+},
+{
+"naam": "Mook",
+"lat": 51.7525,
+"lon": 5.88194,
+"admin1": "05"
+},
+{
+"naam": "Munstergeleen",
+"lat": 50.975,
+"lon": 5.86389,
+"admin1": "05"
+},
+{
+"naam": "Nederweert",
+"lat": 51.28583,
+"lon": 5.74861,
+"admin1": "05"
+},
+{
+"naam": "Neerbeek",
+"lat": 50.95,
+"lon": 5.81528,
+"admin1": "05"
+},
+{
+"naam": "Nieuw-Bergen",
+"lat": 51.60333,
+"lon": 6.05417,
+"admin1": "05"
+},
+{
+"naam": "Nieuw-Lotbroek",
+"lat": 50.91283,
+"lon": 5.92798,
+"admin1": "05"
+},
+{
+"naam": "Nieuwdorp",
+"lat": 50.96216,
+"lon": 5.77297,
+"admin1": "05"
+},
+{
+"naam": "Nuth",
+"lat": 50.9175,
+"lon": 5.88611,
+"admin1": "05"
+},
+{
+"naam": "Obbicht",
+"lat": 51.02833,
+"lon": 5.78056,
+"admin1": "05"
+},
+{
+"naam": "Offenbeek",
+"lat": 51.28225,
+"lon": 6.095,
+"admin1": "05"
+},
+{
+"naam": "Oirlo",
+"lat": 51.51167,
+"lon": 6.0375,
+"admin1": "05"
+},
+{
+"naam": "Oirsbeek",
+"lat": 50.95083,
+"lon": 5.90833,
+"admin1": "05"
+},
+{
+"naam": "Oostrum",
+"lat": 51.52917,
+"lon": 6.01667,
+"admin1": "05"
+},
+{
+"naam": "Ophoven",
+"lat": 50.99036,
+"lon": 5.85868,
+"admin1": "05"
+},
+{
+"naam": "Ospel",
+"lat": 51.2975,
+"lon": 5.78472,
+"admin1": "05"
+},
+{
+"naam": "Ottersum",
+"lat": 51.70333,
+"lon": 5.98333,
+"admin1": "05"
+},
+{
+"naam": "Oud-Caberg",
+"lat": 50.86539,
+"lon": 5.66444,
+"admin1": "05"
+},
+{
+"naam": "Overhoven",
+"lat": 51.00869,
+"lon": 5.86628,
+"admin1": "05"
+},
+{
+"naam": "Panningen",
+"lat": 51.32667,
+"lon": 5.97917,
+"admin1": "05"
+},
+{
+"naam": "Passart",
+"lat": 50.92389,
+"lon": 5.94674,
+"admin1": "05"
+},
+{
+"naam": "Peij",
+"lat": 51.09417,
+"lon": 5.89583,
+"admin1": "05"
+},
+{
+"naam": "Posterholt",
+"lat": 51.12333,
+"lon": 6.03472,
+"admin1": "05"
+},
+{
+"naam": "Pottenberg",
+"lat": 50.85135,
+"lon": 5.65668,
+"admin1": "05"
+},
+{
+"naam": "Puth",
+"lat": 50.95417,
+"lon": 5.87361,
+"admin1": "05"
+},
+{
+"naam": "Reuver",
+"lat": 51.28417,
+"lon": 6.07778,
+"admin1": "05"
+},
+{
+"naam": "Roermond",
+"lat": 51.19417,
+"lon": 5.9875,
+"admin1": "05"
+},
+{
+"naam": "Roosteren",
+"lat": 51.08333,
+"lon": 5.81806,
+"admin1": "05"
+},
+{
+"naam": "Rothem",
+"lat": 50.87667,
+"lon": 5.73889,
+"admin1": "05"
+},
+{
+"naam": "Scharn",
+"lat": 50.85,
+"lon": 5.73333,
+"admin1": "05"
+},
+{
+"naam": "Schilberg",
+"lat": 51.09917,
+"lon": 5.88611,
+"admin1": "05"
+},
+{
+"naam": "Schimmert",
+"lat": 50.90667,
+"lon": 5.82361,
+"admin1": "05"
+},
+{
+"naam": "Schinnen",
+"lat": 50.94333,
+"lon": 5.88889,
+"admin1": "05"
+},
+{
+"naam": "Schinveld",
+"lat": 50.96917,
+"lon": 5.97917,
+"admin1": "05"
+},
+{
+"naam": "Sevenum",
+"lat": 51.4125,
+"lon": 6.0375,
+"admin1": "05"
+},
+{
+"naam": "Sibbe",
+"lat": 50.84417,
+"lon": 5.82639,
+"admin1": "05"
+},
+{
+"naam": "Simpelveld",
+"lat": 50.83417,
+"lon": 5.98194,
+"admin1": "05"
+},
+{
+"naam": "Sint Joost",
+"lat": 51.1175,
+"lon": 5.89861,
+"admin1": "05"
+},
+{
+"naam": "Sint Odiliënberg",
+"lat": 51.14333,
+"lon": 6.0,
+"admin1": "05"
+},
+{
+"naam": "Sittard",
+"lat": 50.99833,
+"lon": 5.86944,
+"admin1": "05"
+},
+{
+"naam": "Spaubeek",
+"lat": 50.94,
+"lon": 5.84306,
+"admin1": "05"
+},
+{
+"naam": "Spekholzerheide",
+"lat": 50.85559,
+"lon": 6.02471,
+"admin1": "05"
+},
+{
+"naam": "Stadbroek",
+"lat": 51.00187,
+"lon": 5.87656,
+"admin1": "05"
+},
+{
+"naam": "Stein",
+"lat": 50.96917,
+"lon": 5.76667,
+"admin1": "05"
+},
+{
+"naam": "Steyl",
+"lat": 51.33217,
+"lon": 6.11942,
+"admin1": "05"
+},
+{
+"naam": "Stramproy",
+"lat": 51.19417,
+"lon": 5.71944,
+"admin1": "05"
+},
+{
+"naam": "Tegelen",
+"lat": 51.34417,
+"lon": 6.13611,
+"admin1": "05"
+},
+{
+"naam": "Terwinselen",
+"lat": 50.86659,
+"lon": 6.02471,
+"admin1": "05"
+},
+{
+"naam": "Thorn",
+"lat": 51.16167,
+"lon": 5.84167,
+"admin1": "05"
+},
+{
+"naam": "Tienray",
+"lat": 51.495,
+"lon": 6.09306,
+"admin1": "05"
+},
+{
+"naam": "Ubachsberg",
+"lat": 50.85333,
+"lon": 5.94861,
+"admin1": "05"
+},
+{
+"naam": "Ulestraten",
+"lat": 50.90583,
+"lon": 5.78194,
+"admin1": "05"
+},
+{
+"naam": "Urmond",
+"lat": 50.99083,
+"lon": 5.77222,
+"admin1": "05"
+},
+{
+"naam": "Vaals",
+"lat": 50.77083,
+"lon": 6.01806,
+"admin1": "05"
+},
+{
+"naam": "Valkenburg",
+"lat": 50.86523,
+"lon": 5.83205,
+"admin1": "05"
+},
+{
+"naam": "Velden",
+"lat": 51.41167,
+"lon": 6.16806,
+"admin1": "05"
+},
+{
+"naam": "Veltum",
+"lat": 51.51954,
+"lon": 5.96032,
+"admin1": "05"
+},
+{
+"naam": "Venlo",
+"lat": 51.37,
+"lon": 6.16806,
+"admin1": "05"
+},
+{
+"naam": "Venray",
+"lat": 51.525,
+"lon": 5.975,
+"admin1": "05"
+},
+{
+"naam": "Vijlen",
+"lat": 50.78833,
+"lon": 5.96528,
+"admin1": "05"
+},
+{
+"naam": "Vlodrop",
+"lat": 51.13333,
+"lon": 6.07639,
+"admin1": "05"
+},
+{
+"naam": "Voerendaal",
+"lat": 50.88327,
+"lon": 5.92978,
+"admin1": "05"
+},
+{
+"naam": "Vrieheide",
+"lat": 50.92192,
+"lon": 5.96701,
+"admin1": "05"
+},
+{
+"naam": "Wanssum",
+"lat": 51.53583,
+"lon": 6.07639,
+"admin1": "05"
+},
+{
+"naam": "Waubach",
+"lat": 50.91833,
+"lon": 6.05,
+"admin1": "05"
+},
+{
+"naam": "Weert",
+"lat": 51.25167,
+"lon": 5.70694,
+"admin1": "05"
+},
+{
+"naam": "Well",
+"lat": 51.55,
+"lon": 6.08889,
+"admin1": "05"
+},
+{
+"naam": "Wellerlooi",
+"lat": 51.53417,
+"lon": 6.13611,
+"admin1": "05"
+},
+{
+"naam": "Wessem",
+"lat": 51.15954,
+"lon": 5.88146,
+"admin1": "05"
+},
+{
+"naam": "Wijlre",
+"lat": 50.83333,
+"lon": 5.89583,
+"admin1": "05"
+},
+{
+"naam": "Wijnandsrade",
+"lat": 50.90583,
+"lon": 5.88333,
+"admin1": "05"
+},
+{
+"naam": "Wolder",
+"lat": 50.83752,
+"lon": 5.65938,
+"admin1": "05"
+},
+{
+"naam": "Ysselsteyn",
+"lat": 51.49,
+"lon": 5.89722,
+"admin1": "05"
+},
+{
+"naam": "'s Gravenmoer",
+"lat": 51.65594,
+"lon": 4.94076,
+"admin1": "06"
+},
+{
+"naam": "'s-Hertogenbosch",
+"lat": 51.69917,
+"lon": 5.30417,
+"admin1": "06"
+},
+{
+"naam": "'t Hofke",
+"lat": 51.44943,
+"lon": 5.51926,
+"admin1": "06"
+},
+{
+"naam": "Aalburg",
+"lat": 51.75482,
+"lon": 5.13156,
+"admin1": "06"
+},
+{
+"naam": "Aalst",
+"lat": 51.39667,
+"lon": 5.47778,
+"admin1": "06"
+},
+{
+"naam": "Aarle-Rixtel",
+"lat": 51.50976,
+"lon": 5.63839,
+"admin1": "06"
+},
+{
+"naam": "Abcoven",
+"lat": 51.5275,
+"lon": 5.08333,
+"admin1": "06"
+},
+{
+"naam": "Akert",
+"lat": 51.41407,
+"lon": 5.5596,
+"admin1": "06"
+},
+{
+"naam": "Almkerk",
+"lat": 51.77083,
+"lon": 4.95972,
+"admin1": "06"
+},
+{
+"naam": "Alphen",
+"lat": 51.48167,
+"lon": 4.95833,
+"admin1": "06"
+},
+{
+"naam": "Andel",
+"lat": 51.78333,
+"lon": 5.05833,
+"admin1": "06"
+},
+{
+"naam": "Asten",
+"lat": 51.40417,
+"lon": 5.74861,
+"admin1": "06"
+},
+{
+"naam": "Baardwijk",
+"lat": 51.69246,
+"lon": 5.09628,
+"admin1": "06"
+},
+{
+"naam": "Baarle-Nassau",
+"lat": 51.4475,
+"lon": 4.92917,
+"admin1": "06"
+},
+{
+"naam": "Bakel",
+"lat": 51.50333,
+"lon": 5.74028,
+"admin1": "06"
+},
+{
+"naam": "Bavel",
+"lat": 51.56583,
+"lon": 4.83056,
+"admin1": "06"
+},
+{
+"naam": "Beek",
+"lat": 51.5289,
+"lon": 5.63382,
+"admin1": "06"
+},
+{
+"naam": "Beers",
+"lat": 51.72583,
+"lon": 5.82778,
+"admin1": "06"
+},
+{
+"naam": "Belcrum",
+"lat": 51.59911,
+"lon": 4.76994,
+"admin1": "06"
+},
+{
+"naam": "Bergeijk",
+"lat": 51.31917,
+"lon": 5.35833,
+"admin1": "06"
+},
+{
+"naam": "Bergen op Zoom",
+"lat": 51.495,
+"lon": 4.29167,
+"admin1": "06"
+},
+{
+"naam": "Berghem",
+"lat": 51.76991,
+"lon": 5.56827,
+"admin1": "06"
+},
+{
+"naam": "Berlicum",
+"lat": 51.6775,
+"lon": 5.4,
+"admin1": "06"
+},
+{
+"naam": "Besoijen",
+"lat": 51.68333,
+"lon": 5.05,
+"admin1": "06"
+},
+{
+"naam": "Best",
+"lat": 51.5075,
+"lon": 5.39028,
+"admin1": "06"
+},
+{
+"naam": "Besterd",
+"lat": 51.5638,
+"lon": 5.08658,
+"admin1": "06"
+},
+{
+"naam": "Biesdonk",
+"lat": 51.60613,
+"lon": 4.78515,
+"admin1": "06"
+},
+{
+"naam": "Bitswijk",
+"lat": 51.6687,
+"lon": 5.60921,
+"admin1": "06"
+},
+{
+"naam": "Blaarthem",
+"lat": 51.42501,
+"lon": 5.45784,
+"admin1": "06"
+},
+{
+"naam": "Bladel",
+"lat": 51.36833,
+"lon": 5.22083,
+"admin1": "06"
+},
+{
+"naam": "Boekel",
+"lat": 51.60333,
+"lon": 5.675,
+"admin1": "06"
+},
+{
+"naam": "Bosschenhoofd",
+"lat": 51.56083,
+"lon": 4.54028,
+"admin1": "06"
+},
+{
+"naam": "Boxmeer",
+"lat": 51.64667,
+"lon": 5.94722,
+"admin1": "06"
+},
+{
+"naam": "Boxtel",
+"lat": 51.59083,
+"lon": 5.32917,
+"admin1": "06"
+},
+{
+"naam": "Brand",
+"lat": 51.45839,
+"lon": 5.62427,
+"admin1": "06"
+},
+{
+"naam": "Breda",
+"lat": 51.58656,
+"lon": 4.77596,
+"admin1": "06"
+},
+{
+"naam": "Breugel",
+"lat": 51.5175,
+"lon": 5.51111,
+"admin1": "06"
+},
+{
+"naam": "Broekhoven",
+"lat": 51.54801,
+"lon": 5.09175,
+"admin1": "06"
+},
+{
+"naam": "Budel",
+"lat": 51.27167,
+"lon": 5.575,
+"admin1": "06"
+},
+{
+"naam": "Budel-Dorplein",
+"lat": 51.23667,
+"lon": 5.5875,
+"admin1": "06"
+},
+{
+"naam": "Budel-Schoot",
+"lat": 51.2475,
+"lon": 5.56528,
+"admin1": "06"
+},
+{
+"naam": "Chaam",
+"lat": 51.50583,
+"lon": 4.86111,
+"admin1": "06"
+},
+{
+"naam": "Coevering",
+"lat": 51.41742,
+"lon": 5.57463,
+"admin1": "06"
+},
+{
+"naam": "Cranendonck",
+"lat": 51.30417,
+"lon": 5.58889,
+"admin1": "06"
+},
+{
+"naam": "Cuijk",
+"lat": 51.73083,
+"lon": 5.87917,
+"admin1": "06"
+},
+{
+"naam": "De Blaak",
+"lat": 51.54626,
+"lon": 5.04465,
+"admin1": "06"
+},
+{
+"naam": "De Doornakkers",
+"lat": 51.43844,
+"lon": 5.50887,
+"admin1": "06"
+},
+{
+"naam": "De Kruiskamp",
+"lat": 51.69978,
+"lon": 5.26032,
+"admin1": "06"
+},
+{
+"naam": "De Reit",
+"lat": 51.56038,
+"lon": 5.04932,
+"admin1": "06"
+},
+{
+"naam": "De Rompert",
+"lat": 51.71667,
+"lon": 5.31667,
+"admin1": "06"
+},
+{
+"naam": "Den Dungen",
+"lat": 51.665,
+"lon": 5.37222,
+"admin1": "06"
+},
+{
+"naam": "Deuteren",
+"lat": 51.68667,
+"lon": 5.26667,
+"admin1": "06"
+},
+{
+"naam": "Diessen",
+"lat": 51.47583,
+"lon": 5.175,
+"admin1": "06"
+},
+{
+"naam": "Dinteloord",
+"lat": 51.635,
+"lon": 4.36944,
+"admin1": "06"
+},
+{
+"naam": "Dommelen",
+"lat": 51.34624,
+"lon": 5.43394,
+"admin1": "06"
+},
+{
+"naam": "Dongen",
+"lat": 51.62667,
+"lon": 4.93889,
+"admin1": "06"
+},
+{
+"naam": "Donk",
+"lat": 51.53843,
+"lon": 5.62914,
+"admin1": "06"
+},
+{
+"naam": "Doonheide",
+"lat": 51.56667,
+"lon": 5.69444,
+"admin1": "06"
+},
+{
+"naam": "Dorst",
+"lat": 51.59,
+"lon": 4.85694,
+"admin1": "06"
+},
+{
+"naam": "Duizel",
+"lat": 51.36833,
+"lon": 5.29722,
+"admin1": "06"
+},
+{
+"naam": "Dussen",
+"lat": 51.73083,
+"lon": 4.9625,
+"admin1": "06"
+},
+{
+"naam": "Eckart",
+"lat": 51.4732,
+"lon": 5.49449,
+"admin1": "06"
+},
+{
+"naam": "Eerde",
+"lat": 51.60417,
+"lon": 5.49861,
+"admin1": "06"
+},
+{
+"naam": "Eerschot",
+"lat": 51.56833,
+"lon": 5.47361,
+"admin1": "06"
+},
+{
+"naam": "Eersel",
+"lat": 51.3575,
+"lon": 5.31806,
+"admin1": "06"
+},
+{
+"naam": "Eindhoven",
+"lat": 51.44083,
+"lon": 5.47778,
+"admin1": "06"
+},
+{
+"naam": "Ekenrooi",
+"lat": 51.39656,
+"lon": 5.48624,
+"admin1": "06"
+},
+{
+"naam": "Elshout",
+"lat": 51.70083,
+"lon": 5.14167,
+"admin1": "06"
+},
+{
+"naam": "Enschot",
+"lat": 51.57846,
+"lon": 5.13885,
+"admin1": "06"
+},
+{
+"naam": "Erp",
+"lat": 51.6,
+"lon": 5.60694,
+"admin1": "06"
+},
+{
+"naam": "Esch",
+"lat": 51.61083,
+"lon": 5.29028,
+"admin1": "06"
+},
+{
+"naam": "Fijnaart",
+"lat": 51.6375,
+"lon": 4.46944,
+"admin1": "06"
+},
+{
+"naam": "Gageldonk",
+"lat": 51.60167,
+"lon": 4.73889,
+"admin1": "06"
+},
+{
+"naam": "Geenhoven",
+"lat": 51.35935,
+"lon": 5.46021,
+"admin1": "06"
+},
+{
+"naam": "Geertruidenberg",
+"lat": 51.70167,
+"lon": 4.85694,
+"admin1": "06"
+},
+{
+"naam": "Geffen",
+"lat": 51.74,
+"lon": 5.46389,
+"admin1": "06"
+},
+{
+"naam": "Geldrop",
+"lat": 51.42167,
+"lon": 5.55972,
+"admin1": "06"
+},
+{
+"naam": "Gemert",
+"lat": 51.55583,
+"lon": 5.69028,
+"admin1": "06"
+},
+{
+"naam": "Gemonde",
+"lat": 51.61833,
+"lon": 5.35694,
+"admin1": "06"
+},
+{
+"naam": "Genderen",
+"lat": 51.73583,
+"lon": 5.0875,
+"admin1": "06"
+},
+{
+"naam": "Genoenhuis",
+"lat": 51.40917,
+"lon": 5.53889,
+"admin1": "06"
+},
+{
+"naam": "Gerwen",
+"lat": 51.49,
+"lon": 5.5625,
+"admin1": "06"
+},
+{
+"naam": "Giessen",
+"lat": 51.79,
+"lon": 5.03056,
+"admin1": "06"
+},
+{
+"naam": "Gilze",
+"lat": 51.54417,
+"lon": 4.94028,
+"admin1": "06"
+},
+{
+"naam": "Ginneken",
+"lat": 51.56593,
+"lon": 4.7931,
+"admin1": "06"
+},
+{
+"naam": "Goirle",
+"lat": 51.52083,
+"lon": 5.06667,
+"admin1": "06"
+},
+{
+"naam": "Grasrijk",
+"lat": 51.43916,
+"lon": 5.41544,
+"admin1": "06"
+},
+{
+"naam": "Grave",
+"lat": 51.75902,
+"lon": 5.73882,
+"admin1": "06"
+},
+{
+"naam": "Groenewoud",
+"lat": 51.5386,
+"lon": 5.09028,
+"admin1": "06"
+},
+{
+"naam": "Haaren",
+"lat": 51.6025,
+"lon": 5.22222,
+"admin1": "06"
+},
+{
+"naam": "Haarsteeg",
+"lat": 51.71167,
+"lon": 5.19861,
+"admin1": "06"
+},
+{
+"naam": "Halsteren",
+"lat": 51.52834,
+"lon": 4.26785,
+"admin1": "06"
+},
+{
+"naam": "Handel",
+"lat": 51.58,
+"lon": 5.70972,
+"admin1": "06"
+},
+{
+"naam": "Hank",
+"lat": 51.735,
+"lon": 4.89722,
+"admin1": "06"
+},
+{
+"naam": "Hapert",
+"lat": 51.36833,
+"lon": 5.25694,
+"admin1": "06"
+},
+{
+"naam": "Haps",
+"lat": 51.68917,
+"lon": 5.86111,
+"admin1": "06"
+},
+{
+"naam": "Heerle",
+"lat": 51.51917,
+"lon": 4.35972,
+"admin1": "06"
+},
+{
+"naam": "Heesch",
+"lat": 51.73362,
+"lon": 5.52672,
+"admin1": "06"
+},
+{
+"naam": "Heesterakker",
+"lat": 51.4861,
+"lon": 5.49681,
+"admin1": "06"
+},
+{
+"naam": "Heeswijk-Dinther",
+"lat": 51.65083,
+"lon": 5.475,
+"admin1": "06"
+},
+{
+"naam": "Heeze",
+"lat": 51.3828,
+"lon": 5.57145,
+"admin1": "06"
+},
+{
+"naam": "Helmond",
+"lat": 51.48167,
+"lon": 5.66111,
+"admin1": "06"
+},
+{
+"naam": "Helvoirt",
+"lat": 51.63167,
+"lon": 5.23056,
+"admin1": "06"
+},
+{
+"naam": "Herpen",
+"lat": 51.77167,
+"lon": 5.64167,
+"admin1": "06"
+},
+{
+"naam": "Heusden",
+"lat": 51.73417,
+"lon": 5.13889,
+"admin1": "06"
+},
+{
+"naam": "Heusden",
+"lat": 51.38417,
+"lon": 5.76389,
+"admin1": "06"
+},
+{
+"naam": "Heusdenhout",
+"lat": 51.58811,
+"lon": 4.8193,
+"admin1": "06"
+},
+{
+"naam": "Hilvarenbeek",
+"lat": 51.48583,
+"lon": 5.1375,
+"admin1": "06"
+},
+{
+"naam": "Hoeven",
+"lat": 51.67206,
+"lon": 5.63444,
+"admin1": "06"
+},
+{
+"naam": "Hoeven",
+"lat": 51.57917,
+"lon": 4.58333,
+"admin1": "06"
+},
+{
+"naam": "Hoge Vucht",
+"lat": 51.60794,
+"lon": 4.7915,
+"admin1": "06"
+},
+{
+"naam": "Hooge Mierde",
+"lat": 51.3875,
+"lon": 5.12917,
+"admin1": "06"
+},
+{
+"naam": "Hooge Zwaluwe",
+"lat": 51.6875,
+"lon": 4.74444,
+"admin1": "06"
+},
+{
+"naam": "Hoogeloon",
+"lat": 51.3975,
+"lon": 5.26806,
+"admin1": "06"
+},
+{
+"naam": "Hoogerheide",
+"lat": 51.42417,
+"lon": 4.325,
+"admin1": "06"
+},
+{
+"naam": "Huijbergen",
+"lat": 51.4325,
+"lon": 4.37639,
+"admin1": "06"
+},
+{
+"naam": "Jagershoef",
+"lat": 51.4733,
+"lon": 5.4672,
+"admin1": "06"
+},
+{
+"naam": "Kalsdonk",
+"lat": 51.53973,
+"lon": 4.47111,
+"admin1": "06"
+},
+{
+"naam": "Klein-Zundert",
+"lat": 51.48083,
+"lon": 4.65417,
+"admin1": "06"
+},
+{
+"naam": "Klundert",
+"lat": 51.665,
+"lon": 4.53472,
+"admin1": "06"
+},
+{
+"naam": "Knegsel",
+"lat": 51.39917,
+"lon": 5.34583,
+"admin1": "06"
+},
+{
+"naam": "Korvel",
+"lat": 51.54954,
+"lon": 5.07079,
+"admin1": "06"
+},
+{
+"naam": "Krooswijk",
+"lat": 51.64665,
+"lon": 4.59203,
+"admin1": "06"
+},
+{
+"naam": "Kruisland",
+"lat": 51.56917,
+"lon": 4.40972,
+"admin1": "06"
+},
+{
+"naam": "Lage Mierde",
+"lat": 51.40583,
+"lon": 5.14722,
+"admin1": "06"
+},
+{
+"naam": "Lakerlopen",
+"lat": 51.43791,
+"lon": 5.50106,
+"admin1": "06"
+},
+{
+"naam": "Langenboom",
+"lat": 51.70417,
+"lon": 5.73056,
+"admin1": "06"
+},
+{
+"naam": "Leende",
+"lat": 51.35083,
+"lon": 5.55417,
+"admin1": "06"
+},
+{
+"naam": "Leest",
+"lat": 51.60983,
+"lon": 5.54312,
+"admin1": "06"
+},
+{
+"naam": "Lepelstraat",
+"lat": 51.54833,
+"lon": 4.27639,
+"admin1": "06"
+},
+{
+"naam": "Liempde",
+"lat": 51.56917,
+"lon": 5.37222,
+"admin1": "06"
+},
+{
+"naam": "Lierop",
+"lat": 51.41917,
+"lon": 5.67917,
+"admin1": "06"
+},
+{
+"naam": "Lieshout",
+"lat": 51.52036,
+"lon": 5.59479,
+"admin1": "06"
+},
+{
+"naam": "Liessel",
+"lat": 51.41333,
+"lon": 5.82083,
+"admin1": "06"
+},
+{
+"naam": "Lievendaal",
+"lat": 51.44219,
+"lon": 5.43405,
+"admin1": "06"
+},
+{
+"naam": "Lith",
+"lat": 51.80583,
+"lon": 5.43889,
+"admin1": "06"
+},
+{
+"naam": "Loon op Zand",
+"lat": 51.6275,
+"lon": 5.075,
+"admin1": "06"
+},
+{
+"naam": "Loosbroek",
+"lat": 51.67833,
+"lon": 5.50694,
+"admin1": "06"
+},
+{
+"naam": "Loven",
+"lat": 51.5648,
+"lon": 5.09748,
+"admin1": "06"
+},
+{
+"naam": "Luyksgestel",
+"lat": 51.28917,
+"lon": 5.32361,
+"admin1": "06"
+},
+{
+"naam": "Maarheeze",
+"lat": 51.31167,
+"lon": 5.61667,
+"admin1": "06"
+},
+{
+"naam": "Maaskantje",
+"lat": 51.65833,
+"lon": 5.37083,
+"admin1": "06"
+},
+{
+"naam": "Maaspoort",
+"lat": 51.72611,
+"lon": 5.30194,
+"admin1": "06"
+},
+{
+"naam": "Made",
+"lat": 51.67667,
+"lon": 4.79306,
+"admin1": "06"
+},
+{
+"naam": "Mariahout",
+"lat": 51.54083,
+"lon": 5.57222,
+"admin1": "06"
+},
+{
+"naam": "Meerhoven",
+"lat": 51.44267,
+"lon": 5.41102,
+"admin1": "06"
+},
+{
+"naam": "Meerveldhoven",
+"lat": 51.41705,
+"lon": 5.41618,
+"admin1": "06"
+},
+{
+"naam": "Megen",
+"lat": 51.82167,
+"lon": 5.5625,
+"admin1": "06"
+},
+{
+"naam": "Melle",
+"lat": 51.66244,
+"lon": 5.63367,
+"admin1": "06"
+},
+{
+"naam": "Middelbeers",
+"lat": 51.46667,
+"lon": 5.25,
+"admin1": "06"
+},
+{
+"naam": "Middelrode",
+"lat": 51.66417,
+"lon": 5.41944,
+"admin1": "06"
+},
+{
+"naam": "Mierlo",
+"lat": 51.44,
+"lon": 5.61944,
+"admin1": "06"
+},
+{
+"naam": "Milheeze",
+"lat": 51.50167,
+"lon": 5.77917,
+"admin1": "06"
+},
+{
+"naam": "Mill",
+"lat": 51.68833,
+"lon": 5.77917,
+"admin1": "06"
+},
+{
+"naam": "Moerdijk",
+"lat": 51.70167,
+"lon": 4.62639,
+"admin1": "06"
+},
+{
+"naam": "Molenhoek",
+"lat": 51.71113,
+"lon": 5.36809,
+"admin1": "06"
+},
+{
+"naam": "Muschberg en Geestenberg",
+"lat": 51.44384,
+"lon": 5.52329,
+"admin1": "06"
+},
+{
+"naam": "Naastenbest",
+"lat": 51.50484,
+"lon": 5.38579,
+"admin1": "06"
+},
+{
+"naam": "Neerkant",
+"lat": 51.36833,
+"lon": 5.86667,
+"admin1": "06"
+},
+{
+"naam": "Nieuw-Vossemeer",
+"lat": 51.59,
+"lon": 4.21806,
+"admin1": "06"
+},
+{
+"naam": "Nieuwendijk",
+"lat": 51.775,
+"lon": 4.92083,
+"admin1": "06"
+},
+{
+"naam": "Nieuwkuijk",
+"lat": 51.69,
+"lon": 5.18194,
+"admin1": "06"
+},
+{
+"naam": "Nijnsel",
+"lat": 51.55083,
+"lon": 5.48333,
+"admin1": "06"
+},
+{
+"naam": "Nispen",
+"lat": 51.48331,
+"lon": 4.46131,
+"admin1": "06"
+},
+{
+"naam": "Nistelrode",
+"lat": 51.70417,
+"lon": 5.5625,
+"admin1": "06"
+},
+{
+"naam": "Noordgeest",
+"lat": 51.50917,
+"lon": 4.27917,
+"admin1": "06"
+},
+{
+"naam": "Noordhoek",
+"lat": 51.6425,
+"lon": 4.53194,
+"admin1": "06"
+},
+{
+"naam": "Nuenen",
+"lat": 51.47,
+"lon": 5.55278,
+"admin1": "06"
+},
+{
+"naam": "Nuland",
+"lat": 51.72583,
+"lon": 5.43472,
+"admin1": "06"
+},
+{
+"naam": "Odiliapeel",
+"lat": 51.64333,
+"lon": 5.70556,
+"admin1": "06"
+},
+{
+"naam": "Oerle",
+"lat": 51.42255,
+"lon": 5.37163,
+"admin1": "06"
+},
+{
+"naam": "Oirschot",
+"lat": 51.505,
+"lon": 5.31389,
+"admin1": "06"
+},
+{
+"naam": "Oisterwijk",
+"lat": 51.57917,
+"lon": 5.18889,
+"admin1": "06"
+},
+{
+"naam": "Oosteind",
+"lat": 51.64418,
+"lon": 4.89784,
+"admin1": "06"
+},
+{
+"naam": "Oostelbeers",
+"lat": 51.47171,
+"lon": 5.26897,
+"admin1": "06"
+},
+{
+"naam": "Oosterhout",
+"lat": 51.645,
+"lon": 4.85972,
+"admin1": "06"
+},
+{
+"naam": "Orthen",
+"lat": 51.70613,
+"lon": 5.30468,
+"admin1": "06"
+},
+{
+"naam": "Oss",
+"lat": 51.765,
+"lon": 5.51806,
+"admin1": "06"
+},
+{
+"naam": "Ossendrecht",
+"lat": 51.39417,
+"lon": 4.32639,
+"admin1": "06"
+},
+{
+"naam": "Oud Gastel",
+"lat": 51.58667,
+"lon": 4.45972,
+"admin1": "06"
+},
+{
+"naam": "Oudenbosch",
+"lat": 51.58833,
+"lon": 4.53472,
+"admin1": "06"
+},
+{
+"naam": "Overloon",
+"lat": 51.57167,
+"lon": 5.94722,
+"admin1": "06"
+},
+{
+"naam": "Princenhage",
+"lat": 51.57632,
+"lon": 4.73906,
+"admin1": "06"
+},
+{
+"naam": "Prinsenbeek",
+"lat": 51.59833,
+"lon": 4.7125,
+"admin1": "06"
+},
+{
+"naam": "Putte",
+"lat": 51.36,
+"lon": 4.39583,
+"admin1": "06"
+},
+{
+"naam": "Quirijnstok",
+"lat": 51.5843,
+"lon": 5.0981,
+"admin1": "06"
+},
+{
+"naam": "Raam",
+"lat": 51.65967,
+"lon": 5.63637,
+"admin1": "06"
+},
+{
+"naam": "Raamsdonk",
+"lat": 51.6875,
+"lon": 4.90833,
+"admin1": "06"
+},
+{
+"naam": "Raamsdonksveer",
+"lat": 51.69667,
+"lon": 4.87361,
+"admin1": "06"
+},
+{
+"naam": "Ravenstein",
+"lat": 51.79667,
+"lon": 5.65,
+"admin1": "06"
+},
+{
+"naam": "Reek",
+"lat": 51.74583,
+"lon": 5.68194,
+"admin1": "06"
+},
+{
+"naam": "Reusel",
+"lat": 51.3625,
+"lon": 5.16528,
+"admin1": "06"
+},
+{
+"naam": "Riethoven",
+"lat": 51.35417,
+"lon": 5.3875,
+"admin1": "06"
+},
+{
+"naam": "Rijen",
+"lat": 51.59083,
+"lon": 4.91944,
+"admin1": "06"
+},
+{
+"naam": "Rijsbergen",
+"lat": 51.5175,
+"lon": 4.69722,
+"admin1": "06"
+},
+{
+"naam": "Rijswijk",
+"lat": 51.7975,
+"lon": 5.025,
+"admin1": "06"
+},
+{
+"naam": "Roosendaal",
+"lat": 51.53083,
+"lon": 4.46528,
+"admin1": "06"
+},
+{
+"naam": "Rucphen",
+"lat": 51.53167,
+"lon": 4.55833,
+"admin1": "06"
+},
+{
+"naam": "Salderes",
+"lat": 51.51505,
+"lon": 5.38991,
+"admin1": "06"
+},
+{
+"naam": "Schaijk",
+"lat": 51.74583,
+"lon": 5.63194,
+"admin1": "06"
+},
+{
+"naam": "Schijndel",
+"lat": 51.6225,
+"lon": 5.43194,
+"admin1": "06"
+},
+{
+"naam": "Schutsboom",
+"lat": 51.46152,
+"lon": 5.6226,
+"admin1": "06"
+},
+{
+"naam": "Sint Anthonis",
+"lat": 51.62667,
+"lon": 5.88194,
+"admin1": "06"
+},
+{
+"naam": "Sint Willebrord",
+"lat": 51.54833,
+"lon": 4.58889,
+"admin1": "06"
+},
+{
+"naam": "Sint-Michielsgestel",
+"lat": 51.64167,
+"lon": 5.35278,
+"admin1": "06"
+},
+{
+"naam": "Sint-Oedenrode",
+"lat": 51.5675,
+"lon": 5.45972,
+"admin1": "06"
+},
+{
+"naam": "Sleeuwijk",
+"lat": 51.81583,
+"lon": 4.95278,
+"admin1": "06"
+},
+{
+"naam": "Soerendonk",
+"lat": 51.30083,
+"lon": 5.575,
+"admin1": "06"
+},
+{
+"naam": "Someren",
+"lat": 51.385,
+"lon": 5.71111,
+"admin1": "06"
+},
+{
+"naam": "Someren-Eind",
+"lat": 51.3575,
+"lon": 5.73333,
+"admin1": "06"
+},
+{
+"naam": "Son",
+"lat": 51.51136,
+"lon": 5.49282,
+"admin1": "06"
+},
+{
+"naam": "Son en Breugel",
+"lat": 51.51654,
+"lon": 5.49608,
+"admin1": "06"
+},
+{
+"naam": "Speelheide",
+"lat": 51.50607,
+"lon": 5.40519,
+"admin1": "06"
+},
+{
+"naam": "Sprundel",
+"lat": 51.5375,
+"lon": 4.59722,
+"admin1": "06"
+},
+{
+"naam": "Stampersgat",
+"lat": 51.61333,
+"lon": 4.44444,
+"admin1": "06"
+},
+{
+"naam": "Standdaarbuiten",
+"lat": 51.61333,
+"lon": 4.51389,
+"admin1": "06"
+},
+{
+"naam": "Steenbergen",
+"lat": 51.58417,
+"lon": 4.31944,
+"admin1": "06"
+},
+{
+"naam": "Steensel",
+"lat": 51.37667,
+"lon": 5.35278,
+"admin1": "06"
+},
+{
+"naam": "Stepekolk",
+"lat": 51.455,
+"lon": 5.61251,
+"admin1": "06"
+},
+{
+"naam": "Terheijden",
+"lat": 51.64333,
+"lon": 4.75417,
+"admin1": "06"
+},
+{
+"naam": "Teteringen",
+"lat": 51.60917,
+"lon": 4.82083,
+"admin1": "06"
+},
+{
+"naam": "Theereheide",
+"lat": 51.63843,
+"lon": 5.33729,
+"admin1": "06"
+},
+{
+"naam": "Tilburg",
+"lat": 51.55551,
+"lon": 5.0913,
+"admin1": "06"
+},
+{
+"naam": "Tivoli",
+"lat": 51.42069,
+"lon": 5.50818,
+"admin1": "06"
+},
+{
+"naam": "Tongelre",
+"lat": 51.44889,
+"lon": 5.51978,
+"admin1": "06"
+},
+{
+"naam": "Uden",
+"lat": 51.66083,
+"lon": 5.61944,
+"admin1": "06"
+},
+{
+"naam": "Udenhout",
+"lat": 51.60917,
+"lon": 5.14306,
+"admin1": "06"
+},
+{
+"naam": "Ulvenhout",
+"lat": 51.54907,
+"lon": 4.79931,
+"admin1": "06"
+},
+{
+"naam": "Vaartbroek",
+"lat": 51.47954,
+"lon": 5.49806,
+"admin1": "06"
+},
+{
+"naam": "Valkenswaard",
+"lat": 51.35083,
+"lon": 5.45972,
+"admin1": "06"
+},
+{
+"naam": "Veen",
+"lat": 51.7775,
+"lon": 5.10833,
+"admin1": "06"
+},
+{
+"naam": "Veghel",
+"lat": 51.61667,
+"lon": 5.54861,
+"admin1": "06"
+},
+{
+"naam": "Veldhoven",
+"lat": 51.41833,
+"lon": 5.40278,
+"admin1": "06"
+},
+{
+"naam": "Ven",
+"lat": 51.64,
+"lon": 5.55,
+"admin1": "06"
+},
+{
+"naam": "Venhorst",
+"lat": 51.60833,
+"lon": 5.7375,
+"admin1": "06"
+},
+{
+"naam": "Vessem",
+"lat": 51.42083,
+"lon": 5.28889,
+"admin1": "06"
+},
+{
+"naam": "Villapark",
+"lat": 51.44144,
+"lon": 5.49385,
+"admin1": "06"
+},
+{
+"naam": "Vliedberg",
+"lat": 51.68961,
+"lon": 5.19031,
+"admin1": "06"
+},
+{
+"naam": "Vlierden",
+"lat": 51.445,
+"lon": 5.75833,
+"admin1": "06"
+},
+{
+"naam": "Vlokhoven",
+"lat": 51.46667,
+"lon": 5.48333,
+"admin1": "06"
+},
+{
+"naam": "Voldijn",
+"lat": 51.40052,
+"lon": 5.47196,
+"admin1": "06"
+},
+{
+"naam": "Volkel",
+"lat": 51.6425,
+"lon": 5.65417,
+"admin1": "06"
+},
+{
+"naam": "Vorstenbosch",
+"lat": 51.6525,
+"lon": 5.55,
+"admin1": "06"
+},
+{
+"naam": "Vught",
+"lat": 51.65333,
+"lon": 5.2875,
+"admin1": "06"
+},
+{
+"naam": "Waalre",
+"lat": 51.38667,
+"lon": 5.44444,
+"admin1": "06"
+},
+{
+"naam": "Waalwijk",
+"lat": 51.6825,
+"lon": 5.07083,
+"admin1": "06"
+},
+{
+"naam": "Wagenberg",
+"lat": 51.665,
+"lon": 4.74861,
+"admin1": "06"
+},
+{
+"naam": "Wanroij",
+"lat": 51.6575,
+"lon": 5.81806,
+"admin1": "06"
+},
+{
+"naam": "Waspik",
+"lat": 51.68667,
+"lon": 4.94444,
+"admin1": "06"
+},
+{
+"naam": "Waterdonken",
+"lat": 51.60959,
+"lon": 4.80452,
+"admin1": "06"
+},
+{
+"naam": "Welberg",
+"lat": 51.57667,
+"lon": 4.33056,
+"admin1": "06"
+},
+{
+"naam": "Werkendam",
+"lat": 51.81,
+"lon": 4.89444,
+"admin1": "06"
+},
+{
+"naam": "Wernhout",
+"lat": 51.455,
+"lon": 4.64167,
+"admin1": "06"
+},
+{
+"naam": "Westerhoven",
+"lat": 51.3325,
+"lon": 5.39583,
+"admin1": "06"
+},
+{
+"naam": "Wijbosch",
+"lat": 51.61667,
+"lon": 5.46806,
+"admin1": "06"
+},
+{
+"naam": "Wilhelminadorp",
+"lat": 51.49742,
+"lon": 5.39223,
+"admin1": "06"
+},
+{
+"naam": "Wintelre",
+"lat": 51.44417,
+"lon": 5.34028,
+"admin1": "06"
+},
+{
+"naam": "Wisselaar",
+"lat": 51.61285,
+"lon": 4.78444,
+"admin1": "06"
+},
+{
+"naam": "Woensdrecht",
+"lat": 51.42897,
+"lon": 4.30355,
+"admin1": "06"
+},
+{
+"naam": "Woenselse Heide",
+"lat": 51.48333,
+"lon": 5.46667,
+"admin1": "06"
+},
+{
+"naam": "Woudrichem",
+"lat": 51.815,
+"lon": 5.00139,
+"admin1": "06"
+},
+{
+"naam": "Wouw",
+"lat": 51.52167,
+"lon": 4.39028,
+"admin1": "06"
+},
+{
+"naam": "Zandberg",
+"lat": 51.57333,
+"lon": 4.78472,
+"admin1": "06"
+},
+{
+"naam": "Zeeland",
+"lat": 51.6975,
+"lon": 5.67639,
+"admin1": "06"
+},
+{
+"naam": "Zeelst",
+"lat": 51.42421,
+"lon": 5.41566,
+"admin1": "06"
+},
+{
+"naam": "Zegge",
+"lat": 51.55667,
+"lon": 4.51806,
+"admin1": "06"
+},
+{
+"naam": "Zeilberg",
+"lat": 51.45469,
+"lon": 5.81878,
+"admin1": "06"
+},
+{
+"naam": "Zesgehuchten",
+"lat": 51.41667,
+"lon": 5.55,
+"admin1": "06"
+},
+{
+"naam": "Zevenbergschen Hoek",
+"lat": 51.6725,
+"lon": 4.67917,
+"admin1": "06"
+},
+{
+"naam": "Zijtaart",
+"lat": 51.5925,
+"lon": 5.54167,
+"admin1": "06"
+},
+{
+"naam": "Zonderwijk",
+"lat": 51.41141,
+"lon": 5.39361,
+"admin1": "06"
+},
+{
+"naam": "Zundert",
+"lat": 51.47167,
+"lon": 4.65556,
+"admin1": "06"
+},
+{
+"naam": "'t Zand",
+"lat": 52.83667,
+"lon": 4.75556,
+"admin1": "07"
+},
+{
+"naam": "Aalsmeer",
+"lat": 52.25917,
+"lon": 4.75972,
+"admin1": "07"
+},
+{
+"naam": "Abbekerk",
+"lat": 52.73167,
+"lon": 5.01806,
+"admin1": "07"
+},
+{
+"naam": "Akersloot",
+"lat": 52.56083,
+"lon": 4.73333,
+"admin1": "07"
+},
+{
+"naam": "Alkmaar",
+"lat": 52.63167,
+"lon": 4.74861,
+"admin1": "07"
+},
+{
+"naam": "Amstelveen",
+"lat": 52.30083,
+"lon": 4.86389,
+"admin1": "07"
+},
+{
+"naam": "Amsterdam",
+"lat": 52.37403,
+"lon": 4.88969,
+"admin1": "07"
+},
+{
+"naam": "Amsterdam-Zuidoost",
+"lat": 52.3075,
+"lon": 4.97222,
+"admin1": "07"
+},
+{
+"naam": "Andijk",
+"lat": 52.74667,
+"lon": 5.22222,
+"admin1": "07"
+},
+{
+"naam": "Ankeveense Rade",
+"lat": 52.25891,
+"lon": 5.1016,
+"admin1": "07"
+},
+{
+"naam": "Anna Paulowna",
+"lat": 52.86083,
+"lon": 4.83611,
+"admin1": "07"
+},
+{
+"naam": "Assendelft",
+"lat": 52.46833,
+"lon": 4.74306,
+"admin1": "07"
+},
+{
+"naam": "Avenhorn",
+"lat": 52.6175,
+"lon": 4.95139,
+"admin1": "07"
+},
+{
+"naam": "Badhoevedorp",
+"lat": 52.33723,
+"lon": 4.78523,
+"admin1": "07"
+},
+{
+"naam": "Bakkum",
+"lat": 52.55945,
+"lon": 4.65717,
+"admin1": "07"
+},
+{
+"naam": "Bangert",
+"lat": 52.73582,
+"lon": 5.1801,
+"admin1": "07"
+},
+{
+"naam": "Bennebroek",
+"lat": 52.32083,
+"lon": 4.59861,
+"admin1": "07"
+},
+{
+"naam": "Bentveld",
+"lat": 52.365,
+"lon": 4.57222,
+"admin1": "07"
+},
+{
+"naam": "Bergen",
+"lat": 52.66917,
+"lon": 4.70417,
+"admin1": "07"
+},
+{
+"naam": "Berkhout",
+"lat": 52.64083,
+"lon": 5.00139,
+"admin1": "07"
+},
+{
+"naam": "Beverwijk",
+"lat": 52.48333,
+"lon": 4.65694,
+"admin1": "07"
+},
+{
+"naam": "Bijvanck",
+"lat": 52.28585,
+"lon": 5.26534,
+"admin1": "07"
+},
+{
+"naam": "Blaricum",
+"lat": 52.2725,
+"lon": 5.24167,
+"admin1": "07"
+},
+{
+"naam": "Bloemendaal",
+"lat": 52.4025,
+"lon": 4.62222,
+"admin1": "07"
+},
+{
+"naam": "Breezand",
+"lat": 52.89,
+"lon": 4.80417,
+"admin1": "07"
+},
+{
+"naam": "Broek in Waterland",
+"lat": 52.43417,
+"lon": 4.99583,
+"admin1": "07"
+},
+{
+"naam": "Broek op Langedijk",
+"lat": 52.67417,
+"lon": 4.80556,
+"admin1": "07"
+},
+{
+"naam": "Bussum",
+"lat": 52.27333,
+"lon": 5.16111,
+"admin1": "07"
+},
+{
+"naam": "Butterhuizen",
+"lat": 52.65,
+"lon": 4.81667,
+"admin1": "07"
+},
+{
+"naam": "Callantsoog",
+"lat": 52.84,
+"lon": 4.69583,
+"admin1": "07"
+},
+{
+"naam": "Castricum",
+"lat": 52.54833,
+"lon": 4.66944,
+"admin1": "07"
+},
+{
+"naam": "Commandeurs",
+"lat": 52.50902,
+"lon": 4.65843,
+"admin1": "07"
+},
+{
+"naam": "Dapperbuurt",
+"lat": 52.36222,
+"lon": 4.92798,
+"admin1": "07"
+},
+{
+"naam": "De Glip",
+"lat": 52.33083,
+"lon": 4.61111,
+"admin1": "07"
+},
+{
+"naam": "De Goorn",
+"lat": 52.62583,
+"lon": 4.94722,
+"admin1": "07"
+},
+{
+"naam": "De Koog",
+"lat": 53.0975,
+"lon": 4.76111,
+"admin1": "07"
+},
+{
+"naam": "De Kwakel",
+"lat": 52.23917,
+"lon": 4.79306,
+"admin1": "07"
+},
+{
+"naam": "De Maer",
+"lat": 52.51901,
+"lon": 4.68171,
+"admin1": "07"
+},
+{
+"naam": "De Noord",
+"lat": 52.7075,
+"lon": 4.85139,
+"admin1": "07"
+},
+{
+"naam": "De Rijp",
+"lat": 52.55667,
+"lon": 4.84583,
+"admin1": "07"
+},
+{
+"naam": "Den Burg",
+"lat": 53.05417,
+"lon": 4.79722,
+"admin1": "07"
+},
+{
+"naam": "Den Helder",
+"lat": 52.95988,
+"lon": 4.75933,
+"admin1": "07"
+},
+{
+"naam": "Den Oever",
+"lat": 52.93353,
+"lon": 5.03079,
+"admin1": "07"
+},
+{
+"naam": "Diemen",
+"lat": 52.33964,
+"lon": 4.96256,
+"admin1": "07"
+},
+{
+"naam": "Dirkshorn",
+"lat": 52.75,
+"lon": 4.775,
+"admin1": "07"
+},
+{
+"naam": "Driehuis",
+"lat": 52.44667,
+"lon": 4.6375,
+"admin1": "07"
+},
+{
+"naam": "Driemond",
+"lat": 52.30583,
+"lon": 5.01667,
+"admin1": "07"
+},
+{
+"naam": "Duivendrecht",
+"lat": 52.32941,
+"lon": 4.93964,
+"admin1": "07"
+},
+{
+"naam": "Edam",
+"lat": 52.51215,
+"lon": 5.04805,
+"admin1": "07"
+},
+{
+"naam": "Egmond aan Zee",
+"lat": 52.6204,
+"lon": 4.62705,
+"admin1": "07"
+},
+{
+"naam": "Egmond aan den Hoef",
+"lat": 52.62333,
+"lon": 4.65278,
+"admin1": "07"
+},
+{
+"naam": "Egmond-Binnen",
+"lat": 52.59583,
+"lon": 4.65556,
+"admin1": "07"
+},
+{
+"naam": "Enkhuizen",
+"lat": 52.70333,
+"lon": 5.29167,
+"admin1": "07"
+},
+{
+"naam": "Groet",
+"lat": 52.7225,
+"lon": 4.66806,
+"admin1": "07"
+},
+{
+"naam": "Haarlem",
+"lat": 52.38084,
+"lon": 4.63683,
+"admin1": "07"
+},
+{
+"naam": "Halfweg",
+"lat": 52.52417,
+"lon": 4.92778,
+"admin1": "07"
+},
+{
+"naam": "Halfweg",
+"lat": 52.3825,
+"lon": 4.75417,
+"admin1": "07"
+},
+{
+"naam": "Heemskerk",
+"lat": 52.51108,
+"lon": 4.67165,
+"admin1": "07"
+},
+{
+"naam": "Heemstede",
+"lat": 52.34992,
+"lon": 4.62301,
+"admin1": "07"
+},
+{
+"naam": "Heerhugowaard",
+"lat": 52.67144,
+"lon": 4.84862,
+"admin1": "07"
+},
+{
+"naam": "Heiloo",
+"lat": 52.60252,
+"lon": 4.68815,
+"admin1": "07"
+},
+{
+"naam": "Hem",
+"lat": 52.66083,
+"lon": 5.18333,
+"admin1": "07"
+},
+{
+"naam": "Hensbroek",
+"lat": 52.65833,
+"lon": 4.88472,
+"admin1": "07"
+},
+{
+"naam": "Hilversum",
+"lat": 52.22333,
+"lon": 5.17639,
+"admin1": "07"
+},
+{
+"naam": "Hilversumse Meent",
+"lat": 52.27115,
+"lon": 5.13729,
+"admin1": "07"
+},
+{
+"naam": "Hippolytushoef",
+"lat": 52.9075,
+"lon": 4.9625,
+"admin1": "07"
+},
+{
+"naam": "Hofgeest",
+"lat": 52.44333,
+"lon": 4.65833,
+"admin1": "07"
+},
+{
+"naam": "Hoofddorp",
+"lat": 52.3025,
+"lon": 4.68889,
+"admin1": "07"
+},
+{
+"naam": "Hoogwoud",
+"lat": 52.71583,
+"lon": 4.93889,
+"admin1": "07"
+},
+{
+"naam": "Hoorn",
+"lat": 52.6425,
+"lon": 5.05972,
+"admin1": "07"
+},
+{
+"naam": "Huizen",
+"lat": 52.29917,
+"lon": 5.24167,
+"admin1": "07"
+},
+{
+"naam": "IJmuiden",
+"lat": 52.4603,
+"lon": 4.61048,
+"admin1": "07"
+},
+{
+"naam": "Ilpendam",
+"lat": 52.46333,
+"lon": 4.95,
+"admin1": "07"
+},
+{
+"naam": "Julianadorp",
+"lat": 52.89,
+"lon": 4.74028,
+"admin1": "07"
+},
+{
+"naam": "Kadoelen",
+"lat": 52.4175,
+"lon": 4.90561,
+"admin1": "07"
+},
+{
+"naam": "Kerkelanden",
+"lat": 52.21755,
+"lon": 5.13575,
+"admin1": "07"
+},
+{
+"naam": "Kortenhoef",
+"lat": 52.23917,
+"lon": 5.10694,
+"admin1": "07"
+},
+{
+"naam": "Kudelstaart",
+"lat": 52.23417,
+"lon": 4.75139,
+"admin1": "07"
+},
+{
+"naam": "Landsmeer",
+"lat": 52.43083,
+"lon": 4.91528,
+"admin1": "07"
+},
+{
+"naam": "Langeheit",
+"lat": 52.492,
+"lon": 4.75849,
+"admin1": "07"
+},
+{
+"naam": "Laren",
+"lat": 52.25667,
+"lon": 5.22778,
+"admin1": "07"
+},
+{
+"naam": "Limmen",
+"lat": 52.56917,
+"lon": 4.69444,
+"admin1": "07"
+},
+{
+"naam": "Lisserbroek",
+"lat": 52.25667,
+"lon": 4.57222,
+"admin1": "07"
+},
+{
+"naam": "Loosdrecht",
+"lat": 52.21718,
+"lon": 5.06899,
+"admin1": "07"
+},
+{
+"naam": "Lutjebroek",
+"lat": 52.6975,
+"lon": 5.20417,
+"admin1": "07"
+},
+{
+"naam": "Marken",
+"lat": 52.45833,
+"lon": 5.10278,
+"admin1": "07"
+},
+{
+"naam": "Medemblik",
+"lat": 52.77167,
+"lon": 5.10556,
+"admin1": "07"
+},
+{
+"naam": "Middenbeemster",
+"lat": 52.54917,
+"lon": 4.9125,
+"admin1": "07"
+},
+{
+"naam": "Middenmeer",
+"lat": 52.80667,
+"lon": 4.99861,
+"admin1": "07"
+},
+{
+"naam": "Midwoud",
+"lat": 52.71667,
+"lon": 5.075,
+"admin1": "07"
+},
+{
+"naam": "Monnickendam",
+"lat": 52.45833,
+"lon": 5.0375,
+"admin1": "07"
+},
+{
+"naam": "Muiden",
+"lat": 52.33,
+"lon": 5.06944,
+"admin1": "07"
+},
+{
+"naam": "Muiderberg",
+"lat": 52.32583,
+"lon": 5.12083,
+"admin1": "07"
+},
+{
+"naam": "Naarden",
+"lat": 52.29583,
+"lon": 5.1625,
+"admin1": "07"
+},
+{
+"naam": "Nieuw-Loosdrecht",
+"lat": 52.19917,
+"lon": 5.13889,
+"admin1": "07"
+},
+{
+"naam": "Nieuw-Vennep",
+"lat": 52.26417,
+"lon": 4.63056,
+"admin1": "07"
+},
+{
+"naam": "Nieuwe-Niedorp",
+"lat": 52.74,
+"lon": 4.89861,
+"admin1": "07"
+},
+{
+"naam": "Noord-Scharwoude",
+"lat": 52.69833,
+"lon": 4.81111,
+"admin1": "07"
+},
+{
+"naam": "Obdam",
+"lat": 52.67583,
+"lon": 4.90694,
+"admin1": "07"
+},
+{
+"naam": "Onderdijk",
+"lat": 52.74333,
+"lon": 5.1375,
+"admin1": "07"
+},
+{
+"naam": "Oosteinde",
+"lat": 52.27917,
+"lon": 4.79583,
+"admin1": "07"
+},
+{
+"naam": "Oosterblokker",
+"lat": 52.66917,
+"lon": 5.11806,
+"admin1": "07"
+},
+{
+"naam": "Oosterzij",
+"lat": 52.585,
+"lon": 4.70556,
+"admin1": "07"
+},
+{
+"naam": "Oosthuizen",
+"lat": 52.5725,
+"lon": 4.99583,
+"admin1": "07"
+},
+{
+"naam": "Opmeer",
+"lat": 52.70667,
+"lon": 4.94444,
+"admin1": "07"
+},
+{
+"naam": "Opperdoes",
+"lat": 52.75915,
+"lon": 5.07534,
+"admin1": "07"
+},
+{
+"naam": "Oud-Loosdrecht",
+"lat": 52.20667,
+"lon": 5.08056,
+"admin1": "07"
+},
+{
+"naam": "Ouderkerk aan de Amstel",
+"lat": 52.29504,
+"lon": 4.90746,
+"admin1": "07"
+},
+{
+"naam": "Oudeschild",
+"lat": 53.03917,
+"lon": 4.84722,
+"admin1": "07"
+},
+{
+"naam": "Oudkarspel",
+"lat": 52.71583,
+"lon": 4.80556,
+"admin1": "07"
+},
+{
+"naam": "Overveen",
+"lat": 52.39167,
+"lon": 4.61389,
+"admin1": "07"
+},
+{
+"naam": "Petten",
+"lat": 52.76667,
+"lon": 4.66111,
+"admin1": "07"
+},
+{
+"naam": "Purmerend",
+"lat": 52.505,
+"lon": 4.95972,
+"admin1": "07"
+},
+{
+"naam": "Rijsenhout",
+"lat": 52.25833,
+"lon": 4.71389,
+"admin1": "07"
+},
+{
+"naam": "Schagen",
+"lat": 52.7875,
+"lon": 4.79861,
+"admin1": "07"
+},
+{
+"naam": "Schagerbrug",
+"lat": 52.8025,
+"lon": 4.75833,
+"admin1": "07"
+},
+{
+"naam": "Schermerhorn",
+"lat": 52.60083,
+"lon": 4.89167,
+"admin1": "07"
+},
+{
+"naam": "Schoorl",
+"lat": 52.70167,
+"lon": 4.69722,
+"admin1": "07"
+},
+{
+"naam": "Sint Pancras",
+"lat": 52.66,
+"lon": 4.78333,
+"admin1": "07"
+},
+{
+"naam": "Slootdorp",
+"lat": 52.8425,
+"lon": 4.97222,
+"admin1": "07"
+},
+{
+"naam": "Spaarndam",
+"lat": 52.4125,
+"lon": 4.68333,
+"admin1": "07"
+},
+{
+"naam": "Spierdijk",
+"lat": 52.65083,
+"lon": 4.94306,
+"admin1": "07"
+},
+{
+"naam": "Stompetoren",
+"lat": 52.61333,
+"lon": 4.82083,
+"admin1": "07"
+},
+{
+"naam": "Tuitjenhorn",
+"lat": 52.7375,
+"lon": 4.75,
+"admin1": "07"
+},
+{
+"naam": "Twisk",
+"lat": 52.74083,
+"lon": 5.05278,
+"admin1": "07"
+},
+{
+"naam": "Uitgeest",
+"lat": 52.52917,
+"lon": 4.70972,
+"admin1": "07"
+},
+{
+"naam": "Uithoorn",
+"lat": 52.2375,
+"lon": 4.82639,
+"admin1": "07"
+},
+{
+"naam": "Velsen-Zuid",
+"lat": 52.46,
+"lon": 4.65,
+"admin1": "07"
+},
+{
+"naam": "Velserbroek",
+"lat": 52.43283,
+"lon": 4.66155,
+"admin1": "07"
+},
+{
+"naam": "Venhuizen",
+"lat": 52.6625,
+"lon": 5.20278,
+"admin1": "07"
+},
+{
+"naam": "Vijfhuizen",
+"lat": 52.35083,
+"lon": 4.67778,
+"admin1": "07"
+},
+{
+"naam": "Vogelenzang",
+"lat": 52.31917,
+"lon": 4.57778,
+"admin1": "07"
+},
+{
+"naam": "Volendam",
+"lat": 52.495,
+"lon": 5.07083,
+"admin1": "07"
+},
+{
+"naam": "Waarland",
+"lat": 52.72667,
+"lon": 4.83194,
+"admin1": "07"
+},
+{
+"naam": "Warmenhuizen",
+"lat": 52.7225,
+"lon": 4.7375,
+"admin1": "07"
+},
+{
+"naam": "Waterakkers",
+"lat": 52.5044,
+"lon": 4.65608,
+"admin1": "07"
+},
+{
+"naam": "Weesp",
+"lat": 52.3075,
+"lon": 5.04167,
+"admin1": "07"
+},
+{
+"naam": "Westwoud",
+"lat": 52.685,
+"lon": 5.13472,
+"admin1": "07"
+},
+{
+"naam": "Wieringerwaard",
+"lat": 52.83583,
+"lon": 4.86528,
+"admin1": "07"
+},
+{
+"naam": "Wieringerwerf",
+"lat": 52.85083,
+"lon": 5.02639,
+"admin1": "07"
+},
+{
+"naam": "Wijdenes",
+"lat": 52.635,
+"lon": 5.15694,
+"admin1": "07"
+},
+{
+"naam": "Wijk aan Zee",
+"lat": 52.4936,
+"lon": 4.59409,
+"admin1": "07"
+},
+{
+"naam": "Winkel",
+"lat": 52.75417,
+"lon": 4.90278,
+"admin1": "07"
+},
+{
+"naam": "Zaandam",
+"lat": 52.43854,
+"lon": 4.82643,
+"admin1": "07"
+},
+{
+"naam": "Zaandijk",
+"lat": 52.47494,
+"lon": 4.80686,
+"admin1": "07"
+},
+{
+"naam": "Zaanstad",
+"lat": 52.45313,
+"lon": 4.81356,
+"admin1": "07"
+},
+{
+"naam": "Zandvoort",
+"lat": 52.37125,
+"lon": 4.53306,
+"admin1": "07"
+},
+{
+"naam": "Zuid-Scharwoude",
+"lat": 52.68667,
+"lon": 4.80833,
+"admin1": "07"
+},
+{
+"naam": "Zwaagdijk-Oost",
+"lat": 52.7075,
+"lon": 5.14028,
+"admin1": "07"
+},
+{
+"naam": "Zwaanshoek",
+"lat": 52.3125,
+"lon": 4.61667,
+"admin1": "07"
+},
+{
+"naam": "Zwanenburg",
+"lat": 52.38,
+"lon": 4.74583,
+"admin1": "07"
+},
+{
+"naam": "t Veld",
+"lat": 52.74,
+"lon": 4.85694,
+"admin1": "07"
+},
+{
+"naam": "Abcoude",
+"lat": 52.2725,
+"lon": 4.96944,
+"admin1": "09"
+},
+{
+"naam": "Achterveld",
+"lat": 52.13583,
+"lon": 5.49722,
+"admin1": "09"
+},
+{
+"naam": "Ameide",
+"lat": 51.955,
+"lon": 4.9625,
+"admin1": "09"
+},
+{
+"naam": "Amerongen",
+"lat": 52.0025,
+"lon": 5.45972,
+"admin1": "09"
+},
+{
+"naam": "Amersfoort",
+"lat": 52.155,
+"lon": 5.3875,
+"admin1": "09"
+},
+{
+"naam": "Austerlitz",
+"lat": 52.08,
+"lon": 5.31528,
+"admin1": "09"
+},
+{
+"naam": "Baambrugge",
+"lat": 52.24583,
+"lon": 4.98889,
+"admin1": "09"
+},
+{
+"naam": "Baarn",
+"lat": 52.21167,
+"lon": 5.2875,
+"admin1": "09"
+},
+{
+"naam": "Bilthoven",
+"lat": 52.13,
+"lon": 5.20139,
+"admin1": "09"
+},
+{
+"naam": "Bosch en Duin",
+"lat": 52.11667,
+"lon": 5.24167,
+"admin1": "09"
+},
+{
+"naam": "Breukelen",
+"lat": 52.17417,
+"lon": 5.00139,
+"admin1": "09"
+},
+{
+"naam": "Bunnik",
+"lat": 52.06667,
+"lon": 5.19861,
+"admin1": "09"
+},
+{
+"naam": "Bunschoten",
+"lat": 52.24304,
+"lon": 5.37884,
+"admin1": "09"
+},
+{
+"naam": "Cothen",
+"lat": 51.99667,
+"lon": 5.30833,
+"admin1": "09"
+},
+{
+"naam": "De Bilt",
+"lat": 52.11,
+"lon": 5.18056,
+"admin1": "09"
+},
+{
+"naam": "De Hagen",
+"lat": 51.99381,
+"lon": 5.10263,
+"admin1": "09"
+},
+{
+"naam": "De Meern",
+"lat": 52.08167,
+"lon": 5.03611,
+"admin1": "09"
+},
+{
+"naam": "De Uithof",
+"lat": 52.08526,
+"lon": 5.17456,
+"admin1": "09"
+},
+{
+"naam": "Den Dolder",
+"lat": 52.13917,
+"lon": 5.23889,
+"admin1": "09"
+},
+{
+"naam": "Doorn",
+"lat": 52.03343,
+"lon": 5.34571,
+"admin1": "09"
+},
+{
+"naam": "Driebergen-Rijsenburg",
+"lat": 52.05333,
+"lon": 5.28056,
+"admin1": "09"
+},
+{
+"naam": "Everdingen",
+"lat": 51.965,
+"lon": 5.15556,
+"admin1": "09"
+},
+{
+"naam": "Grauwaart",
+"lat": 52.09689,
+"lon": 5.05794,
+"admin1": "09"
+},
+{
+"naam": "Groenekan",
+"lat": 52.12333,
+"lon": 5.15278,
+"admin1": "09"
+},
+{
+"naam": "Hagestein",
+"lat": 51.98083,
+"lon": 5.12222,
+"admin1": "09"
+},
+{
+"naam": "Harmelen",
+"lat": 52.09,
+"lon": 4.96111,
+"admin1": "09"
+},
+{
+"naam": "Hollandsche Rading",
+"lat": 52.175,
+"lon": 5.17778,
+"admin1": "09"
+},
+{
+"naam": "Hoogland",
+"lat": 52.1825,
+"lon": 5.37361,
+"admin1": "09"
+},
+{
+"naam": "Houten",
+"lat": 52.02833,
+"lon": 5.16806,
+"admin1": "09"
+},
+{
+"naam": "IJsselstein",
+"lat": 52.02,
+"lon": 5.04306,
+"admin1": "09"
+},
+{
+"naam": "Kedichem",
+"lat": 51.86,
+"lon": 5.05,
+"admin1": "09"
+},
+{
+"naam": "Kerckebosch",
+"lat": 52.07844,
+"lon": 5.26584,
+"admin1": "09"
+},
+{
+"naam": "Langenoord",
+"lat": 52.18768,
+"lon": 5.38034,
+"admin1": "09"
+},
+{
+"naam": "Leerdam",
+"lat": 51.89333,
+"lon": 5.09167,
+"admin1": "09"
+},
+{
+"naam": "Leersum",
+"lat": 52.01167,
+"lon": 5.42778,
+"admin1": "09"
+},
+{
+"naam": "Leidsche Rijn",
+"lat": 52.09497,
+"lon": 5.04613,
+"admin1": "09"
+},
+{
+"naam": "Leusden",
+"lat": 52.1325,
+"lon": 5.43194,
+"admin1": "09"
+},
+{
+"naam": "Leusden-Zuid",
+"lat": 52.1175,
+"lon": 5.40556,
+"admin1": "09"
+},
+{
+"naam": "Linschoten",
+"lat": 52.0625,
+"lon": 4.91528,
+"admin1": "09"
+},
+{
+"naam": "Loenen aan de Vecht",
+"lat": 52.21,
+"lon": 5.02222,
+"admin1": "09"
+},
+{
+"naam": "Lopik",
+"lat": 51.9725,
+"lon": 4.94861,
+"admin1": "09"
+},
+{
+"naam": "Lunetten",
+"lat": 52.06178,
+"lon": 5.13474,
+"admin1": "09"
+},
+{
+"naam": "Maarn",
+"lat": 52.06417,
+"lon": 5.37083,
+"admin1": "09"
+},
+{
+"naam": "Maarssen",
+"lat": 52.13917,
+"lon": 5.04167,
+"admin1": "09"
+},
+{
+"naam": "Maartensdijk",
+"lat": 52.155,
+"lon": 5.175,
+"admin1": "09"
+},
+{
+"naam": "Mijdrecht",
+"lat": 52.20667,
+"lon": 4.8625,
+"admin1": "09"
+},
+{
+"naam": "Montfoort",
+"lat": 52.04583,
+"lon": 4.95278,
+"admin1": "09"
+},
+{
+"naam": "Nieuwegein",
+"lat": 52.02917,
+"lon": 5.08056,
+"admin1": "09"
+},
+{
+"naam": "Nieuwland",
+"lat": 51.90167,
+"lon": 5.01389,
+"admin1": "09"
+},
+{
+"naam": "Nijenheim",
+"lat": 52.08689,
+"lon": 5.21852,
+"admin1": "09"
+},
+{
+"naam": "Odijk",
+"lat": 52.0525,
+"lon": 5.23611,
+"admin1": "09"
+},
+{
+"naam": "Oog in Al",
+"lat": 52.08636,
+"lon": 5.0847,
+"admin1": "09"
+},
+{
+"naam": "Op Buuren",
+"lat": 52.12769,
+"lon": 5.05847,
+"admin1": "09"
+},
+{
+"naam": "Oudewater",
+"lat": 52.025,
+"lon": 4.86806,
+"admin1": "09"
+},
+{
+"naam": "Overberg",
+"lat": 52.04,
+"lon": 5.49444,
+"admin1": "09"
+},
+{
+"naam": "Randenbroek",
+"lat": 52.14863,
+"lon": 5.4012,
+"admin1": "09"
+},
+{
+"naam": "Renswoude",
+"lat": 52.07333,
+"lon": 5.54028,
+"admin1": "09"
+},
+{
+"naam": "Rhenen",
+"lat": 51.95917,
+"lon": 5.56806,
+"admin1": "09"
+},
+{
+"naam": "Schoonrewoerd",
+"lat": 51.92083,
+"lon": 5.11667,
+"admin1": "09"
+},
+{
+"naam": "Soest",
+"lat": 52.17333,
+"lon": 5.29167,
+"admin1": "09"
+},
+{
+"naam": "Soestdijk",
+"lat": 52.19083,
+"lon": 5.28472,
+"admin1": "09"
+},
+{
+"naam": "Soesterberg",
+"lat": 52.11833,
+"lon": 5.28611,
+"admin1": "09"
+},
+{
+"naam": "Spakenburg",
+"lat": 52.25,
+"lon": 5.36667,
+"admin1": "09"
+},
+{
+"naam": "Spechtenkamp",
+"lat": 52.13926,
+"lon": 5.01758,
+"admin1": "09"
+},
+{
+"naam": "Utrecht",
+"lat": 52.09083,
+"lon": 5.12222,
+"admin1": "09"
+},
+{
+"naam": "Veenendaal",
+"lat": 52.02863,
+"lon": 5.55891,
+"admin1": "09"
+},
+{
+"naam": "Veldhuizen",
+"lat": 52.07537,
+"lon": 5.01234,
+"admin1": "09"
+},
+{
+"naam": "Vianen",
+"lat": 51.9925,
+"lon": 5.09167,
+"admin1": "09"
+},
+{
+"naam": "Vinkeveen",
+"lat": 52.21507,
+"lon": 4.93372,
+"admin1": "09"
+},
+{
+"naam": "Vleuten",
+"lat": 52.10583,
+"lon": 5.01528,
+"admin1": "09"
+},
+{
+"naam": "Vreeswijk",
+"lat": 52.01088,
+"lon": 5.09285,
+"admin1": "09"
+},
+{
+"naam": "Werkhoven",
+"lat": 52.025,
+"lon": 5.24444,
+"admin1": "09"
+},
+{
+"naam": "Westbroek",
+"lat": 52.15,
+"lon": 5.125,
+"admin1": "09"
+},
+{
+"naam": "Wijk bij Duurstede",
+"lat": 51.97417,
+"lon": 5.34167,
+"admin1": "09"
+},
+{
+"naam": "Wilnis",
+"lat": 52.19667,
+"lon": 4.89722,
+"admin1": "09"
+},
+{
+"naam": "Woerden",
+"lat": 52.085,
+"lon": 4.88333,
+"admin1": "09"
+},
+{
+"naam": "Woudenberg",
+"lat": 52.08083,
+"lon": 5.41667,
+"admin1": "09"
+},
+{
+"naam": "Zandweg-Oostwaard",
+"lat": 52.13638,
+"lon": 5.05196,
+"admin1": "09"
+},
+{
+"naam": "Zegveld",
+"lat": 52.115,
+"lon": 4.83611,
+"admin1": "09"
+},
+{
+"naam": "Zeist",
+"lat": 52.09,
+"lon": 5.23333,
+"admin1": "09"
+},
+{
+"naam": "Aagtekerke",
+"lat": 51.54667,
+"lon": 3.50972,
+"admin1": "10"
+},
+{
+"naam": "Aardenburg",
+"lat": 51.27333,
+"lon": 3.44722,
+"admin1": "10"
+},
+{
+"naam": "Arnemuiden",
+"lat": 51.50167,
+"lon": 3.675,
+"admin1": "10"
+},
+{
+"naam": "Axel",
+"lat": 51.26667,
+"lon": 3.90833,
+"admin1": "10"
+},
+{
+"naam": "Borssele",
+"lat": 51.42333,
+"lon": 3.73472,
+"admin1": "10"
+},
+{
+"naam": "Breskens",
+"lat": 51.39583,
+"lon": 3.55556,
+"admin1": "10"
+},
+{
+"naam": "Brouwershaven",
+"lat": 51.72667,
+"lon": 3.9125,
+"admin1": "10"
+},
+{
+"naam": "Bruinisse",
+"lat": 51.66167,
+"lon": 4.09444,
+"admin1": "10"
+},
+{
+"naam": "Colijnsplaat",
+"lat": 51.59917,
+"lon": 3.84861,
+"admin1": "10"
+},
+{
+"naam": "Dauwendaele",
+"lat": 51.49299,
+"lon": 3.62624,
+"admin1": "10"
+},
+{
+"naam": "Domburg",
+"lat": 51.56333,
+"lon": 3.49583,
+"admin1": "10"
+},
+{
+"naam": "Goes",
+"lat": 51.50417,
+"lon": 3.88889,
+"admin1": "10"
+},
+{
+"naam": "Griffioen",
+"lat": 51.50548,
+"lon": 3.59598,
+"admin1": "10"
+},
+{
+"naam": "Grijpskerke",
+"lat": 51.53417,
+"lon": 3.56111,
+"admin1": "10"
+},
+{
+"naam": "Haamstede",
+"lat": 51.69682,
+"lon": 3.74299,
+"admin1": "10"
+},
+{
+"naam": "Hulst",
+"lat": 51.28,
+"lon": 4.05278,
+"admin1": "10"
+},
+{
+"naam": "IJzendijke",
+"lat": 51.32167,
+"lon": 3.61667,
+"admin1": "10"
+},
+{
+"naam": "Kamperland",
+"lat": 51.57167,
+"lon": 3.70417,
+"admin1": "10"
+},
+{
+"naam": "Kapelle",
+"lat": 51.48627,
+"lon": 3.95804,
+"admin1": "10"
+},
+{
+"naam": "Klarenbeek",
+"lat": 51.50964,
+"lon": 3.61132,
+"admin1": "10"
+},
+{
+"naam": "Kloetinge",
+"lat": 51.49833,
+"lon": 3.91528,
+"admin1": "10"
+},
+{
+"naam": "Koewacht",
+"lat": 51.22833,
+"lon": 3.97361,
+"admin1": "10"
+},
+{
+"naam": "Koudekerke",
+"lat": 51.48167,
+"lon": 3.55417,
+"admin1": "10"
+},
+{
+"naam": "Lammerenburg",
+"lat": 51.46667,
+"lon": 3.55833,
+"admin1": "10"
+},
+{
+"naam": "Malta",
+"lat": 51.65,
+"lon": 3.93333,
+"admin1": "10"
+},
+{
+"naam": "Meliskerke",
+"lat": 51.51417,
+"lon": 3.50972,
+"admin1": "10"
+},
+{
+"naam": "Middelburg",
+"lat": 51.5,
+"lon": 3.61389,
+"admin1": "10"
+},
+{
+"naam": "Nieuw- en Sint Joosland",
+"lat": 51.48333,
+"lon": 3.65694,
+"admin1": "10"
+},
+{
+"naam": "Nieuw-Namen",
+"lat": 51.2925,
+"lon": 4.16111,
+"admin1": "10"
+},
+{
+"naam": "Nieuwerkerk",
+"lat": 51.65083,
+"lon": 4.00139,
+"admin1": "10"
+},
+{
+"naam": "Oostburg",
+"lat": 51.32583,
+"lon": 3.4875,
+"admin1": "10"
+},
+{
+"naam": "Oosterland",
+"lat": 51.65,
+"lon": 4.03611,
+"admin1": "10"
+},
+{
+"naam": "Oostkapelle",
+"lat": 51.56667,
+"lon": 3.55139,
+"admin1": "10"
+},
+{
+"naam": "Othene",
+"lat": 51.33083,
+"lon": 3.85972,
+"admin1": "10"
+},
+{
+"naam": "Oud-Vossemeer",
+"lat": 51.57083,
+"lon": 4.19861,
+"admin1": "10"
+},
+{
+"naam": "Poortvliet",
+"lat": 51.54417,
+"lon": 4.14306,
+"admin1": "10"
+},
+{
+"naam": "Renesse",
+"lat": 51.7325,
+"lon": 3.775,
+"admin1": "10"
+},
+{
+"naam": "Sas van Gent",
+"lat": 51.2275,
+"lon": 3.79861,
+"admin1": "10"
+},
+{
+"naam": "Scharendijke",
+"lat": 51.73583,
+"lon": 3.84306,
+"admin1": "10"
+},
+{
+"naam": "Scherpenisse",
+"lat": 51.54667,
+"lon": 4.10556,
+"admin1": "10"
+},
+{
+"naam": "Schoondijke",
+"lat": 51.35417,
+"lon": 3.55556,
+"admin1": "10"
+},
+{
+"naam": "Serooskerke",
+"lat": 51.54833,
+"lon": 3.59444,
+"admin1": "10"
+},
+{
+"naam": "Sint Laurens",
+"lat": 51.5275,
+"lon": 3.60278,
+"admin1": "10"
+},
+{
+"naam": "Sint Philipsland",
+"lat": 51.61667,
+"lon": 4.16528,
+"admin1": "10"
+},
+{
+"naam": "Sluis",
+"lat": 51.30833,
+"lon": 3.38611,
+"admin1": "10"
+},
+{
+"naam": "Sluiskil",
+"lat": 51.27833,
+"lon": 3.83611,
+"admin1": "10"
+},
+{
+"naam": "Stavenisse",
+"lat": 51.5875,
+"lon": 4.0125,
+"admin1": "10"
+},
+{
+"naam": "Terneuzen",
+"lat": 51.33583,
+"lon": 3.82778,
+"admin1": "10"
+},
+{
+"naam": "Tholen",
+"lat": 51.53167,
+"lon": 4.22083,
+"admin1": "10"
+},
+{
+"naam": "Vlissingen",
+"lat": 51.4425,
+"lon": 3.57361,
+"admin1": "10"
+},
+{
+"naam": "Waarde",
+"lat": 51.4175,
+"lon": 4.06806,
+"admin1": "10"
+},
+{
+"naam": "Wemeldinge",
+"lat": 51.51833,
+"lon": 3.99722,
+"admin1": "10"
+},
+{
+"naam": "West-Souburg",
+"lat": 51.46417,
+"lon": 3.59167,
+"admin1": "10"
+},
+{
+"naam": "Westdorpe",
+"lat": 51.2325,
+"lon": 3.82639,
+"admin1": "10"
+},
+{
+"naam": "Westerzicht",
+"lat": 51.46252,
+"lon": 3.58687,
+"admin1": "10"
+},
+{
+"naam": "Westkapelle",
+"lat": 51.52917,
+"lon": 3.44028,
+"admin1": "10"
+},
+{
+"naam": "Wissenkerke",
+"lat": 51.585,
+"lon": 3.74722,
+"admin1": "10"
+},
+{
+"naam": "Wolphaartsdijk",
+"lat": 51.53167,
+"lon": 3.81944,
+"admin1": "10"
+},
+{
+"naam": "Yerseke",
+"lat": 51.4925,
+"lon": 4.05,
+"admin1": "10"
+},
+{
+"naam": "Zaamslag",
+"lat": 51.3125,
+"lon": 3.9125,
+"admin1": "10"
+},
+{
+"naam": "Zierikzee",
+"lat": 51.65,
+"lon": 3.91944,
+"admin1": "10"
+},
+{
+"naam": "Zoutelande",
+"lat": 51.50167,
+"lon": 3.48472,
+"admin1": "10"
+},
+{
+"naam": "'s-Gravenland",
+"lat": 51.92336,
+"lon": 4.55315,
+"admin1": "11"
+},
+{
+"naam": "'s-Gravenzande",
+"lat": 52.00167,
+"lon": 4.16528,
+"admin1": "11"
+},
+{
+"naam": "Adegeest",
+"lat": 52.13621,
+"lon": 4.45249,
+"admin1": "11"
+},
+{
+"naam": "Alblasserdam",
+"lat": 51.86583,
+"lon": 4.66111,
+"admin1": "11"
+},
+{
+"naam": "Alphen aan den Rijn",
+"lat": 52.12917,
+"lon": 4.65546,
+"admin1": "11"
+},
+{
+"naam": "Ammerstol",
+"lat": 51.9275,
+"lon": 4.80833,
+"admin1": "11"
+},
+{
+"naam": "Arkel",
+"lat": 51.86417,
+"lon": 4.99444,
+"admin1": "11"
+},
+{
+"naam": "Barendrecht",
+"lat": 51.85667,
+"lon": 4.53472,
+"admin1": "11"
+},
+{
+"naam": "Benthuizen",
+"lat": 52.0775,
+"lon": 4.54444,
+"admin1": "11"
+},
+{
+"naam": "Bergschenhoek",
+"lat": 51.99,
+"lon": 4.49861,
+"admin1": "11"
+},
+{
+"naam": "Bergstoep",
+"lat": 51.9225,
+"lon": 4.78472,
+"admin1": "11"
+},
+{
+"naam": "Berkel en Rodenrijs",
+"lat": 51.99313,
+"lon": 4.47865,
+"admin1": "11"
+},
+{
+"naam": "Berkenwoude",
+"lat": 51.945,
+"lon": 4.70694,
+"admin1": "11"
+},
+{
+"naam": "Binnenhof",
+"lat": 52.16418,
+"lon": 4.53644,
+"admin1": "11"
+},
+{
+"naam": "Bleiswijk",
+"lat": 52.01083,
+"lon": 4.53194,
+"admin1": "11"
+},
+{
+"naam": "Bleskensgraaf",
+"lat": 51.8725,
+"lon": 4.78333,
+"admin1": "11"
+},
+{
+"naam": "Bloemendaal",
+"lat": 52.02878,
+"lon": 4.6944,
+"admin1": "11"
+},
+{
+"naam": "Bloemhof",
+"lat": 51.89723,
+"lon": 4.49943,
+"admin1": "11"
+},
+{
+"naam": "Bodegraven",
+"lat": 52.0825,
+"lon": 4.75,
+"admin1": "11"
+},
+{
+"naam": "Bolnes",
+"lat": 51.895,
+"lon": 4.57917,
+"admin1": "11"
+},
+{
+"naam": "Boskoop",
+"lat": 52.075,
+"lon": 4.65556,
+"admin1": "11"
+},
+{
+"naam": "Boven-Hardinxveld",
+"lat": 51.82333,
+"lon": 4.88194,
+"admin1": "11"
+},
+{
+"naam": "Brielle",
+"lat": 51.90167,
+"lon": 4.1625,
+"admin1": "11"
+},
+{
+"naam": "Capelle aan den IJssel",
+"lat": 51.92917,
+"lon": 4.57778,
+"admin1": "11"
+},
+{
+"naam": "Capelle-West",
+"lat": 51.91667,
+"lon": 4.56667,
+"admin1": "11"
+},
+{
+"naam": "Carnisse",
+"lat": 51.88932,
+"lon": 4.47758,
+"admin1": "11"
+},
+{
+"naam": "De Kieviet",
+"lat": 52.12333,
+"lon": 4.35839,
+"admin1": "11"
+},
+{
+"naam": "De Lier",
+"lat": 51.975,
+"lon": 4.24861,
+"admin1": "11"
+},
+{
+"naam": "De Peulen",
+"lat": 51.82362,
+"lon": 4.82165,
+"admin1": "11"
+},
+{
+"naam": "Delfshaven",
+"lat": 51.90488,
+"lon": 4.45315,
+"admin1": "11"
+},
+{
+"naam": "Delft",
+"lat": 52.00667,
+"lon": 4.35556,
+"admin1": "11"
+},
+{
+"naam": "Dirksland",
+"lat": 51.74917,
+"lon": 4.1,
+"admin1": "11"
+},
+{
+"naam": "Dordrecht",
+"lat": 51.81,
+"lon": 4.67361,
+"admin1": "11"
+},
+{
+"naam": "Driebruggen",
+"lat": 52.04417,
+"lon": 4.8,
+"admin1": "11"
+},
+{
+"naam": "Driemanspolder",
+"lat": 52.05176,
+"lon": 4.48504,
+"admin1": "11"
+},
+{
+"naam": "Duindorp",
+"lat": 52.09078,
+"lon": 4.26038,
+"admin1": "11"
+},
+{
+"naam": "Duinzigt",
+"lat": 52.10485,
+"lon": 4.32494,
+"admin1": "11"
+},
+{
+"naam": "Essesteijn",
+"lat": 52.08534,
+"lon": 4.37263,
+"admin1": "11"
+},
+{
+"naam": "Feijenoord",
+"lat": 51.91169,
+"lon": 4.50645,
+"admin1": "11"
+},
+{
+"naam": "Giessenburg",
+"lat": 51.85083,
+"lon": 4.89028,
+"admin1": "11"
+},
+{
+"naam": "Giessendam",
+"lat": 51.83257,
+"lon": 4.83583,
+"admin1": "11"
+},
+{
+"naam": "Goedereede",
+"lat": 51.8175,
+"lon": 3.98056,
+"admin1": "11"
+},
+{
+"naam": "Gorinchem",
+"lat": 51.83652,
+"lon": 4.97243,
+"admin1": "11"
+},
+{
+"naam": "Gouda",
+"lat": 52.01667,
+"lon": 4.70833,
+"admin1": "11"
+},
+{
+"naam": "Gouderak",
+"lat": 51.98417,
+"lon": 4.67778,
+"admin1": "11"
+},
+{
+"naam": "Goudswaard",
+"lat": 51.79417,
+"lon": 4.27639,
+"admin1": "11"
+},
+{
+"naam": "Gouwsluis",
+"lat": 52.11943,
+"lon": 4.66899,
+"admin1": "11"
+},
+{
+"naam": "Groenswaard",
+"lat": 52.05154,
+"lon": 4.64541,
+"admin1": "11"
+},
+{
+"naam": "Groot IJsselmonde",
+"lat": 51.88264,
+"lon": 4.54937,
+"admin1": "11"
+},
+{
+"naam": "Groot-Ammers",
+"lat": 51.92333,
+"lon": 4.82361,
+"admin1": "11"
+},
+{
+"naam": "Haastrecht",
+"lat": 52.00074,
+"lon": 4.77639,
+"admin1": "11"
+},
+{
+"naam": "Heerjansdam",
+"lat": 51.83583,
+"lon": 4.56389,
+"admin1": "11"
+},
+{
+"naam": "Heijplaat",
+"lat": 51.89333,
+"lon": 4.42083,
+"admin1": "11"
+},
+{
+"naam": "Hellevoetsluis",
+"lat": 51.83333,
+"lon": 4.13333,
+"admin1": "11"
+},
+{
+"naam": "Hendrik-Ido-Ambacht",
+"lat": 51.84417,
+"lon": 4.63889,
+"admin1": "11"
+},
+{
+"naam": "Hillegom",
+"lat": 52.29083,
+"lon": 4.58333,
+"admin1": "11"
+},
+{
+"naam": "Hoek van Holland",
+"lat": 51.9775,
+"lon": 4.13333,
+"admin1": "11"
+},
+{
+"naam": "Hoge Mors",
+"lat": 52.15616,
+"lon": 4.46025,
+"admin1": "11"
+},
+{
+"naam": "Honselersdijk",
+"lat": 52.00665,
+"lon": 4.22441,
+"admin1": "11"
+},
+{
+"naam": "Hoogblokland",
+"lat": 51.875,
+"lon": 4.97639,
+"admin1": "11"
+},
+{
+"naam": "Hoogmade",
+"lat": 52.16917,
+"lon": 4.58194,
+"admin1": "11"
+},
+{
+"naam": "Hoogvliet",
+"lat": 51.86333,
+"lon": 4.3625,
+"admin1": "11"
+},
+{
+"naam": "Katendrecht",
+"lat": 51.90074,
+"lon": 4.48254,
+"admin1": "11"
+},
+{
+"naam": "Katwijk aan Zee",
+"lat": 52.20333,
+"lon": 4.39861,
+"admin1": "11"
+},
+{
+"naam": "Katwijk aan den Rijn",
+"lat": 52.19417,
+"lon": 4.42222,
+"admin1": "11"
+},
+{
+"naam": "Kerkehout",
+"lat": 52.11018,
+"lon": 4.37957,
+"admin1": "11"
+},
+{
+"naam": "Kijkduin",
+"lat": 52.06765,
+"lon": 4.22188,
+"admin1": "11"
+},
+{
+"naam": "Klaaswaal",
+"lat": 51.77,
+"lon": 4.44583,
+"admin1": "11"
+},
+{
+"naam": "Kop van Zuid",
+"lat": 51.90553,
+"lon": 4.48706,
+"admin1": "11"
+},
+{
+"naam": "Krimpen aan den IJssel",
+"lat": 51.91667,
+"lon": 4.60278,
+"admin1": "11"
+},
+{
+"naam": "Kwintsheul",
+"lat": 52.01333,
+"lon": 4.25556,
+"admin1": "11"
+},
+{
+"naam": "Leiden",
+"lat": 52.15833,
+"lon": 4.49306,
+"admin1": "11"
+},
+{
+"naam": "Leiderdorp",
+"lat": 52.15833,
+"lon": 4.52917,
+"admin1": "11"
+},
+{
+"naam": "Leimuiden",
+"lat": 52.22417,
+"lon": 4.66944,
+"admin1": "11"
+},
+{
+"naam": "Liesveld",
+"lat": 51.9325,
+"lon": 4.83194,
+"admin1": "11"
+},
+{
+"naam": "Lisse",
+"lat": 52.26,
+"lon": 4.55694,
+"admin1": "11"
+},
+{
+"naam": "Lombardijen",
+"lat": 51.8738,
+"lon": 4.52192,
+"admin1": "11"
+},
+{
+"naam": "Maasdijk",
+"lat": 51.95917,
+"lon": 4.21389,
+"admin1": "11"
+},
+{
+"naam": "Maasland",
+"lat": 51.93417,
+"lon": 4.27222,
+"admin1": "11"
+},
+{
+"naam": "Maassluis",
+"lat": 51.92333,
+"lon": 4.25,
+"admin1": "11"
+},
+{
+"naam": "Merenwijk",
+"lat": 52.17655,
+"lon": 4.50885,
+"admin1": "11"
+},
+{
+"naam": "Middelharnis",
+"lat": 51.7575,
+"lon": 4.16528,
+"admin1": "11"
+},
+{
+"naam": "Middelsluis",
+"lat": 51.7425,
+"lon": 4.44167,
+"admin1": "11"
+},
+{
+"naam": "Mijnsheerenland",
+"lat": 51.79667,
+"lon": 4.4875,
+"admin1": "11"
+},
+{
+"naam": "Monster",
+"lat": 52.02583,
+"lon": 4.175,
+"admin1": "11"
+},
+{
+"naam": "Naaldwijk",
+"lat": 51.99417,
+"lon": 4.20972,
+"admin1": "11"
+},
+{
+"naam": "Neder-Hardinxveld",
+"lat": 51.82879,
+"lon": 4.85489,
+"admin1": "11"
+},
+{
+"naam": "Nieuw-Beijerland",
+"lat": 51.8125,
+"lon": 4.34306,
+"admin1": "11"
+},
+{
+"naam": "Nieuw-Lekkerland",
+"lat": 51.88915,
+"lon": 4.68653,
+"admin1": "11"
+},
+{
+"naam": "Nieuwenhoorn",
+"lat": 51.85417,
+"lon": 4.14306,
+"admin1": "11"
+},
+{
+"naam": "Nieuwerbrug aan den Rijn",
+"lat": 52.07833,
+"lon": 4.81389,
+"admin1": "11"
+},
+{
+"naam": "Nieuwerkerk aan den IJssel",
+"lat": 51.96833,
+"lon": 4.60972,
+"admin1": "11"
+},
+{
+"naam": "Nieuwkoop",
+"lat": 52.15083,
+"lon": 4.77639,
+"admin1": "11"
+},
+{
+"naam": "Nieuwpoort",
+"lat": 51.93583,
+"lon": 4.86806,
+"admin1": "11"
+},
+{
+"naam": "Nieuwveen",
+"lat": 52.19667,
+"lon": 4.75694,
+"admin1": "11"
+},
+{
+"naam": "Noord-Hofland",
+"lat": 52.14059,
+"lon": 4.45864,
+"admin1": "11"
+},
+{
+"naam": "Noordeinde",
+"lat": 52.01667,
+"lon": 4.48333,
+"admin1": "11"
+},
+{
+"naam": "Noordeloos",
+"lat": 51.90333,
+"lon": 4.94167,
+"admin1": "11"
+},
+{
+"naam": "Noordwijk-Binnen",
+"lat": 52.234,
+"lon": 4.44474,
+"admin1": "11"
+},
+{
+"naam": "Noordwijkerhout",
+"lat": 52.26167,
+"lon": 4.49306,
+"admin1": "11"
+},
+{
+"naam": "Nootdorp",
+"lat": 52.045,
+"lon": 4.39583,
+"admin1": "11"
+},
+{
+"naam": "Numansdorp",
+"lat": 51.73167,
+"lon": 4.4375,
+"admin1": "11"
+},
+{
+"naam": "Oegstgeest",
+"lat": 52.18,
+"lon": 4.46944,
+"admin1": "11"
+},
+{
+"naam": "Ommoord",
+"lat": 51.95951,
+"lon": 4.54533,
+"admin1": "11"
+},
+{
+"naam": "Oostdorp",
+"lat": 52.14994,
+"lon": 4.39319,
+"admin1": "11"
+},
+{
+"naam": "Oostvoorne",
+"lat": 51.9125,
+"lon": 4.09861,
+"admin1": "11"
+},
+{
+"naam": "Oranjewijk",
+"lat": 52.04922,
+"lon": 4.65374,
+"admin1": "11"
+},
+{
+"naam": "Oud-Beijerland",
+"lat": 51.82417,
+"lon": 4.4125,
+"admin1": "11"
+},
+{
+"naam": "Ouddorp",
+"lat": 51.81167,
+"lon": 3.93472,
+"admin1": "11"
+},
+{
+"naam": "Oude Wetering",
+"lat": 52.21417,
+"lon": 4.64444,
+"admin1": "11"
+},
+{
+"naam": "Ouderkerk aan den IJssel",
+"lat": 51.93417,
+"lon": 4.63611,
+"admin1": "11"
+},
+{
+"naam": "Overschie",
+"lat": 51.93863,
+"lon": 4.42766,
+"admin1": "11"
+},
+{
+"naam": "Palenstein",
+"lat": 52.05579,
+"lon": 4.50869,
+"admin1": "11"
+},
+{
+"naam": "Papendrecht",
+"lat": 51.83167,
+"lon": 4.6875,
+"admin1": "11"
+},
+{
+"naam": "Papenveer",
+"lat": 52.185,
+"lon": 4.725,
+"admin1": "11"
+},
+{
+"naam": "Pendrecht",
+"lat": 51.87152,
+"lon": 4.46901,
+"admin1": "11"
+},
+{
+"naam": "Pernis",
+"lat": 51.88833,
+"lon": 4.38889,
+"admin1": "11"
+},
+{
+"naam": "Piershil",
+"lat": 51.79333,
+"lon": 4.31389,
+"admin1": "11"
+},
+{
+"naam": "Pijnacker",
+"lat": 52.01954,
+"lon": 4.42946,
+"admin1": "11"
+},
+{
+"naam": "Poeldijk",
+"lat": 52.02417,
+"lon": 4.21944,
+"admin1": "11"
+},
+{
+"naam": "Reeuwijk",
+"lat": 52.04667,
+"lon": 4.725,
+"admin1": "11"
+},
+{
+"naam": "Rhoon",
+"lat": 51.8575,
+"lon": 4.42222,
+"admin1": "11"
+},
+{
+"naam": "Ridderkerk",
+"lat": 51.8725,
+"lon": 4.60278,
+"admin1": "11"
+},
+{
+"naam": "Rijnsaterwoude",
+"lat": 52.19583,
+"lon": 4.67083,
+"admin1": "11"
+},
+{
+"naam": "Rijnsburg",
+"lat": 52.19,
+"lon": 4.44167,
+"admin1": "11"
+},
+{
+"naam": "Rijpwetering",
+"lat": 52.1925,
+"lon": 4.58333,
+"admin1": "11"
+},
+{
+"naam": "Rijsoord",
+"lat": 51.85083,
+"lon": 4.59583,
+"admin1": "11"
+},
+{
+"naam": "Rijswijk",
+"lat": 52.03634,
+"lon": 4.32501,
+"admin1": "11"
+},
+{
+"naam": "Rockanje",
+"lat": 51.87167,
+"lon": 4.07083,
+"admin1": "11"
+},
+{
+"naam": "Roelofarendsveen",
+"lat": 52.20333,
+"lon": 4.63333,
+"admin1": "11"
+},
+{
+"naam": "Rotterdam",
+"lat": 51.9225,
+"lon": 4.47917,
+"admin1": "11"
+},
+{
+"naam": "Rozenburg",
+"lat": 51.90417,
+"lon": 4.24861,
+"admin1": "11"
+},
+{
+"naam": "Rugge",
+"lat": 51.89921,
+"lon": 4.15231,
+"admin1": "11"
+},
+{
+"naam": "Sassenheim",
+"lat": 52.225,
+"lon": 4.52222,
+"admin1": "11"
+},
+{
+"naam": "Schelluinen",
+"lat": 51.84333,
+"lon": 4.92639,
+"admin1": "11"
+},
+{
+"naam": "Scheveningen",
+"lat": 52.10461,
+"lon": 4.27557,
+"admin1": "11"
+},
+{
+"naam": "Schiebroek",
+"lat": 51.95838,
+"lon": 4.47124,
+"admin1": "11"
+},
+{
+"naam": "Schiedam",
+"lat": 51.91917,
+"lon": 4.38889,
+"admin1": "11"
+},
+{
+"naam": "Schipluiden",
+"lat": 51.97583,
+"lon": 4.31389,
+"admin1": "11"
+},
+{
+"naam": "Schoonhoven",
+"lat": 51.9475,
+"lon": 4.84861,
+"admin1": "11"
+},
+{
+"naam": "Sliedrecht",
+"lat": 51.82083,
+"lon": 4.77639,
+"admin1": "11"
+},
+{
+"naam": "Slikkerveer",
+"lat": 51.88531,
+"lon": 4.60494,
+"admin1": "11"
+},
+{
+"naam": "Spangen",
+"lat": 51.91688,
+"lon": 4.43539,
+"admin1": "11"
+},
+{
+"naam": "Spijkenisse",
+"lat": 51.845,
+"lon": 4.32917,
+"admin1": "11"
+},
+{
+"naam": "Spoorwijk",
+"lat": 52.05347,
+"lon": 4.31339,
+"admin1": "11"
+},
+{
+"naam": "Statenkwartier",
+"lat": 52.09311,
+"lon": 4.27577,
+"admin1": "11"
+},
+{
+"naam": "Stein",
+"lat": 52.00333,
+"lon": 4.78194,
+"admin1": "11"
+},
+{
+"naam": "Stolwijk",
+"lat": 51.9725,
+"lon": 4.77361,
+"admin1": "11"
+},
+{
+"naam": "Strijen",
+"lat": 51.74521,
+"lon": 4.55083,
+"admin1": "11"
+},
+{
+"naam": "Strijp",
+"lat": 52.03083,
+"lon": 4.30139,
+"admin1": "11"
+},
+{
+"naam": "Ter Aar",
+"lat": 52.16583,
+"lon": 4.70694,
+"admin1": "11"
+},
+{
+"naam": "Terbregge",
+"lat": 51.95328,
+"lon": 4.51537,
+"admin1": "11"
+},
+{
+"naam": "The Hague",
+"lat": 52.07667,
+"lon": 4.29861,
+"admin1": "11"
+},
+{
+"naam": "Tuindorp",
+"lat": 51.93032,
+"lon": 4.3784,
+"admin1": "11"
+},
+{
+"naam": "Valkenburg",
+"lat": 52.18,
+"lon": 4.43194,
+"admin1": "11"
+},
+{
+"naam": "Vierpolders",
+"lat": 51.87917,
+"lon": 4.17917,
+"admin1": "11"
+},
+{
+"naam": "Vlaardingen",
+"lat": 51.9125,
+"lon": 4.34167,
+"admin1": "11"
+},
+{
+"naam": "Vlietwijk",
+"lat": 52.12436,
+"lon": 4.45736,
+"admin1": "11"
+},
+{
+"naam": "Vogelwijk",
+"lat": 52.07631,
+"lon": 4.2479,
+"admin1": "11"
+},
+{
+"naam": "Vondelwijk",
+"lat": 52.05497,
+"lon": 4.65314,
+"admin1": "11"
+},
+{
+"naam": "Voorburg",
+"lat": 52.07417,
+"lon": 4.35972,
+"admin1": "11"
+},
+{
+"naam": "Voorhout",
+"lat": 52.22167,
+"lon": 4.48472,
+"admin1": "11"
+},
+{
+"naam": "Voorschoten",
+"lat": 52.1275,
+"lon": 4.44861,
+"admin1": "11"
+},
+{
+"naam": "Vreewijk",
+"lat": 51.88428,
+"lon": 4.51967,
+"admin1": "11"
+},
+{
+"naam": "Waarder",
+"lat": 52.06083,
+"lon": 4.82083,
+"admin1": "11"
+},
+{
+"naam": "Waddinxveen",
+"lat": 52.045,
+"lon": 4.65139,
+"admin1": "11"
+},
+{
+"naam": "Warmond",
+"lat": 52.19667,
+"lon": 4.50278,
+"admin1": "11"
+},
+{
+"naam": "Wassenaar",
+"lat": 52.14583,
+"lon": 4.40278,
+"admin1": "11"
+},
+{
+"naam": "Weerestein",
+"lat": 52.30381,
+"lon": 4.58861,
+"admin1": "11"
+},
+{
+"naam": "Weijpoort",
+"lat": 52.08167,
+"lon": 4.80278,
+"admin1": "11"
+},
+{
+"naam": "Westmaas",
+"lat": 51.78667,
+"lon": 4.475,
+"admin1": "11"
+},
+{
+"naam": "Woubrugge",
+"lat": 52.17,
+"lon": 4.63611,
+"admin1": "11"
+},
+{
+"naam": "Ypenburg",
+"lat": 52.04098,
+"lon": 4.36981,
+"admin1": "11"
+},
+{
+"naam": "Zevenhoven",
+"lat": 52.18167,
+"lon": 4.77917,
+"admin1": "11"
+},
+{
+"naam": "Zoetermeer",
+"lat": 52.0575,
+"lon": 4.49306,
+"admin1": "11"
+},
+{
+"naam": "Zoeterwoude-Dorp",
+"lat": 52.12,
+"lon": 4.49583,
+"admin1": "11"
+},
+{
+"naam": "Zuid-Beijerland",
+"lat": 51.75083,
+"lon": 4.36806,
+"admin1": "11"
+},
+{
+"naam": "Zuidwijk",
+"lat": 51.87532,
+"lon": 4.48514,
+"admin1": "11"
+},
+{
+"naam": "Zwijndrecht",
+"lat": 51.8175,
+"lon": 4.63333,
+"admin1": "11"
+},
+{
+"naam": "s-Gravendeel",
+"lat": 51.78,
+"lon": 4.61667,
+"admin1": "11"
+},
+{
+"naam": "Aalanden",
+"lat": 52.53334,
+"lon": 6.10069,
+"admin1": "15"
+},
+{
+"naam": "Almelo",
+"lat": 52.35667,
+"lon": 6.6625,
+"admin1": "15"
+},
+{
+"naam": "Baalder",
+"lat": 52.58579,
+"lon": 6.65299,
+"admin1": "15"
+},
+{
+"naam": "Bathmen",
+"lat": 52.25,
+"lon": 6.2875,
+"admin1": "15"
+},
+{
+"naam": "Berkum",
+"lat": 52.52395,
+"lon": 6.13655,
+"admin1": "15"
+},
+{
+"naam": "Blokzijl",
+"lat": 52.72667,
+"lon": 5.96111,
+"admin1": "15"
+},
+{
+"naam": "Borgele",
+"lat": 52.2763,
+"lon": 6.14926,
+"admin1": "15"
+},
+{
+"naam": "Borne",
+"lat": 52.30136,
+"lon": 6.7482,
+"admin1": "15"
+},
+{
+"naam": "Boskamp",
+"lat": 52.33083,
+"lon": 6.12778,
+"admin1": "15"
+},
+{
+"naam": "Brunnepe",
+"lat": 52.56185,
+"lon": 5.90343,
+"admin1": "15"
+},
+{
+"naam": "Dalfsen",
+"lat": 52.51167,
+"lon": 6.25694,
+"admin1": "15"
+},
+{
+"naam": "De Hoven",
+"lat": 52.24901,
+"lon": 6.14367,
+"admin1": "15"
+},
+{
+"naam": "Dedemsvaart",
+"lat": 52.6,
+"lon": 6.45833,
+"admin1": "15"
+},
+{
+"naam": "Delden",
+"lat": 52.26,
+"lon": 6.71111,
+"admin1": "15"
+},
+{
+"naam": "Den Ham",
+"lat": 52.46583,
+"lon": 6.49583,
+"admin1": "15"
+},
+{
+"naam": "Deventer",
+"lat": 52.255,
+"lon": 6.16389,
+"admin1": "15"
+},
+{
+"naam": "Diepenheim",
+"lat": 52.2,
+"lon": 6.55556,
+"admin1": "15"
+},
+{
+"naam": "Enschede",
+"lat": 52.21833,
+"lon": 6.89583,
+"admin1": "15"
+},
+{
+"naam": "Enter",
+"lat": 52.29417,
+"lon": 6.57778,
+"admin1": "15"
+},
+{
+"naam": "Flevowijk",
+"lat": 52.54583,
+"lon": 5.91338,
+"admin1": "15"
+},
+{
+"naam": "Frankhuis",
+"lat": 52.525,
+"lon": 6.06806,
+"admin1": "15"
+},
+{
+"naam": "Genemuiden",
+"lat": 52.62333,
+"lon": 6.04028,
+"admin1": "15"
+},
+{
+"naam": "Giethoorn",
+"lat": 52.74,
+"lon": 6.07917,
+"admin1": "15"
+},
+{
+"naam": "Glanerbrug",
+"lat": 52.21583,
+"lon": 6.97083,
+"admin1": "15"
+},
+{
+"naam": "Goor",
+"lat": 52.23333,
+"lon": 6.58611,
+"admin1": "15"
+},
+{
+"naam": "Grafhorst",
+"lat": 52.5825,
+"lon": 5.93333,
+"admin1": "15"
+},
+{
+"naam": "Haaksbergen",
+"lat": 52.15667,
+"lon": 6.73889,
+"admin1": "15"
+},
+{
+"naam": "Haarle",
+"lat": 52.35917,
+"lon": 6.38056,
+"admin1": "15"
+},
+{
+"naam": "Hardenberg",
+"lat": 52.57583,
+"lon": 6.61944,
+"admin1": "15"
+},
+{
+"naam": "Hasselt",
+"lat": 52.59267,
+"lon": 6.09527,
+"admin1": "15"
+},
+{
+"naam": "Heino",
+"lat": 52.43661,
+"lon": 6.23282,
+"admin1": "15"
+},
+{
+"naam": "Hengelo",
+"lat": 52.26583,
+"lon": 6.79306,
+"admin1": "15"
+},
+{
+"naam": "Hengevelde",
+"lat": 52.19917,
+"lon": 6.63611,
+"admin1": "15"
+},
+{
+"naam": "Het Oostrik",
+"lat": 52.25,
+"lon": 6.21667,
+"admin1": "15"
+},
+{
+"naam": "IJsselmuiden",
+"lat": 52.5649,
+"lon": 5.92901,
+"admin1": "15"
+},
+{
+"naam": "Kampen",
+"lat": 52.555,
+"lon": 5.91111,
+"admin1": "15"
+},
+{
+"naam": "Klein Driene",
+"lat": 52.26935,
+"lon": 6.81613,
+"admin1": "15"
+},
+{
+"naam": "Lonneker",
+"lat": 52.25083,
+"lon": 6.91111,
+"admin1": "15"
+},
+{
+"naam": "Losser",
+"lat": 52.26083,
+"lon": 7.00417,
+"admin1": "15"
+},
+{
+"naam": "Magele",
+"lat": 52.46917,
+"lon": 6.52083,
+"admin1": "15"
+},
+{
+"naam": "Markelo",
+"lat": 52.235,
+"lon": 6.49861,
+"admin1": "15"
+},
+{
+"naam": "Mekkelholt",
+"lat": 52.23645,
+"lon": 6.89058,
+"admin1": "15"
+},
+{
+"naam": "Nieuwoord",
+"lat": 52.46667,
+"lon": 6.55,
+"admin1": "15"
+},
+{
+"naam": "Nijrees",
+"lat": 52.335,
+"lon": 6.66389,
+"admin1": "15"
+},
+{
+"naam": "Nijverdal",
+"lat": 52.36,
+"lon": 6.46806,
+"admin1": "15"
+},
+{
+"naam": "Oldemarkt",
+"lat": 52.82083,
+"lon": 5.975,
+"admin1": "15"
+},
+{
+"naam": "Oldenzaal",
+"lat": 52.31333,
+"lon": 6.92917,
+"admin1": "15"
+},
+{
+"naam": "Olst",
+"lat": 52.3375,
+"lon": 6.10972,
+"admin1": "15"
+},
+{
+"naam": "Ommen",
+"lat": 52.52083,
+"lon": 6.42083,
+"admin1": "15"
+},
+{
+"naam": "Oosterholt",
+"lat": 52.55917,
+"lon": 5.95556,
+"admin1": "15"
+},
+{
+"naam": "Oostermeenthe",
+"lat": 52.79319,
+"lon": 6.13138,
+"admin1": "15"
+},
+{
+"naam": "Ootmarsum",
+"lat": 52.40833,
+"lon": 6.90139,
+"admin1": "15"
+},
+{
+"naam": "Pathmos",
+"lat": 52.21397,
+"lon": 6.87555,
+"admin1": "15"
+},
+{
+"naam": "Pierik",
+"lat": 52.50141,
+"lon": 6.1117,
+"admin1": "15"
+},
+{
+"naam": "Raalte",
+"lat": 52.38583,
+"lon": 6.275,
+"admin1": "15"
+},
+{
+"naam": "Rijssen",
+"lat": 52.30667,
+"lon": 6.51806,
+"admin1": "15"
+},
+{
+"naam": "Rossum",
+"lat": 52.35167,
+"lon": 6.92222,
+"admin1": "15"
+},
+{
+"naam": "Schalkhaar",
+"lat": 52.26833,
+"lon": 6.19444,
+"admin1": "15"
+},
+{
+"naam": "Sint Jansklooster",
+"lat": 52.6775,
+"lon": 6.00556,
+"admin1": "15"
+},
+{
+"naam": "Staphorst",
+"lat": 52.645,
+"lon": 6.21111,
+"admin1": "15"
+},
+{
+"naam": "Steenwijk",
+"lat": 52.7875,
+"lon": 6.12083,
+"admin1": "15"
+},
+{
+"naam": "Steenwijkerwold",
+"lat": 52.80417,
+"lon": 6.06389,
+"admin1": "15"
+},
+{
+"naam": "Tubbergen",
+"lat": 52.4075,
+"lon": 6.78472,
+"admin1": "15"
+},
+{
+"naam": "Tuk",
+"lat": 52.79667,
+"lon": 6.09444,
+"admin1": "15"
+},
+{
+"naam": "Twekkelerveld",
+"lat": 52.23064,
+"lon": 6.86004,
+"admin1": "15"
+},
+{
+"naam": "Vollenhove",
+"lat": 52.68083,
+"lon": 5.95417,
+"admin1": "15"
+},
+{
+"naam": "Vriezenveen",
+"lat": 52.40833,
+"lon": 6.62222,
+"admin1": "15"
+},
+{
+"naam": "Vroomshoop",
+"lat": 52.46083,
+"lon": 6.56528,
+"admin1": "15"
+},
+{
+"naam": "Westerhaar-Vriezenveensewijk",
+"lat": 52.45583,
+"lon": 6.62361,
+"admin1": "15"
+},
+{
+"naam": "Wierden",
+"lat": 52.35917,
+"lon": 6.59306,
+"admin1": "15"
+},
+{
+"naam": "Wijhe",
+"lat": 52.38667,
+"lon": 6.13472,
+"admin1": "15"
+},
+{
+"naam": "Woolde",
+"lat": 52.2721,
+"lon": 6.75891,
+"admin1": "15"
+},
+{
+"naam": "Wooldrik",
+"lat": 52.21667,
+"lon": 6.91667,
+"admin1": "15"
+},
+{
+"naam": "Zuid-Berghuizen",
+"lat": 52.30083,
+"lon": 6.93333,
+"admin1": "15"
+},
+{
+"naam": "Zwartsluis",
+"lat": 52.64083,
+"lon": 6.06944,
+"admin1": "15"
+},
+{
+"naam": "Zwolle",
+"lat": 52.5125,
+"lon": 6.09444,
+"admin1": "15"
+},
+{
+"naam": "Almere Duin",
+"lat": 52.3418,
+"lon": 5.14126,
+"admin1": "16"
+},
+{
+"naam": "Almere Stad",
+"lat": 52.37025,
+"lon": 5.21413,
+"admin1": "16"
+},
+{
+"naam": "Bant",
+"lat": 52.76833,
+"lon": 5.75,
+"admin1": "16"
+},
+{
+"naam": "Biddinghuizen",
+"lat": 52.455,
+"lon": 5.69306,
+"admin1": "16"
+},
+{
+"naam": "Creil",
+"lat": 52.76417,
+"lon": 5.65972,
+"admin1": "16"
+},
+{
+"naam": "Dronten",
+"lat": 52.525,
+"lon": 5.71806,
+"admin1": "16"
+},
+{
+"naam": "Emmeloord",
+"lat": 52.71083,
+"lon": 5.74861,
+"admin1": "16"
+},
+{
+"naam": "Ens",
+"lat": 52.63667,
+"lon": 5.82778,
+"admin1": "16"
+},
+{
+"naam": "Espel",
+"lat": 52.72417,
+"lon": 5.64167,
+"admin1": "16"
+},
+{
+"naam": "Kraggenburg",
+"lat": 52.6625,
+"lon": 5.9,
+"admin1": "16"
+},
+{
+"naam": "Lelystad",
+"lat": 52.50833,
+"lon": 5.475,
+"admin1": "16"
+},
+{
+"naam": "Luttelgeest",
+"lat": 52.74333,
+"lon": 5.85278,
+"admin1": "16"
+},
+{
+"naam": "Marknesse",
+"lat": 52.70833,
+"lon": 5.87083,
+"admin1": "16"
+},
+{
+"naam": "Nagele",
+"lat": 52.64417,
+"lon": 5.725,
+"admin1": "16"
+},
+{
+"naam": "Rutten",
+"lat": 52.80497,
+"lon": 5.69796,
+"admin1": "16"
+},
+{
+"naam": "Swifterbant",
+"lat": 52.56833,
+"lon": 5.64306,
+"admin1": "16"
+},
+{
+"naam": "Tollebeek",
+"lat": 52.6775,
+"lon": 5.675,
+"admin1": "16"
+},
+{
+"naam": "Urk",
+"lat": 52.6625,
+"lon": 5.60139,
+"admin1": "16"
+},
+{
+"naam": "Zeewolde",
+"lat": 52.33,
+"lon": 5.54167,
+"admin1": "16"
+}
+]
+}

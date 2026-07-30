@@ -30,46 +30,102 @@
         <label class="veld"><span>Ondertitel</span>
           <input type="text" id="in-ondertitel" maxlength="120" placeholder="Optionele toelichting"></label>
         <label class="veld"><span>Bronregel</span>
-          <input type="text" id="in-bron" maxlength="120" value="Bron: Kadaster/PDOK"></label>
-        <label class="veld"><span>Uitlijning titel en kaart</span>
-          <select id="in-uitlijning">
-            <option value="gecentreerd">Gecentreerd</option>
-            <option value="links">Links</option>
+          <span class="vast" id="bron-vast">Bron: Kadaster/PDOK</span>
+          <input type="text" id="in-bronaanvulling" maxlength="90" placeholder="/ eigen bron, bijvoorbeeld CBS"></label>
+        <p class="hint">De kaartdata staat onder CC BY 4.0; <em>Bron: Kadaster/PDOK</em> is daarom verplicht en staat vast. Je eigen databron komt erachter.</p>
+        <label class="veld"><span>Weergave</span>
+          <select id="in-weergave">
+            <option value="kader">In kader — met ruimte voor titel en legenda</option>
+            <option value="beeldvullend">Beeldvullend — kaart tot de beeldrand</option>
           </select></label>
+        <p class="hint" id="weergave-hint" hidden>De kaart loopt door tot alle vier de beeldranden; titel, legenda en bronregel liggen er als laag overheen en de provincie schuift daarvoor opzij. Voor tv: kies 16:9. Waar de legenda komt, kies je bij Legenda.</p>
+        <div class="tweekolom">
+          <label class="veld"><span>Uitlijning titel</span>
+            <select id="in-uitlijning">
+              <option value="links">Links</option>
+              <option value="midden">Midden</option>
+              <option value="rechts">Rechts</option>
+            </select></label>
+          <label class="veld"><span>Uitlijning kaart</span>
+            <select id="in-kaartuitlijning">
+              <option value="links">Links</option>
+              <option value="midden">Midden</option>
+              <option value="rechts">Rechts</option>
+            </select></label>
+        </div>
         <label class="veld"><span>Achtergrond</span>
           <select id="in-achtergrond">
             <option value="wit">Wit</option>
             <option value="lichtblauw">Lichtblauw (#E7EEF9)</option>
             <option value="blauw">Oost Blauw (#1361FF)</option>
             <option value="donkerblauw">Donkerblauw (#131720)</option>
+            <option value="transparant">Transparant</option>
           </select></label>
-        <p class="hint">De bronvermelding <em>Bron: Kadaster/PDOK</em> is verplicht bij de kaartdata (CC BY 4.0). Vul je eigen databron ervoor of erachter aan.</p>
+        <p class="hint" id="achtergrond-hint" hidden>Beeldvullend ligt de kaart over de hele achtergrond, dus van deze keuze zie je dan niets. Hij doet weer mee zodra je <em>In kader</em> kiest, of bij Basiskaart <em>Wateroppervlak als achtergrond</em> uitzet.</p>
+        <p class="hint" id="transparant-hint" hidden>Transparant levert een PNG zonder achtergrond. Zet ook <em>Water</em> uit bij Basiskaart als je alleen de provincievorm wilt uitsnijden.</p>
       </div>
     </section>
 
     <section class="paneel" data-paneel="basiskaart">
       <button class="paneel-kop" type="button">Basiskaart<span class="chevron"></span></button>
       <div class="paneel-body">
+        <label class="veld"><span>Welke kaart</span></label>
+        <div class="keuzerij" id="kaartsoortkeuze">
+          <button type="button" class="keuze" data-waarde="overijssel">Overijssel — 25 gemeenten</button>
+          <button type="button" class="keuze" data-waarde="nederland">Nederland — 12 provincies</button>
+        </div>
+
+        <div id="nederland-opties" hidden>
+          <label class="veld"><span>Uitgelichte provincies</span></label>
+          <div class="schakelaars kolommen" id="uitgelicht-lijst"></div>
+          <label class="veld"><span>Kleur van de uitgelichte provincies</span></label>
+          <div class="kleurkiezer" id="kiezer-uitlicht"></div>
+          <p class="hint">Meerdere tegelijk kan. Wil je ze onderling verschillende kleuren geven, gebruik dan de vlaklaag met categorieën.</p>
+        </div>
+
+        <label class="veld"><span>Stijl</span></label>
+        <div class="keuzerij" id="basiskaart-stijlen"></div>
+
+        <label class="veld"><span>Wat staat er op</span></label>
         <div class="keuzerij" id="basiskaart-presets"></div>
         <div class="schakelaars" id="basiskaart-lagen"></div>
-        <label class="veld"><span>Vulling gemeenten</span>
-          <select id="in-vulling">
-            <option value="tint">Tint (#8FB8FF)</option>
-            <option value="wit">Wit</option>
-            <option value="lichtblauw">Lichtblauw (#E7EEF9)</option>
-          </select></label>
-        <label class="veld"><span>Plaatsen op de basiskaart</span>
-          <select id="in-basisplaatsen">
+
+        <label class="veld"><span id="label-namen">Namen op de vlakken</span>
+          <select id="in-namen">
             <option value="geen">Geen</option>
-            <option value="hoofd">Acht grootste plaatsen</option>
-            <option value="groot">Kernen vanaf 10.000 inwoners</option>
-            <option value="middel">Kernen vanaf 5.000 inwoners</option>
+            <option value="alle">Alle</option>
+            <option value="uitgelicht">Alleen de uitgelichte</option>
           </select></label>
+
+        <label class="veld"><span>Plaatsen op de basiskaart</span>
+          <select id="in-basisplaatsen"></select></label>
+        <p class="hint" id="plaatsen-hint">Hoe meer plaatsen, hoe kleiner de namen worden gezet.</p>
+
+        <details class="invoer">
+          <summary>Kleuren en lijnen</summary>
+          <label class="veld"><span id="label-vulling">Vulling gemeenten</span></label>
+          <div class="kleurkiezer" id="kiezer-vulling"></div>
+          <label class="veld"><span id="label-grenskleur">Kleur gemeentegrenzen</span></label>
+          <div class="kleurkiezer" id="kiezer-grens"></div>
+          <label class="veld"><span id="label-contourkleur">Kleur provinciecontour</span></label>
+          <div class="kleurkiezer" id="kiezer-contour"></div>
+          <div id="buitenland-kleur">
+            <label class="veld"><span>Kleur Duitsland en België</span></label>
+            <div class="kleurkiezer" id="kiezer-buitenland"></div>
+          </div>
+          <div class="tweekolom">
+            <label class="veld"><span id="label-grensdikte">Dikte gemeentegrens</span>
+              <input type="range" id="in-grensdikte" min="0" max="3" step="0.25" value="1"></label>
+            <label class="veld"><span id="label-contourdikte">Dikte contour</span>
+              <input type="range" id="in-contourdikte" min="0" max="4" step="0.25" value="1"></label>
+          </div>
+          <p class="hint" id="dikte-melding"></p>
+        </details>
       </div>
     </section>
 
     <section class="paneel" data-paneel="vlaklaag">
-      <button class="paneel-kop" type="button">Vlaklaag — gemeenten inkleuren
+      <button class="paneel-kop" type="button"><span id="kop-vlaklaag">Vlaklaag — gemeenten inkleuren</span>
         <span class="tel" id="tel-vlak"></span><span class="chevron"></span></button>
       <div class="paneel-body">
         <label class="schakel"><input type="checkbox" id="in-vlak-actief"><span>Vlaklaag gebruiken</span></label>
@@ -82,7 +138,7 @@
 
           <details class="invoer">
             <summary>Data invoeren of plakken</summary>
-            <p class="hint">Plak twee kolommen uit een spreadsheet: gemeentenaam en waarde. Een derde kolom wordt als tekstlabel gebruikt.</p>
+            <p class="hint" id="hint-vlak-plak">Plak twee kolommen uit een spreadsheet: gemeentenaam en waarde. Een derde kolom wordt als tekstlabel gebruikt.</p>
             <textarea id="in-vlak-plak" rows="5" placeholder="Almelo&#9;72&#10;Borne&#9;18&#10;Dalfsen&#9;35"></textarea>
             <div class="knoprij">
               <button class="knop knop-blauw" id="knop-vlak-plak" type="button">Verwerken</button>
@@ -108,15 +164,17 @@
             <div class="categorielijst" id="vlak-categorielijst"></div>
           </div>
 
-          <label class="veld"><span>Label in de gemeente</span>
+          <label class="veld"><span>Label in het vlak</span>
             <select id="in-vlak-label">
               <option value="geen">Geen</option>
-              <option value="naam">Gemeentenaam</option>
-              <option value="waarde">Waarde</option>
+              <option value="naam">Alleen de naam</option>
+              <option value="waarde">Alleen de waarde</option>
               <option value="naam-waarde">Naam + waarde</option>
               <option value="tekst">Eigen tekst (derde kolom)</option>
             </select></label>
-          <label class="veld"><span>Gemeenten zonder data</span>
+          <p class="hint">Een label komt alleen in vlakken met een waarde. Wil je de namen
+            van de andere er ook bij, zet dan <em>Namen op de vlakken</em> op <em>Alle</em> bij Basiskaart.</p>
+          <label class="veld"><span id="label-vlak-leeg">Gemeenten zonder data</span>
             <select id="in-vlak-leeg">
               <option value="grijs">Grijs invullen</option>
               <option value="basis">Basiskleur laten</option>
@@ -220,12 +278,19 @@
       <div class="paneel-body">
         <label class="veld"><span>Kop boven de legenda</span><input type="text" id="in-legenda-titel" maxlength="60" placeholder="Optioneel"></label>
         <div class="schakelaars" id="legenda-schakelaars"></div>
-        <label class="veld"><span>Plaats bij 16:9</span>
+        <div id="legenda-achter"></div>
+        <label class="veld"><span>Plaats</span>
           <select id="in-legenda-plaats">
-            <option value="rechts">Rechts naast de kaart</option>
             <option value="onder">Onder de kaart</option>
+            <option value="rechts">Rechts, midden</option>
+            <option value="rechtsboven">Rechtsboven</option>
+            <option value="rechtsonder">Rechtsonder</option>
+            <option value="links">Links, midden</option>
+            <option value="linksboven">Linksboven</option>
+            <option value="linksonder">Linksonder</option>
+            <option value="geen">Geen legenda</option>
           </select></label>
-        <p class="hint">Bij vierkant en staand staat de legenda altijd onder de kaart — die formaten zijn opnieuw ingedeeld, geen uitsnede.</p>
+        <p class="hint">In het kader staat de legenda naast of onder het kaartvlak, beeldvullend ligt hij als laag op de kaart. Naast de kaart kan alleen bij 16:9; bij vierkant en staand valt elke zijkeuze terug op <em>Onder de kaart</em>.</p>
       </div>
     </section>
 
@@ -297,6 +362,9 @@
 
 <script type="application/json" id="kaartdata">/*__KAARTDATA__*/</script>
 <script type="application/json" id="plaatsdata">/*__PLAATSDATA__*/</script>
+<script type="application/json" id="nederlanddata">/*__NEDERLANDDATA__*/</script>
+<script type="application/json" id="buitenlanddata">/*__BUITENLANDDATA__*/</script>
+<script type="application/json" id="nlplaatsdata">/*__NLPLAATSDATA__*/</script>
 <script>/*__SCRIPT__*/</script>
 </body>
 </html>

@@ -87,6 +87,36 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
 - **Getalnotatie wordt afgeleid, niet aangenomen.** `1.234` is Nederlands voor
   1234, `1.5` een Engelse decimaal; bij twee scheidingstekens wint de laatste als
   decimaalteken.
+- **Stijl koppelt vulling aan lijnkleur.** De drie vulvarianten uit fase 2
+  verschillen niet alleen in vulling maar ook in lijnkleur (tint heeft witte
+  grenzen, lichtblauw en wit hebben blauwe). Als losse instellingen kost dat drie
+  handelingen; als stijlknop één. De losse regelaars staan er nog onder, in een
+  uitklapper, zodat de bovenlaag simpel blijft.
+- **Plaatspunten komen uit TOP10NL, niet uit `app_data.json`.** Anders zouden de
+  elf hoofdplaatsen de afwijking van 700 m houden terwijl de nieuw toegevoegde
+  kernen wel goed liggen. Nu staat alles in hetzelfde gecontroleerde stelsel.
+- **Naamgrootte hangt af van het aantal plaatsen.** Bij 57 kernen past de normale
+  maat er niet meer op. De factor loopt van 1,12 (tot 5 plaatsen) naar 0,63 (meer
+  dan 40).
+- **Twee kaartsoorten delen één tekenfunctie.** Nederland is met dezelfde
+  affiene transformatie geprojecteerd als Overijssel, dus beide leven in
+  hetzelfde assenstelsel; een punt uit de plaatsenlijst klopt op allebei zonder
+  omrekening. Alleen het kijkvenster en de beschikbare lagen verschillen.
+- **Provinciecodes en gemeentecodes botsen niet** (23 tegenover GM0141), dus de
+  ingevulde waarden van beide kaartsoorten kunnen in dezelfde tabel staan.
+  Wisselen van kaart gooit je invoer niet weg.
+- **Nederland krijgt geen waterachtergrond.** Buiten het land is er geen
+  contextlaag, dus alles eromheen zou water worden — en een blauw uitgelicht
+  Overijssel loopt dan tegen de oostgrens zo over in de achtergrond. Bij het
+  wisselen van kaartsoort gaat het waterveld daarom automatisch uit.
+- **Afronden op een raster in plaats van vereenvoudigen.** Douglas-Peucker per
+  provincie zou gaten tussen buren opleveren: een gedeelde grens wordt dan twee
+  keer verschillend vereenvoudigd. Afronden op een vast raster van 1 interne
+  pixel (ongeveer 102 m) heeft dat probleem niet, want dezelfde coordinaat rondt
+  aan beide kanten naar hetzelfde punt.
+- **Waarden krijgen allemaal evenveel decimalen.** Staat er ergens 3,2 dan wordt
+  3 ook 3,0; anders lezen die twee in dezelfde kaart als verschillende soorten
+  getallen.
 - **Opslag in `localStorage`, niet in cookies.** Lokaal, geen server, geen derde
   partij. De tool zegt er expliciet bij dat de bibliotheek verdwijnt als je je
   browsergegevens wist, en biedt downloaden als bestand als veilige route.
@@ -103,11 +133,40 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
   naar 54 kernen en het totaal van 1074 naar 1143 plaatsen. De pijplijn leest nu
   alle `top10nl_plaats*.gml(.gz)`-bestanden in `bron/` en ontdubbelt op `lokaalID`,
   dus meerdere downloadrechthoeken mogen naast elkaar staan.
-- **Duitsland staat niet op de kaart.** De contextlaag komt uit CBS
-  Gebiedsindelingen en houdt op bij de landsgrens, dus ten oosten van Twente wordt
-  water getekend waar land ligt. Met het huidige krappe kaartvlak is dat een strook
-  van ongeveer 26 px. Echt oplossen vraagt buitenlandse geometrie, die niet in de
-  pijplijn van fase 1/2 zit.
+- **Opgelost: het binnenwater op de Nederlandkaart.** BRK Provinciegebied telt op
+  tot 41.543 km2, Nederland inclusief binnenwater; Friesland +72 %, Flevoland
+  +70 %, Zeeland +65 %. Daarmee liepen IJsselmeer, Markermeer, Waddenzee en
+  Oosterschelde vol met provinciekleur, en ook het meegeleverde `landgebied` hielp
+  niet: dat is het staatsgebied en komt op diezelfde 41.543 km2 uit. De oplossing
+  was CBS Gebiedsindelingen, dezelfde bron als in fase 1 — te herkennen aan de
+  bestandsnaam `Provincies_zonder_water_v1_0.json` in `build_kaart.py`. Nu 35.084
+  km2 tegenover 34.116 km2 CBS-land; de plus zit in kleine binnenwateren die CBS
+  wel meetelt, en de provincies met weinig groot water komen op nul uit (Drenthe
+  0,0 %, Gelderland -0,4 %, Overijssel -0,4 %). `build_nederland.py` pakt dat
+  bestand vanzelf als het in `bron/` staat en valt anders met een waarschuwing
+  terug op BRK.
+- **Duitsland komt uit een andere bron dan de rest van de kaart** — Natural Earth
+  1:10m in plaats van PDOK, want PDOK houdt op bij de landsgrens. Zie
+  `build/build_buitenland.py`. Die generalisatie op wereldschaal is grof: de Duitse
+  westgrens ligt tot 1077 m naast de Nederlandse oostgrens uit de BRK. Daarom is de
+  vorm 4 km opgeblazen en pas daarna teruggesneden tot 1,5 km binnen de Nederlandse
+  grens, en gaat hij als onderste laag onder de contextlaag en de gemeenten door. De
+  zichtbare naad is dus nog steeds de BRK-grens; wat Natural Earth ernaast zit, ligt
+  onder Nederland. Het bouwscript controleert dat ook: het bemonstert de landsgrens
+  en stopt als er ook maar één punt buiten de vorm valt. Wat je wél van Natural Earth
+  ziet is de buitenrand ver van de provincie, en daar valt generalisatie niet op.
+- **De provinciehoofdsteden komen uit GeoNames, niet uit PDOK.** TOP10NL is alleen
+  voor Overijssel gedownload en `nederland.json` kent per provincie wel een
+  labelpunt maar geen hoofdstad. GeoNames (CC BY 4.0, via npm `cities.json`) vult dat
+  aan. `build/build_nl_plaatsen.py` controleert zichzelf tegen TOP10NL op de 53
+  Overijsselse kernen die in beide bestanden staan: mediaan 214 m verschil, grootste
+  1484 m. Dat is meteen een onafhankelijke controle op de hele transformatieketen.
+  Waar TOP10NL een plaats kent, wint TOP10NL — dat bestand is preciezer en heeft
+  inwonertallen, die de kaart gebruikt om plaatsnamen te schalen.
+- **De bronregel is geen instelling meer.** `staat.bron` is vervangen door
+  `staat.bronaanvulling`; het vaste deel zit in `Render.bronTekst()` en groeit
+  vanzelf met GeoNames mee. `herstelStaat()` pelt het vaste deel van oude opgeslagen
+  kaarten af, zodat het er niet dubbel komt te staan.
 - **`context.land` en `context.lijnen` in `app_data.json` zijn hetzelfde pad.** De
   lijnenlaag voegt dus alleen een contour aan de landvlakken toe. Geen probleem,
   maar goed om te weten voordat iemand naar het verschil zoekt.
