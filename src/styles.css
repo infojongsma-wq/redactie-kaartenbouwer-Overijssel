@@ -178,6 +178,16 @@ textarea { resize: vertical; font-size: 13px; line-height: 1.5; }
 .schakel input { width: 17px; height: 17px; accent-color: var(--oost-blauw); flex-shrink: 0; }
 
 .schakelaars { display: grid; gap: 2px; margin: 12px 0; }
+/* Twaalf provincies passen niet onder elkaar zonder het paneel te laten
+   uitdijen; in twee kolommen zie je ze in een oogopslag. */
+.schakelaars.kolommen { grid-template-columns: 1fr 1fr; column-gap: 10px; }
+
+/* Het vaste deel van de bronregel: te zien, niet te wijzigen. */
+.vast {
+  display: block; font-size: 13px; font-weight: 600; color: var(--donkerblauw);
+  background: var(--lichtblauw); border-radius: 6px;
+  padding: 7px 10px; margin-bottom: 6px;
+}
 
 .hint { font-size: 12.5px; line-height: 1.5; color: var(--grijs); margin: 8px 0 0; }
 .hint em { font-style: normal; font-weight: 600; }

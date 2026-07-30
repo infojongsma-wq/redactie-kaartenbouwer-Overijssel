@@ -155,6 +155,18 @@ In de geest van de vorige overdracht: wat hieronder staat is gemeten, niet gegok
   onder Nederland. Het bouwscript controleert dat ook: het bemonstert de landsgrens
   en stopt als er ook maar één punt buiten de vorm valt. Wat je wél van Natural Earth
   ziet is de buitenrand ver van de provincie, en daar valt generalisatie niet op.
+- **De provinciehoofdsteden komen uit GeoNames, niet uit PDOK.** TOP10NL is alleen
+  voor Overijssel gedownload en `nederland.json` kent per provincie wel een
+  labelpunt maar geen hoofdstad. GeoNames (CC BY 4.0, via npm `cities.json`) vult dat
+  aan. `build/build_nl_plaatsen.py` controleert zichzelf tegen TOP10NL op de 53
+  Overijsselse kernen die in beide bestanden staan: mediaan 214 m verschil, grootste
+  1484 m. Dat is meteen een onafhankelijke controle op de hele transformatieketen.
+  Waar TOP10NL een plaats kent, wint TOP10NL — dat bestand is preciezer en heeft
+  inwonertallen, die de kaart gebruikt om plaatsnamen te schalen.
+- **De bronregel is geen instelling meer.** `staat.bron` is vervangen door
+  `staat.bronaanvulling`; het vaste deel zit in `Render.bronTekst()` en groeit
+  vanzelf met GeoNames mee. `herstelStaat()` pelt het vaste deel van oude opgeslagen
+  kaarten af, zodat het er niet dubbel komt te staan.
 - **`context.land` en `context.lijnen` in `app_data.json` zijn hetzelfde pad.** De
   lijnenlaag voegt dus alleen een contour aan de landvlakken toe. Geen probleem,
   maar goed om te weten voordat iemand naar het verschil zoekt.

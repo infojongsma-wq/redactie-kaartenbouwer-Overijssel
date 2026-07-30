@@ -9,6 +9,7 @@
   const PLAATSEN = JSON.parse(document.getElementById("plaatsdata").textContent);
   const NEDERLAND = JSON.parse(document.getElementById("nederlanddata").textContent);
   const BUITENLAND = JSON.parse(document.getElementById("buitenlanddata").textContent);
+  const NL_PLAATSEN = JSON.parse(document.getElementById("nlplaatsdata").textContent);
   Render.zetData(KAART, NEDERLAND, BUITENLAND);
 
   const $ = id => document.getElementById(id);
@@ -83,20 +84,24 @@
       naam: "",
       titel: "",
       ondertitel: "",
-      bron: "Bron: Kadaster/PDOK",
+      // Alleen de aanvulling; "Bron: Kadaster/PDOK" staat vast in render.js en
+      // is een licentievoorwaarde, geen instelling.
+      bronaanvulling: "",
       achtergrond: "wit",
       uitlijning: "midden",
+      kaartuitlijning: "midden",
       formaat: "16:9",
       kaartsoort: "overijssel",
-      kaal: false,
+      weergave: "kader",
       basiskaart: {
         preset: "gemeenten", stijl: "tint",
         context: true, water: true, wateren: false,
-        gemeentegrenzen: true, provinciecontour: true, gemeentenamen: false,
+        gemeentegrenzen: true, provinciecontour: true, namen: "geen",
         plaatsen: "geen",
         vulling: "#8FB8FF", grenskleur: "#FFFFFF", contourkleur: "#FFFFFF",
         grensdikte: 1, contourdikte: 1,
-        uitgelicht: "23", uitlichtkleur: "#1361FF" 
+        buitenlandkleur: BUITENLAND.kleur,
+        uitgelicht: ["23"], uitlichtkleur: "#1361FF"
       },
       vlaklaag: {
         actief: false, modus: "schaal", waarden: {}, categoriekleuren: {},
@@ -131,12 +136,42 @@
     });
     // waarden uit oudere versies omzetten
     if (basis.uitlijning === "gecentreerd") basis.uitlijning = "midden";
+    // De uitlijning gold vroeger voor titel en kaart samen; nu apart. Een
+    // opgeslagen kaart mag daar niet door verschuiven.
+    if (geladen.kaartuitlijning === undefined) basis.kaartuitlijning = basis.uitlijning;
+    // "kaal" heette de tv-variant; het is nu een gewone weergavekeuze.
+    if (geladen.weergave === undefined) basis.weergave = geladen.kaal ? "beeldvullend" : "kader";
+    if (basis.weergave !== "beeldvullend") basis.weergave = "kader";
+    // De bronregel was een vrij tekstveld. Wat er extra in stond blijft staan,
+    // het vaste deel wordt er weer afgehaald — dat zet render.js er zelf voor.
+    if (geladen.bronaanvulling === undefined && typeof geladen.bron === "string") {
+      basis.bronaanvulling = geladen.bron
+        .replace(/bron\s*:/i, "")
+        .replace(/kadaster\s*\/?\s*pdok/i, "")
+        .replace(/geonames/i, "")
+        .replace(/\bkaart\s*:/i, "")
+        .replace(/[\s\/·,;-]{2,}/g, " ")
+        .replace(/^[\s\/·,;-]+|[\s\/·,;-]+$/g, "");
+    }
+    delete basis.bron;
+    delete basis.kaal;
     if (!GEBIEDEN[basis.kaartsoort]) basis.kaartsoort = "overijssel";
     const b = basis.basiskaart;
     if (typeof b.vulling === "string" && b.vulling.charAt(0) !== "#") {
       const oud = { tint: "#8FB8FF", wit: "#FFFFFF", lichtblauw: "#E7EEF9" };
       b.vulling = oud[b.vulling] || "#8FB8FF";
     }
+    // De namen van de vlakken waren een aan/uit-schakelaar; nu een keuze uit
+    // drie, zodat "alleen het uitgelichte gebied" ook kan.
+    const gb = geladen.basiskaart || {};
+    if (gb.namen === undefined) b.namen = gb.gemeentenamen ? "alle" : "geen";
+    if (b.namen === true || b.namen === false) b.namen = b.namen ? "alle" : "geen";
+    delete b.gemeentenamen;
+    // Uitlichten kon er maar een tegelijk; nu meerdere.
+    if (!Array.isArray(b.uitgelicht)) b.uitgelicht = b.uitgelicht ? [b.uitgelicht] : [];
+    b.uitgelicht = b.uitgelicht.filter(code => GEBIEDEN.nederland.some(v => v.code === code)
+                                            || GEBIEDEN.overijssel.some(v => v.code === code));
+    if (!b.buitenlandkleur) b.buitenlandkleur = BUITENLAND.kleur;
 
     // identificaties niet laten botsen met bestaande punten en tekstblokken
     const gebruikt = []
@@ -268,6 +303,14 @@
 
   function basisplaatsen(modus) {
     if (!modus || modus === "geen") return [];
+    // De provinciehoofdsteden komen uit GeoNames en staan al in hetzelfde
+    // assenstelsel; ze hebben geen inwonertal, dus krijgen ze de maat van een
+    // hoofdplaats.
+    if (modus === "hoofdsteden") {
+      return NL_PLAATSEN.hoofdsteden.map(p => ({
+        naam: p.naam, x: p.x, y: p.y, inwoners: 0, hoofdstad: p.provincie === "Overijssel"
+      }));
+    }
     if (modus === "hoofd" || modus === "steden") {
       const namen = modus === "hoofd" ? HOOFDPLAATSEN_NAMEN : STEDEN_NAMEN;
       return namen.map(kernOpNaam).filter(Boolean).map(alsBasisplaats);
@@ -377,6 +420,9 @@
         doek.height = f.hoogte;
       }
       laatsteIndeling = Render.tekenKaart(ctx, staat, staat.formaat, hulpObject());
+      // Het vaste deel van de bronregel groeit mee: staan er plaatsen uit
+      // GeoNames op de kaart, dan komt die bron erbij.
+      $("bron-vast").textContent = Render.bronTekst(Object.assign({}, staat, { bronaanvulling: "" }));
       werkVoetBij();
       if (mobielAan) tekenMobiel();
     });
@@ -435,14 +481,17 @@
 
   koppelTekst("in-titel", v => staat.titel = v);
   koppelTekst("in-ondertitel", v => staat.ondertitel = v);
-  koppelTekst("in-bron", v => staat.bron = v);
+  // Alleen de aanvulling is invoerbaar; het vaste deel staat als tekst naast
+  // het veld en zit in render.js.
+  koppelTekst("in-bronaanvulling", v => staat.bronaanvulling = v);
   koppelKeuze("in-achtergrond", v => {
     staat.achtergrond = v;
     $("transparant-hint").hidden = v !== "transparant";
   });
   koppelKeuze("in-uitlijning", v => staat.uitlijning = v);
-  $("in-kaal").addEventListener("change", () => {
-    staat.kaal = $("in-kaal").checked;
+  koppelKeuze("in-kaartuitlijning", v => staat.kaartuitlijning = v);
+  $("in-weergave").addEventListener("change", () => {
+    staat.weergave = $("in-weergave").value;
     vulAlles(); teken();
   });
 
@@ -475,21 +524,82 @@
     { id: "nl-omgekeerd",  naam: "Omgekeerd",   achtergrond: "lichtblauw", vulling: "#FFFFFF", uitlichtkleur: "#1361FF", lijn: "#AFC4E0" }
   ];
 
-  const PRESETS = [
-    { id: "gemeenten", naam: "Gemeenten", lagen: { context: true, water: true, wateren: false, gemeentegrenzen: true, provinciecontour: true, gemeentenamen: false }, plaatsen: "geen" },
-    { id: "gemeenten-plaatsen", naam: "Gemeenten + plaatsen", lagen: { context: true, water: true, wateren: false, gemeentegrenzen: true, provinciecontour: true, gemeentenamen: false }, plaatsen: "hoofd" },
-    { id: "water-plaatsen", naam: "Water + plaatsen", lagen: { context: true, water: true, wateren: true, gemeentegrenzen: false, provinciecontour: true, gemeentenamen: false }, plaatsen: "hoofd" },
-    { id: "overzicht", naam: "Alles", lagen: { context: true, water: true, wateren: true, gemeentegrenzen: true, provinciecontour: true, gemeentenamen: true }, plaatsen: "hoofd" }
-  ];
+  const PRESETS = {
+    overijssel: [
+      { id: "gemeenten", naam: "Gemeenten", lagen: { context: true, water: true, wateren: false, gemeentegrenzen: true, provinciecontour: true, namen: "geen" }, plaatsen: "geen" },
+      { id: "gemeenten-plaatsen", naam: "Gemeenten + plaatsen", lagen: { context: true, water: true, wateren: false, gemeentegrenzen: true, provinciecontour: true, namen: "geen" }, plaatsen: "hoofd" },
+      { id: "water-plaatsen", naam: "Water + plaatsen", lagen: { context: true, water: true, wateren: true, gemeentegrenzen: false, provinciecontour: true, namen: "geen" }, plaatsen: "hoofd" },
+      { id: "overzicht", naam: "Alles", lagen: { context: true, water: true, wateren: true, gemeentegrenzen: true, provinciecontour: true, namen: "alle" }, plaatsen: "hoofd" }
+    ],
+    nederland: [
+      { id: "nl-provincies", naam: "Provincies", lagen: { gemeentegrenzen: true, provinciecontour: true, namen: "geen" }, plaatsen: "geen" },
+      { id: "nl-namen", naam: "Met provincienamen", lagen: { gemeentegrenzen: true, provinciecontour: true, namen: "alle" }, plaatsen: "geen" },
+      { id: "nl-uitgelicht", naam: "Alleen de uitgelichte naam", lagen: { gemeentegrenzen: true, provinciecontour: true, namen: "uitgelicht" }, plaatsen: "geen" },
+      { id: "nl-hoofdsteden", naam: "Met hoofdsteden", lagen: { gemeentegrenzen: true, provinciecontour: true, namen: "geen" }, plaatsen: "hoofdsteden" }
+    ]
+  };
 
-  const LAAGNAMEN = [
-    ["water", "Wateroppervlak als achtergrond"],
-    ["context", "Omringend land (Nederland en Duitsland)"],
-    ["wateren", "Rivieren, kanalen en plassen"],
-    ["gemeentegrenzen", "Gemeentegrenzen"],
-    ["provinciecontour", "Provinciecontour"],
-    ["gemeentenamen", "Gemeentenamen"]
-  ];
+  function presets() { return PRESETS[staat.kaartsoort] || PRESETS.overijssel; }
+
+  // De lagen heten anders op de twee kaarten: wat op de Overijsselkaart een
+  // gemeentegrens is, is op de Nederlandkaart een provinciegrens, en de
+  // contour is daar de buitengrens van het land. Zonder dat onderscheid zoek
+  // je je suf naar waarom "provinciecontour" de binnengrenzen niet raakt.
+  const LAAGNAMEN = {
+    overijssel: [
+      ["water", "Wateroppervlak als achtergrond"],
+      ["context", "Omringend land (Nederland en Duitsland)"],
+      ["wateren", "Rivieren, kanalen en plassen"],
+      ["gemeentegrenzen", "Gemeentegrenzen"],
+      ["provinciecontour", "Provinciecontour"]
+    ],
+    nederland: [
+      ["water", "Wateroppervlak als achtergrond"],
+      ["gemeentegrenzen", "Provinciegrenzen"],
+      ["provinciecontour", "Buitengrens van Nederland"]
+    ]
+  };
+
+  // Opschriften die met de kaartsoort meebewegen.
+  const WOORDEN = {
+    overijssel: {
+      "label-namen": "Namen op de gemeenten",
+      "label-vulling": "Vulling gemeenten",
+      "label-grenskleur": "Kleur gemeentegrenzen",
+      "label-contourkleur": "Kleur provinciecontour",
+      "label-grensdikte": "Dikte gemeentegrens",
+      "label-contourdikte": "Dikte provinciecontour",
+      "label-vlak-leeg": "Gemeenten zonder data",
+      "kop-vlaklaag": "Vlaklaag — gemeenten inkleuren",
+      "hint-vlak-plak": "Plak twee kolommen uit een spreadsheet: gemeentenaam en waarde. Een derde kolom wordt als tekstlabel gebruikt."
+    },
+    nederland: {
+      "label-namen": "Namen op de provincies",
+      "label-vulling": "Vulling provincies",
+      "label-grenskleur": "Kleur provinciegrenzen",
+      "label-contourkleur": "Kleur buitengrens Nederland",
+      "label-grensdikte": "Dikte provinciegrens",
+      "label-contourdikte": "Dikte buitengrens",
+      "label-vlak-leeg": "Provincies zonder data",
+      "kop-vlaklaag": "Vlaklaag — provincies inkleuren",
+      "hint-vlak-plak": "Plak twee kolommen uit een spreadsheet: provincienaam en waarde. Een derde kolom wordt als tekstlabel gebruikt."
+    }
+  };
+
+  const PLAATSKEUZES = {
+    overijssel: [
+      ["geen", "Geen"],
+      ["steden", "Vier steden — Zwolle, Enschede, Deventer, Hardenberg"],
+      ["hoofd", "Elf grootste plaatsen"],
+      ["groot", "Kernen vanaf 10.000 inwoners (22)"],
+      ["middel", "Kernen vanaf 5.000 inwoners (37)"],
+      ["klein", "Kernen vanaf 2.500 inwoners (57)"]
+    ],
+    nederland: [
+      ["geen", "Geen"],
+      ["hoofdsteden", "De twaalf provinciehoofdsteden"]
+    ]
+  };
 
   $("kaartsoortkeuze").querySelectorAll(".keuze").forEach(knop => {
     knop.addEventListener("click", () => {
@@ -511,51 +621,56 @@
         b.grenskleur = st.lijn; b.contourkleur = st.lijn;
         b.grensdikte = 0.8; b.contourdikte = 0.8;
         staat.achtergrond = st.achtergrond;
-        if (!b.uitgelicht) b.uitgelicht = "23";
+        if (!b.uitgelicht.length) b.uitgelicht = ["23"];
       } else {
         b.context = true; b.water = true;
+        b.plaatsen = "geen";
         const st = STIJLEN[0];
         b.vulling = st.vulling; b.grenskleur = st.grenskleur; b.contourkleur = st.contourkleur;
         b.grensdikte = 1; b.contourdikte = 1;
         staat.achtergrond = "wit";
       }
-      bouwStijlrij();
+      b.preset = "";
+      bouwBasiskaart();
       vulAlles(); teken();
     });
   });
 
-  $("in-uitgelicht").addEventListener("change", () => {
-    staat.basiskaart.uitgelicht = $("in-uitgelicht").value;
-    vulBasiskaart(); teken();
-  });
+  function bouwUitgelicht() {
+    const houder = $("uitgelicht-lijst");
+    if (!houder) return;
+    houder.innerHTML = "";
+    vlakken().forEach(v => {
+      const l = maak("label", "schakel");
+      const inv = maak("input");
+      inv.type = "checkbox";
+      inv.dataset.code = v.code;
+      inv.addEventListener("change", () => {
+        const uit = staat.basiskaart.uitgelicht.filter(c => c !== v.code);
+        if (inv.checked) uit.push(v.code);
+        staat.basiskaart.uitgelicht = uit;
+        vulBasiskaart(); teken();
+      });
+      l.appendChild(inv);
+      l.appendChild(maak("span", null, v.naam));
+      houder.appendChild(l);
+    });
+  }
 
   function vulNederlandOpties() {
     const aan = staat.kaartsoort === "nederland";
     $("nederland-opties").hidden = !aan;
     $("kaartsoortkeuze").querySelectorAll(".keuze").forEach(k => k.classList.toggle("aan", k.dataset.waarde === staat.kaartsoort));
-    const sel = $("in-uitgelicht");
-    if (aan && sel.options.length !== vlakken().length + 1) {
-      sel.innerHTML = "";
-      const geen = document.createElement("option");
-      geen.value = ""; geen.textContent = "Geen";
-      sel.appendChild(geen);
-      vlakken().forEach(v => {
-        const o = document.createElement("option");
-        o.value = v.code; o.textContent = v.naam;
-        sel.appendChild(o);
-      });
-    }
     if (aan) {
-      sel.value = staat.basiskaart.uitgelicht || "";
+      const uit = new Set(staat.basiskaart.uitgelicht);
+      $("uitgelicht-lijst").querySelectorAll("input").forEach(inv => { inv.checked = uit.has(inv.dataset.code); });
       bouwKleurkiezer($("kiezer-uitlicht"), staat.basiskaart.uitlichtkleur,
         kleur => { staat.basiskaart.uitlichtkleur = kleur; vulBasiskaart(); teken(); });
     }
-    // lagen die alleen bij Overijssel bestaan verbergen
-    $("basiskaart-lagen").querySelectorAll("label").forEach(l => {
-      const laag = l.querySelector("input").dataset.laag;
-      l.hidden = aan && (laag === "context" || laag === "wateren");
-    });
-    $("basiskaart-presets").hidden = aan;
+    // Duitsland bestaat alleen op de Overijsselkaart
+    $("buitenland-kleur").hidden = aan;
+    const woorden = WOORDEN[staat.kaartsoort] || WOORDEN.overijssel;
+    Object.keys(woorden).forEach(id => { if ($(id)) $(id).textContent = woorden[id]; });
   }
 
   function bouwStijlrij() {
@@ -590,11 +705,13 @@
 
   function bouwBasiskaart() {
     bouwStijlrij();
+    bouwUitgelicht();
     const rij = $("basiskaart-presets");
     rij.innerHTML = "";
-    PRESETS.forEach(p => {
+    presets().forEach(p => {
       const knop = maak("button", "keuze", p.naam);
       knop.type = "button";
+      knop.dataset.preset = p.id;
       knop.addEventListener("click", () => {
         Object.assign(staat.basiskaart, p.lagen);
         staat.basiskaart.plaatsen = p.plaatsen;
@@ -607,7 +724,7 @@
 
     const lagen = $("basiskaart-lagen");
     lagen.innerHTML = "";
-    LAAGNAMEN.forEach(([sleutel, label]) => {
+    (LAAGNAMEN[staat.kaartsoort] || LAAGNAMEN.overijssel).forEach(([sleutel, label]) => {
       const l = maak("label", "schakel");
       const inv = maak("input");
       inv.type = "checkbox";
@@ -622,6 +739,18 @@
       l.appendChild(maak("span", null, label));
       lagen.appendChild(l);
     });
+
+    const keuze = $("in-basisplaatsen");
+    keuze.innerHTML = "";
+    (PLAATSKEUZES[staat.kaartsoort] || PLAATSKEUZES.overijssel).forEach(([waarde, label]) => {
+      const o = document.createElement("option");
+      o.value = waarde; o.textContent = label;
+      keuze.appendChild(o);
+    });
+    // Een keuze die bij de andere kaartsoort hoort bestaat hier niet.
+    if (!keuze.querySelector('option[value="' + staat.basiskaart.plaatsen + '"]')) {
+      staat.basiskaart.plaatsen = "geen";
+    }
   }
 
   function vulBasiskaart() {
@@ -635,24 +764,28 @@
           && st.grenskleur === b.grenskleur && st.contourkleur === b.contourkleur);
     b.stijl = passend ? passend.id : "";
     $("basiskaart-stijlen").querySelectorAll(".keuze").forEach(k => k.classList.toggle("aan", k.dataset.stijl === b.stijl));
-    $("basiskaart-presets").querySelectorAll(".keuze").forEach((k, i) => k.classList.toggle("aan", PRESETS[i].id === b.preset));
+    $("basiskaart-presets").querySelectorAll(".keuze").forEach(k => k.classList.toggle("aan", k.dataset.preset === b.preset));
     $("basiskaart-lagen").querySelectorAll("input").forEach(inv => { inv.checked = !!b[inv.dataset.laag]; });
+    $("in-namen").value = b.namen;
     $("in-basisplaatsen").value = b.plaatsen;
     $("in-grensdikte").value = b.grensdikte;
     $("in-contourdikte").value = b.contourdikte;
     bouwKleurkiezer($("kiezer-vulling"), b.vulling, kleur => { b.vulling = kleur; vulBasiskaart(); teken(); });
     bouwKleurkiezer($("kiezer-grens"), b.grenskleur, kleur => { b.grenskleur = kleur; vulBasiskaart(); teken(); });
     bouwKleurkiezer($("kiezer-contour"), b.contourkleur, kleur => { b.contourkleur = kleur; vulBasiskaart(); teken(); });
+    bouwKleurkiezer($("kiezer-buitenland"), b.buitenlandkleur, kleur => { b.buitenlandkleur = kleur; vulBasiskaart(); teken(); });
+    const woorden = WOORDEN[staat.kaartsoort] || WOORDEN.overijssel;
     $("dikte-melding").textContent = "Op nul zet je de lijn uit. "
-      + (b.grensdikte === 0 ? "Gemeentegrenzen staan uit. " : "")
-      + (b.contourdikte === 0 ? "De contour staat uit." : "");
+      + (b.grensdikte === 0 ? woorden["label-grenskleur"].replace("Kleur ", "").replace(/^./, c => c.toUpperCase()) + " staan uit. " : "")
+      + (b.contourdikte === 0 ? "De buitenlijn staat uit." : "");
   }
 
   ["in-grensdikte", "in-contourdikte"].forEach(id => $(id).addEventListener("input", () => {
     staat.basiskaart[id === "in-grensdikte" ? "grensdikte" : "contourdikte"] = Number($(id).value);
     vulBasiskaart(); teken();
   }));
-  $("in-basisplaatsen").addEventListener("change", () => { staat.basiskaart.plaatsen = $("in-basisplaatsen").value; staat.basiskaart.preset = ""; vulBasiskaart(); teken(); });
+  $("in-basisplaatsen").addEventListener("change", () => { staat.basiskaart.plaatsen = $("in-basisplaatsen").value; staat.basiskaart.preset = ""; vulAlles(); teken(); });
+  $("in-namen").addEventListener("change", () => { staat.basiskaart.namen = $("in-namen").value; staat.basiskaart.preset = ""; vulBasiskaart(); teken(); });
 
   /* --------------------------------------------------------- vlaklaag */
 
@@ -865,11 +998,25 @@
   const suggestieHouder = $("punt-suggesties");
   let suggestieIndex = -1;
 
+  // Waar de puntlaag in zoekt. Op de Overijsselkaart is dat TOP10NL: preciezer,
+  // met inwonertallen en tot op buurtniveau. Op de Nederlandkaart komt daar
+  // GeoNames bij, want anders vind je Maastricht niet. Overijsselse namen
+  // blijven uit TOP10NL komen — dat bestand is voor die provincie beter.
+  const GEONAMES_BUITEN_OVERIJSSEL = NL_PLAATSEN.plaatsen
+    .filter(p => p.provincie !== "Overijssel")
+    .map(p => ({ naam: p.naam, x: p.x, y: p.y, soort: "woonkern", inwoners: 0, provincie: p.provincie }));
+
+  function zoekbron() {
+    return staat.kaartsoort === "nederland"
+      ? PLAATSEN.plaatsen.concat(GEONAMES_BUITEN_OVERIJSSEL)
+      : PLAATSEN.plaatsen;
+  }
+
   function zoekPlaatsen(term) {
     const n = normaliseer(term);
     if (n.length < 2) return [];
     const treffers = [];
-    for (const p of PLAATSEN.plaatsen) {
+    for (const p of zoekbron()) {
       const pn = normaliseer(p.naam);
       let score = -1;
       if (pn === n) score = 0;
@@ -879,7 +1026,8 @@
       if (treffers.length > 400) break;
     }
     const RANG = { woonkern: 0, deelkern: 1, gehucht: 2, buurtschap: 3, industriekern: 4, stadsdeel: 5, wijk: 6, buurt: 7 };
-    treffers.sort((a, b) => a.score - b.score || RANG[a.p.soort] - RANG[b.p.soort] || b.p.inwoners - a.p.inwoners);
+    treffers.sort((a, b) => a.score - b.score || RANG[a.p.soort] - RANG[b.p.soort]
+                         || b.p.inwoners - a.p.inwoners || a.p.naam.localeCompare(b.p.naam, "nl"));
     return treffers.slice(0, 40).map(t => t.p);
   }
 
@@ -892,7 +1040,9 @@
       const knop = maak("button");
       knop.type = "button";
       knop.appendChild(maak("span", null, p.naam));
-      const bij = p.soort === "woonkern" ? "gemeente " + p.gemeente : p.soort + " · " + p.gemeente;
+      const bij = p.provincie ? "provincie " + p.provincie
+                : p.soort === "woonkern" ? "gemeente " + p.gemeente
+                : p.soort + " · " + p.gemeente;
       knop.appendChild(maak("span", "soort", "  " + bij));
       knop.addEventListener("click", () => voegPuntToe(p));
       suggestieHouder.appendChild(knop);
@@ -924,6 +1074,9 @@
     staat.puntlaag.punten.push({
       id: "p" + (volgendeId++),
       naam: plaats ? plaats.naam : "Nieuw punt",
+      // Waar het punt vandaan komt, zodat de bronregel kan kloppen. Zelf
+      // aangewezen punten hebben geen herkomst.
+      herkomst: (!positie && plaats && plaats.provincie) ? "GeoNames" : "",
       x: positie ? positie.x : plaats.x,
       y: positie ? positie.y : plaats.y,
       waarde: "",
@@ -949,6 +1102,7 @@
       const getal = leesGetal(velden[1]);
       staat.puntlaag.punten.push({
         id: "p" + (volgendeId++), naam: gevonden.naam, x: gevonden.x, y: gevonden.y,
+        herkomst: gevonden.provincie ? "GeoNames" : "",
         waarde: getal !== null ? getal : (velden[1] || ""), kleur: null, icoonId: null,
         groep: velden[2] || "", labelpositie: "onder"
       });
@@ -1257,7 +1411,7 @@
   // De kale kaart heeft geen ruimte naast de kaart, dus daar geldt een andere
   // keuze: waar de legenda als laag op de kaart komt te liggen.
   function vulLegendaPlaats() {
-    const kaal = !!staat.kaal;
+    const kaal = staat.weergave === "beeldvullend";
     $("veld-legenda-plaats").hidden = kaal;
     $("hint-legenda-plaats").hidden = kaal;
     $("veld-tv-legenda").hidden = !kaal;
@@ -1592,16 +1746,20 @@
   /* --------------------------------------------------------- opstarten */
 
   function vulAlles() {
+    // De rijen van de basiskaart hangen aan de kaartsoort. Wie een opgeslagen
+    // kaart van de andere soort opent, moet ook die rijen krijgen.
+    bouwBasiskaart();
     $("in-titel").value = staat.titel;
     $("in-ondertitel").value = staat.ondertitel;
-    $("in-bron").value = staat.bron;
+    $("in-bronaanvulling").value = staat.bronaanvulling;
     if ($("in-achtergrond")) {
       $("in-achtergrond").value = staat.achtergrond;
       $("transparant-hint").hidden = staat.achtergrond !== "transparant";
     }
     if ($("in-uitlijning")) $("in-uitlijning").value = staat.uitlijning;
-    $("in-kaal").checked = !!staat.kaal;
-    $("kaal-hint").hidden = !staat.kaal;
+    if ($("in-kaartuitlijning")) $("in-kaartuitlijning").value = staat.kaartuitlijning;
+    $("in-weergave").value = staat.weergave;
+    $("weergave-hint").hidden = staat.weergave !== "beeldvullend";
     $("in-kaartnaam").value = staat.naam;
     $("in-legenda-titel").value = staat.legenda.titel;
     $("in-legenda-plaats").value = staat.legenda.plaats;

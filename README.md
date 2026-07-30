@@ -33,8 +33,8 @@ eigen kleur en komt automatisch in de legenda — zo maak je een symbolenkaart.
 Bij de vlaklaag kies je wat er in het vlak komt te staan: niets, alleen de naam,
 alleen de waarde, naam plus waarde, of je eigen tekst uit een derde kolom. Dat
 label komt **alleen in vlakken met een waarde** — de gemeenten waar het niet over
-gaat blijven leeg. Wil je die namen er toch bij, zet dan *Gemeentenamen* aan bij
-Basiskaart; die vult dan de rest in.
+gaat blijven leeg. Wil je die namen er toch bij, zet dan *Namen op de vlakken* op
+*Alle* bij Basiskaart; die vult dan de rest in.
 
 ### Data plakken
 
@@ -48,8 +48,14 @@ nooit stilletjes een regel.
 ### Twee kaarten
 
 Bij *Basiskaart* kies je **Overijssel** (25 gemeenten) of **Nederland**
-(12 provincies, met een uit te lichten provincie). Beide kaarten werken met
-dezelfde lagen, dezelfde stijlen en dezelfde export.
+(12 provincies, waarvan je er zoveel mag uitlichten als je wilt). Beide kaarten
+werken met dezelfde lagen, dezelfde stijlen en dezelfde export, en de opschriften
+in de zijbalk veranderen mee: waar het op de ene kaart om gemeenten gaat, gaat het
+op de andere om provincies.
+
+Ook zoeken werkt op beide: op de Overijsselkaart doorzoekt de puntlaag de 1143
+kernen, wijken en buurtschappen uit TOP10NL, op de Nederlandkaart komen daar de
+Nederlandse plaatsen uit GeoNames bij — zo vind je ook Maastricht.
 
 De vlaklaag past zich aan: op de Nederlandkaart plak je data per provincie in
 plaats van per gemeente. Ingevulde waarden blijven bewaard als je heen en weer
@@ -62,23 +68,43 @@ lijnen), *Lichtblauw* of *Wit* (beide met blauwe lijnen). Onder *Kleuren en lijn
 kun je die daarna los bijstellen, inclusief lijndikte — op nul zet je een lijn
 helemaal uit.
 
-**Plaatsen** kun je kiezen van vier steden tot alle kernen vanaf 2.500 inwoners.
 Hoe meer plaatsen, hoe kleiner de namen worden gezet, en labels wijken automatisch
 voor elkaar uit. Bij de dichtste variant (57 kernen) worden de namen klein: kijk
 dan zeker even met de mobielcheck of het nog leesbaar is.
 
 **Omringend land** tekent alles buiten Overijssel als land: de Nederlandse buren én
-Duitsland. Duitsland krijgt een iets donkerder blauw, zodat je de landsgrens ziet
-zonder dat het water lijkt. Zet je de laag uit, dan wordt alles eromheen water.
+Duitsland. Duitsland en België staan standaard blauwgrijs, zodat ze als buitenland
+lezen en niet als water; die kleur kun je bij *Kleuren en lijnen* aanpassen. Zet je
+de laag uit, dan wordt alles eromheen water.
 
-**Uitlijning** (bij Kaart) zet titel én kaart links, in het midden of rechts.
+Op de **Nederlandkaart** heten de lagen naar wat ze daar zijn: *Provinciegrenzen*
+voor de lijnen tussen de provincies en *Buitengrens van Nederland* voor de rand om
+het land. Dat scheelt zoeken — de contourkleur raakt de binnengrenzen niet, want
+die horen bij de andere laag.
 
-**Kale kaart** (bij Kaart) is de tv-variant: geen titel, geen kader, geen bronregel,
-en de provincie beeldvullend — het omringende land en het water lopen door tot de
-beeldrand. Kies daarbij 16:9. Een legenda verdwijnt niet maar komt als laag óp de
-kaart; bij *Legenda* kies je welke hoek (of *Geen legenda*). De provincie schuift
-weg van die hoek, zodat er nooit tekst op de gemeenten belandt. De verplichte
-vermelding *Bron: Kadaster/PDOK* moet in de uitzending of het onderschrift staan.
+**Uitlichten** kan op de Nederlandkaart met meerdere provincies tegelijk: vink aan
+welke, en kies één kleur voor de hele selectie. Wil je ze onderling verschillende
+kleuren geven, gebruik dan de vlaklaag met categorieën.
+
+**Namen op de vlakken** zet je op *Geen*, *Alle* of *Alleen de uitgelichte* — die
+laatste geeft je een kaart van Nederland waarop alleen "Overijssel" staat.
+
+**Plaatsen** op de Nederlandkaart zijn de twaalf provinciehoofdsteden. Op de
+Overijsselkaart kies je van vier steden tot alle kernen vanaf 2.500 inwoners.
+
+**Uitlijning** (bij Kaart) zet titel en kaart apart links, in het midden of rechts.
+Titel links en kaart rechts kan dus, en op de Nederlandkaart schuif je het land zo
+opzij om ruimte voor een legenda te maken.
+
+**Weergave** (bij Kaart) kiest tussen:
+
+- *In kader* — de kaart in een vlak met ruimte voor titel, legenda en bronregel
+  eromheen. In 16:9 heeft dat vlak de verhouding **3:2**, dus breder dan Overijssel
+  zelf: links en rechts blijft omringend land zichtbaar.
+- *Beeldvullend* — de kaart loopt door tot alle vier de beeldranden. Titel,
+  ondertitel, legenda en bronregel liggen er als laag overheen, en de provincie
+  schuift daarvoor opzij zodat er nooit tekst op de gemeenten belandt. Voor tv:
+  kies daarbij 16:9. Waar de legenda komt te liggen, kies je bij *Legenda*.
 
 **Achtergrond** kan ook *transparant*. Dan komt er een PNG uit zonder ondergrond.
 Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de
@@ -111,9 +137,14 @@ bovenin een waarschuwing en valt de tool terug op Arial.
 
 ### Bronvermelding
 
-De kaartdata komt van het Kadaster via PDOK en staat onder CC BY 4.0. De regel
-**Bron: Kadaster/PDOK** moet vermeld blijven. Vul je eigen databron ervoor of
-erachter aan, bijvoorbeeld: `Bron: CBS · kaart: Kadaster/PDOK`.
+De kaartdata komt van het Kadaster via PDOK en staat onder CC BY 4.0. **Bron:
+Kadaster/PDOK** staat daarom vast: je kunt het niet wegpoetsen, ook niet door een
+oude opgeslagen kaart te openen. Je eigen databron vul je erachter aan; dat wordt
+dan `Bron: Kadaster/PDOK / CBS`.
+
+Zet je plaatsen op de kaart die buiten Overijssel liggen — de provinciehoofdsteden,
+of een plaats die je op de Nederlandkaart opzoekt — dan komen die uit GeoNames, ook
+CC BY 4.0. De tool zet die bron er dan vanzelf bij.
 
 ---
 
@@ -132,6 +163,8 @@ data/app_data.json                   kaartlagen uit fase 2, al geprojecteerd
 data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
 data/nederland.json                  12 provincies, zelfde assenstelsel
 build/build_nederland.py             provinciegrenzen -> data/nederland.json
+data/plaatsen_nederland.json         1522 plaatsen + 12 hoofdsteden (GeoNames)
+build/build_nl_plaatsen.py           GeoNames -> data/plaatsen_nederland.json
 data/buitenland.json                 Duitsland en Belgie, zelfde assenstelsel
 build/build_buitenland.py            Natural Earth -> data/buitenland.json
 bron/top10nl_plaats*.gml.gz          bronbestand(en) Kadaster/PDOK
@@ -140,6 +173,7 @@ bron/gemeenten_zonder_water.geojson  CBS, 342 gemeenten (nog niet gebruikt)
 bron/provinciegrenzen.geojson        BRK Provinciegebied (terugval, mét water)
 bron/landgebied.geojson              BRK Landgebied
 bron/world-atlas-countries-10m.json  Natural Earth 1:10m - bron van Duitsland
+bron/geonames-plaatsen-nl.json       GeoNames, de Nederlandse rijen
 docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
 docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
 ```
@@ -238,6 +272,16 @@ water, zodat het als land leest zonder de aandacht van Overijssel weg te trekken
 
 Die vier zijn **CC BY 4.0**, bronvermelding *Bron: Kadaster/PDOK* verplicht.
 CRS overal EPSG:28992 (RD New). Kaartschaal 1 px = 101,63 m.
+
+Plaatsen buiten Overijssel — de twaalf provinciehoofdsteden en de zoeklijst van de
+Nederlandkaart — komen uit de **GeoNames Gazetteer** (CC BY 4.0), via het npm-pakket
+[`cities.json`](https://www.npmjs.com/package/cities.json). Bronvermelding verplicht;
+de tool zet *GeoNames* er vanzelf bij zodra zo'n punt op de kaart staat. Bijwerken
+gaat met `npm pack cities.json`; de Nederlandse rijen in `bron/`, dan
+`build_nl_plaatsen.py`. Dat script controleert zichzelf tegen TOP10NL: van de 53
+Overijsselse kernen die beide bronnen kennen wijkt het punt mediaan 214 m af, in het
+uiterste geval 1484 m (Giethoorn, een lintdorp waarvan de twee bronnen een ander
+midden kiezen). Loopt dat boven de 2,5 km, dan stopt het script.
 
 Duitsland en Belgie komen uit **Natural Earth 1:10m Admin 0** — public domain, geen
 bronvermelding vereist — herverpakt als TopoJSON in het npm-pakket

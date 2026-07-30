@@ -45,11 +45,13 @@ def main():
     plaatsdata = veilig_json(os.path.join(ROOT, "data", "plaatsen_overijssel.json"))
     nederlanddata = veilig_json(os.path.join(ROOT, "data", "nederland.json"))
     buitenlanddata = veilig_json(os.path.join(ROOT, "data", "buitenland.json"))
+    nlplaatsdata = veilig_json(os.path.join(ROOT, "data", "plaatsen_nederland.json"))
 
     for teken, naam in (("/*__STIJL__*/", "stijl"), ("/*__SCRIPT__*/", "script"),
                         ("/*__KAARTDATA__*/", "kaartdata"), ("/*__PLAATSDATA__*/", "plaatsdata"),
                         ("/*__NEDERLANDDATA__*/", "nederlanddata"),
-                        ("/*__BUITENLANDDATA__*/", "buitenlanddata")):
+                        ("/*__BUITENLANDDATA__*/", "buitenlanddata"),
+                        ("/*__NLPLAATSDATA__*/", "nlplaatsdata")):
         if teken not in html:
             sys.exit("Plaatshouder %s ontbreekt in src/index.html" % teken)
 
@@ -63,6 +65,7 @@ def main():
     html = zet(html, "/*__PLAATSDATA__*/", plaatsdata)
     html = zet(html, "/*__NEDERLANDDATA__*/", nederlanddata)
     html = zet(html, "/*__BUITENLANDDATA__*/", buitenlanddata)
+    html = zet(html, "/*__NLPLAATSDATA__*/", nlplaatsdata)
     html = zet(html, "/*__SCRIPT__*/", script)
 
     os.makedirs(DIST, exist_ok=True)
@@ -79,6 +82,7 @@ def main():
     print("  plaatsdata %6.0f KB" % (len(plaatsdata) / 1024))
     print("  nederland  %6.0f KB" % (len(nederlanddata) / 1024))
     print("  buitenland %6.0f KB" % (len(buitenlanddata) / 1024))
+    print("  nl-plaatsen%6.0f KB" % (len(nlplaatsdata) / 1024))
     print("  code       %6.0f KB" % ((len(stijl) + len(script)) / 1024))
 
 

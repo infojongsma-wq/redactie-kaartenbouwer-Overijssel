@@ -83,9 +83,11 @@ TOLERANTIE = 120.0
 # past rond een provincie van 864 x 800 px. 700 px (71 km) dekt dat met marge.
 VENSTER_PX = 700
 
-# Land, maar verder weg: donkerder dan de omliggende provincies (#4A85FF) en
-# lichter dan het water (#1361FF).
-KLEUR = "#3C7AFF"
+# Land, maar buitenland: blauwgrijs. Verzadigd blauw leest als water, en de
+# omliggende Nederlandse provincies zijn al blauw (#4A85FF); een ontzadigde
+# tint zet Duitsland op afstand zonder de aandacht van Overijssel weg te
+# trekken. Deze waarde is alleen de standaard — in de tool is hij te wijzigen.
+KLEUR = "#8A99AE"
 
 
 def lees_topojson(pad):
