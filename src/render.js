@@ -822,31 +822,25 @@ const Render = (function () {
     ctx.restore();
 
     /* --- titel --- */
-    // Beeldvullend ligt de titel op de kaart en kan hij over water, buitenland
-    // en de lichte gemeentevulling tegelijk lopen. Dezelfde omlijning als bij
-    // plaatsnamen maakt hem daar overal leesbaar; in het kader is die niet
-    // nodig, want daar staat de titel op de paginakleur.
     const titelX = ind.titelVak.x + ind.titelVak.b * ind.richting;
-    const zetTekst = (tekst, x, y, kleur, grootte) => {
-      if (ind.vol) omlijndeTekst(ctx, tekst, x, y, kleur, Math.max(3.2, grootte * 0.11));
-      else { ctx.fillStyle = kleur; ctx.fillText(tekst, x, y); }
-    };
     ctx.textAlign = ind.richting === 0 ? "left" : ind.richting === 1 ? "right" : "center";
     ctx.textBaseline = "alphabetic";
     let ty = ind.titelVak.y;
     if (ind.titelRegels.length) {
       zetLetter(ctx, "700", f.titelgrootte);
+      ctx.fillStyle = opkaart || thema.tekst;
       ind.titelRegels.forEach(regel => {
         ty += f.titelgrootte * 1.16;
-        zetTekst(regel, titelX, ty - f.titelgrootte * 0.22, opkaart || thema.tekst, f.titelgrootte);
+        ctx.fillText(regel, titelX, ty - f.titelgrootte * 0.22);
       });
     }
     if (ind.onderRegels.length) {
       zetLetter(ctx, "400", f.ondertitelgrootte);
+      ctx.fillStyle = opkaart || thema.zacht;
       if (ind.titelRegels.length) ty += 10;
       ind.onderRegels.forEach(regel => {
         ty += f.ondertitelgrootte * 1.3;
-        zetTekst(regel, titelX, ty - f.ondertitelgrootte * 0.3, opkaart || thema.zacht, f.ondertitelgrootte);
+        ctx.fillText(regel, titelX, ty - f.ondertitelgrootte * 0.3);
       });
     }
     ctx.textAlign = "left";
@@ -1098,9 +1092,9 @@ const Render = (function () {
 
   // Tekst met een dunne contour in de tegenkleur: houdt labels leesbaar waar
   // ze over een grens of over water heen vallen.
-  function omlijndeTekst(ctx, tekst, x, y, kleur, dikte) {
+  function omlijndeTekst(ctx, tekst, x, y, kleur) {
     ctx.lineJoin = "round";
-    ctx.lineWidth = dikte || 3.2;
+    ctx.lineWidth = 3.2;
     ctx.strokeStyle = kleur === "#FFFFFF" ? "rgba(19,23,32,.55)" : "rgba(255,255,255,.85)";
     ctx.strokeText(tekst, x, y);
     ctx.fillStyle = kleur;
@@ -1276,7 +1270,8 @@ const Render = (function () {
       let breedte = Math.max(...regels.map(r => ctx.measureText(r).width));
 
       const vulkleur = blok.vulling || "#FFFFFF";
-      const tekstkleur = leesbaarOp(vulkleur);
+      // Zelf gekozen letterkleur wint; zonder keuze volgt hij de kaderkleur.
+      const tekstkleur = blok.tekstkleur || leesbaarOp(vulkleur);
       const pad2 = 14;
 
       // verbindingslijn naar het ankerpunt

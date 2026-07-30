@@ -190,8 +190,8 @@ textarea { resize: vertical; font-size: 13px; line-height: 1.5; }
 
 /* Het vaste deel van de bronregel: te zien, niet te wijzigen. */
 .vast {
-  display: block; font-size: 13px; font-weight: 600; color: var(--donkerblauw);
-  background: var(--lichtblauw); border-radius: 6px;
+  display: block; font-size: 13px; font-weight: 600; color: var(--oost-donkerblauw);
+  background: var(--oost-lichtblauw); border-radius: 6px;
   padding: 7px 10px; margin-bottom: 6px;
 }
 
@@ -315,6 +315,15 @@ details.invoer[open] > summary { margin-bottom: 8px; }
 .kleurpopup h4 { margin: 0 0 8px; font-size: 12px; color: var(--grijs); font-weight: 600; }
 .kleurpopup .eigen { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .kleurpopup .eigen input[type=color] { width: 38px; height: 30px; padding: 0; border-radius: 8px; border: 1px solid var(--rand-sterk); background: none; }
+
+/* Kleurrijen in een tekstblok: label plus drie vaste stalen. */
+.blokkleuren { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; }
+.blokkleuren .rijlabel { font-size: 12px; color: var(--grijs); width: 82px; }
+.blokkleuren .staal {
+  width: 22px; height: 22px; padding: 0; cursor: pointer;
+  border: 1px solid rgba(19,23,32,.18); border-radius: 6px;
+}
+.blokkleuren .staal.aan { outline: 2px solid var(--oost-blauw); outline-offset: 1px; }
 
 /* De velden achter de legendaregels: het label ervoor, klein en grijs. */
 .achterveld { margin: 8px 0; }
@@ -517,6 +526,7 @@ details.invoer[open] > summary { margin-bottom: 8px; }
             <option value="donkerblauw">Donkerblauw (#131720)</option>
             <option value="transparant">Transparant</option>
           </select></label>
+        <p class="hint" id="achtergrond-hint" hidden>Beeldvullend ligt de kaart over de hele achtergrond, dus van deze keuze zie je dan niets. Hij doet weer mee zodra je <em>In kader</em> kiest, of bij Basiskaart <em>Wateroppervlak als achtergrond</em> uitzet.</p>
         <p class="hint" id="transparant-hint" hidden>Transparant levert een PNG zonder achtergrond. Zet ook <em>Water</em> uit bij Basiskaart als je alleen de provincievorm wilt uitsnijden.</p>
       </div>
     </section>
@@ -1644,31 +1654,25 @@ const Render = (function () {
     ctx.restore();
 
     /* --- titel --- */
-    // Beeldvullend ligt de titel op de kaart en kan hij over water, buitenland
-    // en de lichte gemeentevulling tegelijk lopen. Dezelfde omlijning als bij
-    // plaatsnamen maakt hem daar overal leesbaar; in het kader is die niet
-    // nodig, want daar staat de titel op de paginakleur.
     const titelX = ind.titelVak.x + ind.titelVak.b * ind.richting;
-    const zetTekst = (tekst, x, y, kleur, grootte) => {
-      if (ind.vol) omlijndeTekst(ctx, tekst, x, y, kleur, Math.max(3.2, grootte * 0.11));
-      else { ctx.fillStyle = kleur; ctx.fillText(tekst, x, y); }
-    };
     ctx.textAlign = ind.richting === 0 ? "left" : ind.richting === 1 ? "right" : "center";
     ctx.textBaseline = "alphabetic";
     let ty = ind.titelVak.y;
     if (ind.titelRegels.length) {
       zetLetter(ctx, "700", f.titelgrootte);
+      ctx.fillStyle = opkaart || thema.tekst;
       ind.titelRegels.forEach(regel => {
         ty += f.titelgrootte * 1.16;
-        zetTekst(regel, titelX, ty - f.titelgrootte * 0.22, opkaart || thema.tekst, f.titelgrootte);
+        ctx.fillText(regel, titelX, ty - f.titelgrootte * 0.22);
       });
     }
     if (ind.onderRegels.length) {
       zetLetter(ctx, "400", f.ondertitelgrootte);
+      ctx.fillStyle = opkaart || thema.zacht;
       if (ind.titelRegels.length) ty += 10;
       ind.onderRegels.forEach(regel => {
         ty += f.ondertitelgrootte * 1.3;
-        zetTekst(regel, titelX, ty - f.ondertitelgrootte * 0.3, opkaart || thema.zacht, f.ondertitelgrootte);
+        ctx.fillText(regel, titelX, ty - f.ondertitelgrootte * 0.3);
       });
     }
     ctx.textAlign = "left";
@@ -1920,9 +1924,9 @@ const Render = (function () {
 
   // Tekst met een dunne contour in de tegenkleur: houdt labels leesbaar waar
   // ze over een grens of over water heen vallen.
-  function omlijndeTekst(ctx, tekst, x, y, kleur, dikte) {
+  function omlijndeTekst(ctx, tekst, x, y, kleur) {
     ctx.lineJoin = "round";
-    ctx.lineWidth = dikte || 3.2;
+    ctx.lineWidth = 3.2;
     ctx.strokeStyle = kleur === "#FFFFFF" ? "rgba(19,23,32,.55)" : "rgba(255,255,255,.85)";
     ctx.strokeText(tekst, x, y);
     ctx.fillStyle = kleur;
@@ -2098,7 +2102,8 @@ const Render = (function () {
       let breedte = Math.max(...regels.map(r => ctx.measureText(r).width));
 
       const vulkleur = blok.vulling || "#FFFFFF";
-      const tekstkleur = leesbaarOp(vulkleur);
+      // Zelf gekozen letterkleur wint; zonder keuze volgt hij de kaderkleur.
+      const tekstkleur = blok.tekstkleur || leesbaarOp(vulkleur);
       const pad2 = 14;
 
       // verbindingslijn naar het ankerpunt
@@ -2585,6 +2590,11 @@ const Render = (function () {
       $("bron-vast").textContent = Render.bronTekst(Object.assign({}, staat, { bronaanvulling: "" }));
       werkVoetBij();
       bouwLegendaAchter();
+      // De achtergrondkeuze is onzichtbaar zolang de beeldvullende kaart met
+      // water het hele beeld bedekt. Dat is geen slot, maar het voelt zo —
+      // vandaar deze uitleg precies wanneer het speelt.
+      const bedekt = staat.weergave === "beeldvullend" && staat.basiskaart.water;
+      $("achtergrond-hint").hidden = !bedekt;
       if (mobielAan) tekenMobiel();
     });
   }
@@ -3175,10 +3185,8 @@ const Render = (function () {
     vulPuntlaag(); teken();
   });
 
-  // zoeken met suggesties over alle 1074 plaatsen
   const zoekveld = $("in-punt-zoek");
   const suggestieHouder = $("punt-suggesties");
-  let suggestieIndex = -1;
 
   // Waar de puntlaag in zoekt. Op de Overijsselkaart is dat TOP10NL: preciezer,
   // met inwonertallen en tot op buurtniveau. Op de Nederlandkaart komt daar
@@ -3255,9 +3263,11 @@ const Render = (function () {
         houder.hidden = true;
       }
     });
-    document.addEventListener("click", e => {
+    const buiten = e => {
+      if (!document.contains(veld)) { document.removeEventListener("click", buiten); return; }
       if (!houder.contains(e.target) && e.target !== veld) houder.hidden = true;
-    });
+    };
+    document.addEventListener("click", buiten);
   }
 
   koppelPlaatszoeker(zoekveld, suggestieHouder, p => voegPuntToe(p));
@@ -3500,6 +3510,7 @@ const Render = (function () {
       breedte: 320,
       kader: true,
       vulling: "#FFFFFF",
+      tekstkleur: null,
       lijn: false,
       ankerX: null, ankerY: null,
       lijnkleur: "#131720"
@@ -3538,6 +3549,25 @@ const Render = (function () {
       ta.value = blok.tekst;
       ta.addEventListener("input", () => { blok.tekst = ta.value; teken(); });
       vak.appendChild(ta);
+
+      // Letterkleur en kaderkleur in de drie huisstijlkleuren die op elke
+      // ondergrond werken. De staal hierboven blijft de vrije kaderkleur.
+      const BLOKKLEUREN = [["#FFFFFF", "Wit"], ["#131720", "Donkerblauw"], ["#1361FF", "Oost Blauw"]];
+      const kleurrij = (naam, huidig, zet) => {
+        const r = maak("div", "rij blokkleuren");
+        r.appendChild(maak("span", "rijlabel", naam));
+        BLOKKLEUREN.forEach(([hex, titel]) => {
+          const knop = maak("button", "staal" + (String(huidig).toUpperCase() === hex ? " aan" : ""));
+          knop.type = "button";
+          knop.title = titel;
+          knop.style.background = hex;
+          knop.addEventListener("click", () => { zet(hex); vulTekstlaag(); teken(); });
+          r.appendChild(knop);
+        });
+        return r;
+      };
+      vak.appendChild(kleurrij("Letterkleur", blok.tekstkleur || "", hex => { blok.tekstkleur = hex; }));
+      vak.appendChild(kleurrij("Kaderkleur", blok.vulling, hex => { blok.vulling = hex; }));
 
       const rij = maak("div", "rij");
       const l1 = maak("label", "schakel");

@@ -438,6 +438,11 @@
       $("bron-vast").textContent = Render.bronTekst(Object.assign({}, staat, { bronaanvulling: "" }));
       werkVoetBij();
       bouwLegendaAchter();
+      // De achtergrondkeuze is onzichtbaar zolang de beeldvullende kaart met
+      // water het hele beeld bedekt. Dat is geen slot, maar het voelt zo —
+      // vandaar deze uitleg precies wanneer het speelt.
+      const bedekt = staat.weergave === "beeldvullend" && staat.basiskaart.water;
+      $("achtergrond-hint").hidden = !bedekt;
       if (mobielAan) tekenMobiel();
     });
   }
@@ -1028,10 +1033,8 @@
     vulPuntlaag(); teken();
   });
 
-  // zoeken met suggesties over alle 1074 plaatsen
   const zoekveld = $("in-punt-zoek");
   const suggestieHouder = $("punt-suggesties");
-  let suggestieIndex = -1;
 
   // Waar de puntlaag in zoekt. Op de Overijsselkaart is dat TOP10NL: preciezer,
   // met inwonertallen en tot op buurtniveau. Op de Nederlandkaart komt daar
@@ -1108,9 +1111,11 @@
         houder.hidden = true;
       }
     });
-    document.addEventListener("click", e => {
+    const buiten = e => {
+      if (!document.contains(veld)) { document.removeEventListener("click", buiten); return; }
       if (!houder.contains(e.target) && e.target !== veld) houder.hidden = true;
-    });
+    };
+    document.addEventListener("click", buiten);
   }
 
   koppelPlaatszoeker(zoekveld, suggestieHouder, p => voegPuntToe(p));
@@ -1353,6 +1358,7 @@
       breedte: 320,
       kader: true,
       vulling: "#FFFFFF",
+      tekstkleur: null,
       lijn: false,
       ankerX: null, ankerY: null,
       lijnkleur: "#131720"
@@ -1391,6 +1397,25 @@
       ta.value = blok.tekst;
       ta.addEventListener("input", () => { blok.tekst = ta.value; teken(); });
       vak.appendChild(ta);
+
+      // Letterkleur en kaderkleur in de drie huisstijlkleuren die op elke
+      // ondergrond werken. De staal hierboven blijft de vrije kaderkleur.
+      const BLOKKLEUREN = [["#FFFFFF", "Wit"], ["#131720", "Donkerblauw"], ["#1361FF", "Oost Blauw"]];
+      const kleurrij = (naam, huidig, zet) => {
+        const r = maak("div", "rij blokkleuren");
+        r.appendChild(maak("span", "rijlabel", naam));
+        BLOKKLEUREN.forEach(([hex, titel]) => {
+          const knop = maak("button", "staal" + (String(huidig).toUpperCase() === hex ? " aan" : ""));
+          knop.type = "button";
+          knop.title = titel;
+          knop.style.background = hex;
+          knop.addEventListener("click", () => { zet(hex); vulTekstlaag(); teken(); });
+          r.appendChild(knop);
+        });
+        return r;
+      };
+      vak.appendChild(kleurrij("Letterkleur", blok.tekstkleur || "", hex => { blok.tekstkleur = hex; }));
+      vak.appendChild(kleurrij("Kaderkleur", blok.vulling, hex => { blok.vulling = hex; }));
 
       const rij = maak("div", "rij");
       const l1 = maak("label", "schakel");

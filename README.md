@@ -25,7 +25,7 @@ uit de export komt — alleen kleiner weergegeven.
 |---|---|---|
 | **Vlaklaag** | thematische kaart: cijfer of categorie per gemeente | Plak twee kolommen uit een spreadsheet, of vul de tabel handmatig in |
 | **Puntlaag** | locatie-, overzichts-, symbool-, punten- en bellenkaart | Typ een plaatsnaam, klik in de kaart, of plak een lijst |
-| **Tekstlaag** | geannoteerde kaart | Tekstblok toevoegen en in de kaart slepen, met of zonder verbindingslijn naar een plaats |
+| **Tekstlaag** | geannoteerde kaart | Tekstblok toevoegen en in de kaart slepen, met of zonder verbindingslijn naar een plaats. Letterkleur en kaderkleur kies je per blok: wit, donkerblauw of Oost Blauw, en via de staal elke andere kleur |
 
 Punten kun je een **groep** geven (derde kolom bij plakken). Elke groep krijgt een
 eigen kleur en komt automatisch in de legenda — zo maak je een symbolenkaart.
@@ -108,10 +108,10 @@ opzij om ruimte voor een legenda te maken.
   zelf: links en rechts blijft omringend land zichtbaar.
 - *Beeldvullend* — de kaart loopt door tot alle vier de beeldranden, zo groot als
   het beeld toelaat. Titel, ondertitel, legenda en bronregel liggen er als laag
-  overheen; de titel krijgt dezelfde omlijning als de plaatsnamen, zodat hij ook
-  over de provincie leesbaar blijft. Een legenda ernaast schuift de kaart opzij —
-  daar is bij 16:9 ruimte genoeg voor. Voor tv: kies 16:9. Waar de legenda komt te
-  liggen, kies je bij *Legenda*.
+  overheen. Een legenda ernaast schuift de kaart opzij — daar is bij 16:9 ruimte
+  genoeg voor. Voor tv: kies 16:9. Waar de legenda komt te liggen, kies je bij
+  *Legenda*. De achtergrondkeuze zie je in deze weergave niet — de kaart bedekt
+  hem; de tool zegt dat er dan ook bij.
 
 **Achtergrond** kan ook *transparant*. Dan komt er een PNG uit zonder ondergrond.
 Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de

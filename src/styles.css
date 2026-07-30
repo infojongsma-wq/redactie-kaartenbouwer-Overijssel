@@ -184,8 +184,8 @@ textarea { resize: vertical; font-size: 13px; line-height: 1.5; }
 
 /* Het vaste deel van de bronregel: te zien, niet te wijzigen. */
 .vast {
-  display: block; font-size: 13px; font-weight: 600; color: var(--donkerblauw);
-  background: var(--lichtblauw); border-radius: 6px;
+  display: block; font-size: 13px; font-weight: 600; color: var(--oost-donkerblauw);
+  background: var(--oost-lichtblauw); border-radius: 6px;
   padding: 7px 10px; margin-bottom: 6px;
 }
 
@@ -309,6 +309,15 @@ details.invoer[open] > summary { margin-bottom: 8px; }
 .kleurpopup h4 { margin: 0 0 8px; font-size: 12px; color: var(--grijs); font-weight: 600; }
 .kleurpopup .eigen { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .kleurpopup .eigen input[type=color] { width: 38px; height: 30px; padding: 0; border-radius: 8px; border: 1px solid var(--rand-sterk); background: none; }
+
+/* Kleurrijen in een tekstblok: label plus drie vaste stalen. */
+.blokkleuren { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; }
+.blokkleuren .rijlabel { font-size: 12px; color: var(--grijs); width: 82px; }
+.blokkleuren .staal {
+  width: 22px; height: 22px; padding: 0; cursor: pointer;
+  border: 1px solid rgba(19,23,32,.18); border-radius: 6px;
+}
+.blokkleuren .staal.aan { outline: 2px solid var(--oost-blauw); outline-offset: 1px; }
 
 /* De velden achter de legendaregels: het label ervoor, klein en grijs. */
 .achterveld { margin: 8px 0; }
