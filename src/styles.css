@@ -310,6 +310,10 @@ details.invoer[open] > summary { margin-bottom: 8px; }
 .kleurpopup .eigen { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .kleurpopup .eigen input[type=color] { width: 38px; height: 30px; padding: 0; border-radius: 8px; border: 1px solid var(--rand-sterk); background: none; }
 
+/* De velden achter de legendaregels: het label ervoor, klein en grijs. */
+.achterveld { margin: 8px 0; }
+.achterveld > span { font-weight: 600; color: var(--oost-donkerblauw); }
+
 /* Eigen kleur per vlak in de vlaktabel. Leeg = een streepje, gevuld = de kleur. */
 .kleurknop {
   width: 24px; height: 20px; padding: 0;

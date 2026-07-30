@@ -114,7 +114,7 @@
         label: "naam", eenheid: "", legendalabel: "Locatie", groepkleuren: {}
       },
       tekstlaag: { actief: false, blokken: [] },
-      legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts" }
+      legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts", achter: {} }
     };
   }
 
@@ -180,6 +180,7 @@
     }
     if (!Render.LEGENDAPLAATSEN.includes(basis.legenda.plaats)) basis.legenda.plaats = "rechts";
     if (!basis.vlaklaag.kleuren || typeof basis.vlaklaag.kleuren !== "object") basis.vlaklaag.kleuren = {};
+    if (!basis.legenda.achter || typeof basis.legenda.achter !== "object") basis.legenda.achter = {};
 
     // identificaties niet laten botsen met bestaande punten en tekstblokken
     const gebruikt = []
@@ -436,6 +437,7 @@
       // GeoNames op de kaart, dan komt die bron erbij.
       $("bron-vast").textContent = Render.bronTekst(Object.assign({}, staat, { bronaanvulling: "" }));
       werkVoetBij();
+      bouwLegendaAchter();
       if (mobielAan) tekenMobiel();
     });
   }
@@ -1456,6 +1458,42 @@
 
   $("in-legenda-titel").addEventListener("input", () => { staat.legenda.titel = $("in-legenda-titel").value; teken(); });
   $("in-legenda-plaats").addEventListener("change", () => { staat.legenda.plaats = $("in-legenda-plaats").value; teken(); });
+
+  /* Achter elke regel van de legenda mag een eigen tekst. Welke regels er zijn
+     hangt af van de lagen die aanstaan, dus de velden worden opgebouwd uit de
+     legenda zoals die op dit moment getekend wordt. */
+  let laatsteAchterRegels = null;
+
+  function bouwLegendaAchter() {
+    const houder = $("legenda-achter");
+    if (!houder) return;
+    const regels = Render.legendaRegels(staat, hulpObject());
+    // Deze functie loopt mee met elke tekenbeurt, dus ook bij elke aanslag in
+    // een van deze velden. De velden opnieuw opbouwen zou dan de cursor
+    // wegnemen; alleen als de regels zelf veranderen is dat nodig.
+    const nu = regels.map(r => r.sleutel + "\u0000" + r.label).join("\u0001");
+    if (nu === laatsteAchterRegels) return;
+    laatsteAchterRegels = nu;
+    houder.innerHTML = "";
+    if (!regels.length) return;
+    houder.appendChild(maak("label", "veld")).appendChild(maak("span", null, "Achter de regels van de legenda"));
+    regels.forEach(r => {
+      const veld = maak("label", "veld achterveld");
+      veld.appendChild(maak("span", null, r.label));
+      const inv = maak("input");
+      inv.type = "text";
+      inv.maxLength = 60;
+      inv.placeholder = "Bijvoorbeeld een aantal of een toelichting";
+      inv.value = staat.legenda.achter[r.sleutel] || "";
+      inv.addEventListener("input", () => {
+        if (inv.value.trim() === "") delete staat.legenda.achter[r.sleutel];
+        else staat.legenda.achter[r.sleutel] = inv.value;
+        teken();
+      });
+      veld.appendChild(inv);
+      houder.appendChild(veld);
+    });
+  }
 
   /* ---------------------------------------------------------- formaat */
 

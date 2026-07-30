@@ -119,6 +119,11 @@ provincievorm wilt uitsnijden.
 
 ### De legenda
 
+Achter elke regel van de legenda kun je een **eigen tekst** zetten: een aantal, een
+eenheid, een toelichting. Bij *Legenda* staat per regel een veldje — welke regels
+dat zijn hangt af van de lagen die aanstaan, dus de velden komen en gaan met je
+kaart mee. De tekst komt in dezelfde maat achter het label, maar lichter.
+
 Bij *Legenda* kies je waar hij komt: onder de kaart, of links of rechts ernaast,
 en dan boven-, midden- of onderaan uitgelijnd. Dezelfde acht keuzes gelden voor
 beide weergaven — in het kader ten opzichte van het kaartvlak, beeldvullend ten

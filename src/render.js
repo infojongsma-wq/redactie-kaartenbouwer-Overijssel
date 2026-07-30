@@ -234,13 +234,27 @@ const Render = (function () {
 
   /* ---------------------------------------------------------- legenda */
 
+  /* Achter elke legendaregel mag een eigen tekst: een toelichting, een aantal,
+     een eenheid. De redactie typt die zelf; de tool bewaart hem per regel onder
+     een sleutel die aan het label hangt en niet aan de volgorde. */
+  function achterTekst(staat, sleutel) {
+    const a = staat.legenda && staat.legenda.achter;
+    return a && a[sleutel] ? String(a[sleutel]).trim() : "";
+  }
+
   function bouwLegenda(staat, hulp) {
     const items = [];
     const L = staat.legenda;
 
     if (staat.vlaklaag.actief && L.categorie && staat.vlaklaag.modus === "categorie") {
       const cats = hulp.categorieen || [];
-      if (cats.length) items.push({ type: "categorie", categorieen: cats });
+      if (cats.length) {
+        items.push({
+          type: "categorie",
+          categorieen: cats.map(c => ({ kleur: c.kleur, naam: c.naam, sleutel: "cat:" + c.naam,
+                                        achter: achterTekst(staat, "cat:" + c.naam) }))
+        });
+      }
     }
     if (staat.vlaklaag.actief && L.schaal && staat.vlaklaag.modus === "schaal") {
       const g = hulp.grenzen;
@@ -253,8 +267,10 @@ const Render = (function () {
         items.push({
           type: "stip",
           rijen: groepen.length
-            ? groepen.map(g => ({ kleur: g.kleur, label: g.naam }))
-            : [{ kleur: staat.puntlaag.kleur, label: staat.puntlaag.legendalabel || "Locatie" }]
+            ? groepen.map(g => ({ kleur: g.kleur, label: g.naam, sleutel: "groep:" + g.naam,
+                                 achter: achterTekst(staat, "groep:" + g.naam) }))
+            : [{ kleur: staat.puntlaag.kleur, label: staat.puntlaag.legendalabel || "Locatie",
+                 sleutel: "punt", achter: achterTekst(staat, "punt") }]
         });
       }
       if (L.bel && staat.puntlaag.weergave === "bel" && hulp.belgrenzen) {
@@ -266,13 +282,29 @@ const Render = (function () {
           const id = p.icoonId || staat.puntlaag.icoonId;
           if (id && !gebruikt.has(id)) gebruikt.set(id, p.groep || hulp.icoonnaam(id));
         });
-        if (gebruikt.size) items.push({ type: "icoon", rijen: [...gebruikt].map(([id, label]) => ({ id, label })) });
+        if (gebruikt.size) items.push({ type: "icoon", rijen: [...gebruikt].map(([id, label]) => ({ id, label, sleutel: "icoon:" + id,
+                                                                              achter: achterTekst(staat, "icoon:" + id) })) });
       }
     }
     return items;
   }
 
   function schaalVan(id) { return SCHALEN.find(s => s.id === id) || SCHALEN[0]; }
+
+  /* Welke regels er nu in de legenda staan, zodat de bediening er een veld bij
+     kan zetten. Alleen regels met een label; een kleurbalk of een bellenreeks
+     heeft geen regel om iets achter te zetten. */
+  function legendaRegels(staat, hulp) {
+    const uit = [];
+    bouwLegenda(staat, hulp).forEach(item => {
+      const rijen = item.type === "categorie" ? item.categorieen
+                  : (item.type === "stip" || item.type === "icoon") ? item.rijen : [];
+      rijen.forEach(r => {
+        if (r.sleutel) uit.push({ sleutel: r.sleutel, label: r.naam || r.label || "" });
+      });
+    });
+    return uit;
+  }
 
   function meetLegenda(ctx, items, richting, maxBreedte, k) {
     if (!items.length) return { breedte: 0, hoogte: 0, blokken: [] };
@@ -294,11 +326,18 @@ const Render = (function () {
     return { breedte: Math.min(maxBreedte, Math.max(...blokken.map(b => b._x + b.breedte))), hoogte, blokken };
   }
 
+  // Breedte van "label  eigen tekst". De eigen tekst staat in dezelfde maat
+  // maar lichter, dus meten mag met dezelfde letter.
+  function regelBreedte(ctx, label, achter) {
+    return ctx.measureText(String(label || "")).width
+         + (achter ? ctx.measureText("  " + achter).width : 0);
+  }
+
   function meetLegendaBlok(ctx, item, richting, maxBreedte, k) {
     zetLetter(ctx, "500", k.legendaTekst);
     const rijhoogte = k.legendaRij;
     if (item.type === "categorie") {
-      const breedtes = item.categorieen.map(c => k.staal + 10 + ctx.measureText(c.naam).width);
+      const breedtes = item.categorieen.map(c => k.staal + 10 + regelBreedte(ctx, c.naam, c.achter));
       if (richting === "verticaal") {
         return { item, breedte: Math.min(maxBreedte, Math.max(...breedtes)), hoogte: item.categorieen.length * rijhoogte };
       }
@@ -317,7 +356,7 @@ const Render = (function () {
     }
     if (item.type === "stip" || item.type === "icoon") {
       const hoog = item.type === "icoon" ? k.legendaIcoon : rijhoogte;
-      const breedtes = item.rijen.map(r => (item.type === "icoon" ? k.legendaIcoon : k.staal) + 10 + ctx.measureText(r.label || "").width);
+      const breedtes = item.rijen.map(r => (item.type === "icoon" ? k.legendaIcoon : k.staal) + 10 + regelBreedte(ctx, r.label, r.achter));
       if (richting === "verticaal") {
         return { item, breedte: Math.min(maxBreedte, Math.max(...breedtes)), hoogte: item.rijen.length * hoog };
       }
@@ -346,8 +385,19 @@ const Render = (function () {
 
     if (item.type === "categorie" || item.type === "stip" || item.type === "icoon") {
       const rijen = item.type === "categorie"
-        ? item.categorieen.map(c => ({ kleur: c.kleur, label: c.naam }))
+        ? item.categorieen.map(c => ({ kleur: c.kleur, label: c.naam, achter: c.achter }))
         : item.rijen;
+      // label, en daarachter de eigen tekst in een lichtere toon
+      const zetRegel = (r, tx, ty) => {
+        const label = r.label || "";
+        ctx.fillStyle = kleur;
+        ctx.fillText(label, tx, ty);
+        if (!r.achter) return;
+        const eerder = ctx.globalAlpha;
+        ctx.globalAlpha = eerder * 0.62;
+        ctx.fillText("  " + r.achter, tx + ctx.measureText(label).width, ty);
+        ctx.globalAlpha = eerder;
+      };
       const hoog = item.type === "icoon" ? k.legendaIcoon : k.legendaRij;
       const perRij = richting === "verticaal" ? 1 : (blok.perRij || 1);
       // De tussenruimte zit in de kolombreedte, anders raakt het langste label
@@ -366,22 +416,19 @@ const Render = (function () {
             const v = pasIn(afb.width, afb.height, s, s);
             ctx.drawImage(afb, rx + (s - v.b) / 2, ry - v.h / 2, v.b, v.h);
           }
-          ctx.fillStyle = kleur;
-          ctx.fillText(r.label || "", rx + k.legendaIcoon + 10, ry);
+          zetRegel(r, rx + k.legendaIcoon + 10, ry);
         } else if (item.type === "stip") {
           ctx.fillStyle = r.kleur;
           ctx.beginPath();
           ctx.arc(rx + k.staal / 2, ry, k.staal / 2.3, 0, Math.PI * 2);
           ctx.fill();
           ctx.strokeStyle = "rgba(255,255,255,.9)"; ctx.lineWidth = 1.5; ctx.stroke();
-          ctx.fillStyle = kleur;
-          ctx.fillText(r.label || "", rx + k.staal + 10, ry);
+          zetRegel(r, rx + k.staal + 10, ry);
         } else {
           ctx.fillStyle = r.kleur;
           rondeRechthoek(ctx, rx, ry - k.staal / 2, k.staal, k.staal, 4);
           ctx.fill();
-          ctx.fillStyle = kleur;
-          ctx.fillText(r.label || "", rx + k.staal + 10, ry);
+          zetRegel(r, rx + k.staal + 10, ry);
         }
       });
       return;
@@ -1268,7 +1315,7 @@ const Render = (function () {
 
   return {
     PALET, AFGELEID, ALLE_KLEUREN, SCHALEN, CATEGORIEKLEUREN, ACHTERGRONDEN, VULLINGEN, FORMATEN,
-    BRON_VAST, bronTekst, uitgelichteSet, LEGENDAPLAATSEN,
+    BRON_VAST, bronTekst, uitgelichteSet, LEGENDAPLAATSEN, legendaRegels,
     zetData, gebiedVan, tekenKaart, berekenIndeling, schaalKleur, schaalVan, meng, verschuif,
     leesbaarOp, contrast, formatGetal, luminantie, hexNaarRgb, rondeRechthoek, pad,
     get data() { return kaartdata; }
