@@ -2,3 +2,4 @@ node_modules/
 *.tmp
 
 __pycache__/
+node_modules

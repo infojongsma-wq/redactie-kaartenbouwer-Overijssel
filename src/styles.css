@@ -310,6 +310,16 @@ details.invoer[open] > summary { margin-bottom: 8px; }
 .kleurpopup .eigen { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .kleurpopup .eigen input[type=color] { width: 38px; height: 30px; padding: 0; border-radius: 8px; border: 1px solid var(--rand-sterk); background: none; }
 
+/* Eigen kleur per vlak in de vlaktabel. Leeg = een streepje, gevuld = de kleur. */
+.kleurknop {
+  width: 24px; height: 20px; padding: 0;
+  border: 1px solid var(--rand-sterk); border-radius: 6px;
+  background: repeating-linear-gradient(45deg, #fff 0 4px, #EEF2F8 4px 8px);
+  cursor: pointer;
+}
+.kleurknop:hover { border-color: var(--oost-blauw); }
+.kleurknop.aan { border-color: var(--oost-donkerblauw); }
+
 /* --------------------------------------------------------- suggesties */
 
 .zoekhouder { position: relative; margin-top: 12px; }

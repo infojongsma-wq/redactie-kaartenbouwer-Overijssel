@@ -25,7 +25,7 @@ uit de export komt — alleen kleiner weergegeven.
 |---|---|---|
 | **Vlaklaag** | thematische kaart: cijfer of categorie per gemeente | Plak twee kolommen uit een spreadsheet, of vul de tabel handmatig in |
 | **Puntlaag** | locatie-, overzichts-, symbool-, punten- en bellenkaart | Typ een plaatsnaam, klik in de kaart, of plak een lijst |
-| **Tekstlaag** | geannoteerde kaart | Tekstblok toevoegen en in de kaart slepen, met of zonder verbindingslijn |
+| **Tekstlaag** | geannoteerde kaart | Tekstblok toevoegen en in de kaart slepen, met of zonder verbindingslijn naar een plaats |
 
 Punten kun je een **groep** geven (derde kolom bij plakken). Elke groep krijgt een
 eigen kleur en komt automatisch in de legenda — zo maak je een symbolenkaart.
@@ -35,6 +35,11 @@ alleen de waarde, naam plus waarde, of je eigen tekst uit een derde kolom. Dat
 label komt **alleen in vlakken met een waarde** — de gemeenten waar het niet over
 gaat blijven leeg. Wil je die namen er toch bij, zet dan *Namen op de vlakken* op
 *Alle* bij Basiskaart; die vult dan de rest in.
+
+In de tabel heeft elke gemeente ook een **kleurknopje**. Daarmee vul je een vlak in
+zonder er een waarde bij te bedenken — handig als je alleen één gemeente wilt
+aanzetten. Zo'n eigen kleur wint van de kleurschaal en van de categorie, en gaat
+weg met hetzelfde kruisje als de waarde.
 
 ### Data plakken
 
@@ -101,14 +106,24 @@ opzij om ruimte voor een legenda te maken.
 - *In kader* — de kaart in een vlak met ruimte voor titel, legenda en bronregel
   eromheen. In 16:9 heeft dat vlak de verhouding **3:2**, dus breder dan Overijssel
   zelf: links en rechts blijft omringend land zichtbaar.
-- *Beeldvullend* — de kaart loopt door tot alle vier de beeldranden. Titel,
-  ondertitel, legenda en bronregel liggen er als laag overheen, en de provincie
-  schuift daarvoor opzij zodat er nooit tekst op de gemeenten belandt. Voor tv:
-  kies daarbij 16:9. Waar de legenda komt te liggen, kies je bij *Legenda*.
+- *Beeldvullend* — de kaart loopt door tot alle vier de beeldranden, zo groot als
+  het beeld toelaat. Titel, ondertitel, legenda en bronregel liggen er als laag
+  overheen; de titel krijgt dezelfde omlijning als de plaatsnamen, zodat hij ook
+  over de provincie leesbaar blijft. Een legenda ernaast schuift de kaart opzij —
+  daar is bij 16:9 ruimte genoeg voor. Voor tv: kies 16:9. Waar de legenda komt te
+  liggen, kies je bij *Legenda*.
 
 **Achtergrond** kan ook *transparant*. Dan komt er een PNG uit zonder ondergrond.
 Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de
 provincievorm wilt uitsnijden.
+
+### De legenda
+
+Bij *Legenda* kies je waar hij komt: onder de kaart, of links of rechts ernaast,
+en dan boven-, midden- of onderaan uitgelijnd. Dezelfde acht keuzes gelden voor
+beide weergaven — in het kader ten opzichte van het kaartvlak, beeldvullend ten
+opzichte van het beeld. Naast de kaart kan alleen bij 16:9; bij vierkant en staand
+valt elke zijkeuze terug op *onder de kaart*.
 
 ### Exporteren
 
@@ -159,6 +174,7 @@ src/render.js                        alle tekenwerk op canvas
 src/app.js                           toestand, bediening, opslag, export
 build/build_plaatsen.py              TOP10NL-plaatsen -> data/plaatsen_overijssel.json
 build/build_app.py                   src + data -> dist/kaartenbouwer-overijssel.html
+test/                                browsertests; zie test/README.md
 data/app_data.json                   kaartlagen uit fase 2, al geprojecteerd
 data/plaatsen_overijssel.json        1143 kernen, wijken en buurtschappen
 data/nederland.json                  12 provincies, zelfde assenstelsel

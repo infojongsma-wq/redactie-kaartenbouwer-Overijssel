@@ -547,7 +547,8 @@ const Render = (function () {
     const tussenruimte = Math.round(30 * k._s);
 
     const items = bouwLegenda(staat, hulp);
-    const legendaOnder = formaat !== "16:9" || staat.legenda.plaats === "onder";
+    const plek = legendaPlek(staat, formaat);
+    const legendaOnder = !!plek && !plek.kolom;
     const legendaKop = (staat.legenda.titel || "").trim() ? Math.round(k.legendaTekst + 16) : 0;
 
     // Eerst de legenda meten: hoeveel die inneemt hangt niet van de schaal van
@@ -557,7 +558,7 @@ const Render = (function () {
     if (items.length && legendaOnder) {
       gemeten = meetLegenda(ctx, items, "horizontaal", beschikbaarB, k);
       maxH = beschikbaarH - gemeten.hoogte - legendaKop - tussenruimte;
-    } else if (items.length) {
+    } else if (items.length && plek) {
       gemeten = meetLegenda(ctx, items, "verticaal", Math.round(f.breedte * 0.30), k);
       maxB = beschikbaarB - gemeten.breedte - gat;
     }
@@ -581,7 +582,7 @@ const Render = (function () {
 
     /* --- kaart en legenda plaatsen --- */
     let vakX, vakY, legenda = null;
-    if (!items.length) {
+    if (!items.length || !plek) {
       vakX = m + (beschikbaarB - vakB) * kaartrichting;
       vakY = kaartTop + (beschikbaarH - vakH) * verdeling;
     } else if (legendaOnder) {
@@ -589,19 +590,22 @@ const Render = (function () {
       vakX = m + (beschikbaarB - vakB) * kaartrichting;
       vakY = kaartTop + Math.max(0, (beschikbaarH - totaal) * verdeling);
       legenda = {
-        x: m + (beschikbaarB - gemeten.breedte) * kaartrichting,
+        x: m + (beschikbaarB - gemeten.breedte) * plek.x,
         y: vakY + vakH + tussenruimte + legendaKop,
         b: gemeten.breedte, h: gemeten.hoogte, richting: "horizontaal", gemeten
       };
     } else {
-      // kaart en legenda blijven als groep bij elkaar staan
+      // Kaart en legenda blijven als groep bij elkaar staan; plek.x bepaalt aan
+      // welke kant de legenda staat, plek.y hoe hij daar uitlijnt.
       const groepB = vakB + gat + gemeten.breedte;
       const groepX = m + (beschikbaarB - groepB) * kaartrichting;
-      vakX = groepX;
+      const links = plek.x === 0;
+      vakX = links ? groepX + gemeten.breedte + gat : groepX;
       vakY = kaartTop + (beschikbaarH - vakH) * verdeling;
+      const speling = Math.max(0, vakH - gemeten.hoogte - legendaKop);
       legenda = {
-        x: groepX + vakB + gat,
-        y: vakY + Math.max(0, (vakH - gemeten.hoogte - legendaKop) / 2) + legendaKop,
+        x: links ? groepX : groepX + vakB + gat,
+        y: vakY + speling * plek.y + legendaKop,
         b: gemeten.breedte, h: gemeten.hoogte, richting: "verticaal", gemeten
       };
     }
@@ -624,13 +628,28 @@ const Render = (function () {
      provincie zelf — het omringende land en het water lopen er wel onderdoor,
      maar de vorm schuift ervandaan. Anders komt de tekst op de lichte vulling
      terecht en is hij op tv niet te lezen. */
-  const TV_LEGENDA = {
-    rechts:       { x: 1, y: 0.5 },
-    rechtsboven:  { x: 1, y: 0 },
-    rechtsonder:  { x: 1, y: 1 },
-    linksboven:   { x: 0, y: 0 },
-    linksonder:   { x: 0, y: 1 }
+  /* Waar de legenda ligt. Eén woordenschat voor beide weergaven: in het kader
+     ten opzichte van het kaartvlak, beeldvullend ten opzichte van het beeld. */
+  const LEGENDAPLEK = {
+    onder:       { kolom: false, x: 0.5, y: 1 },
+    links:       { kolom: true,  x: 0,   y: 0.5 },
+    linksboven:  { kolom: true,  x: 0,   y: 0 },
+    linksonder:  { kolom: true,  x: 0,   y: 1 },
+    rechts:      { kolom: true,  x: 1,   y: 0.5 },
+    rechtsboven: { kolom: true,  x: 1,   y: 0 },
+    rechtsonder: { kolom: true,  x: 1,   y: 1 }
   };
+
+  const LEGENDAPLAATSEN = Object.keys(LEGENDAPLEK).concat(["geen"]);
+
+  function legendaPlek(staat, formaat) {
+    const plek = LEGENDAPLEK[staat.legenda.plaats];
+    if (!plek) return null;                       // "geen"
+    // Een kolom naast de kaart past alleen in een breed kader; in een vierkant
+    // of staand formaat zou de kaart tot een postzegel krimpen.
+    if (plek.kolom && formaat !== "16:9") return LEGENDAPLEK.onder;
+    return plek;
+  }
 
   // Waar de tv-legenda op komt te liggen: water, omringend land of, als beide
   // uit staan, de paginakleur zelf.
@@ -648,31 +667,30 @@ const Render = (function () {
     const gat = Math.round(40 * k._s);
     const richting = uitlijnGetal(staat.uitlijning);
 
-    // vrij = waar de provincie mag liggen. Elk stuk tekst knabbelt eraf.
+    // Twee verschillende vlakken, en dat is met opzet:
+    //
+    //   vrij  — waar de provincie in past. Alleen de legenda knabbelt hieraan,
+    //           want die staat ernaast. Titel en bronregel niet: die liggen als
+    //           laag op de kaart. Zouden ze wel meetellen, dan zou de provincie
+    //           bij een titel ineens een kwart kleiner worden, en juist de maat
+    //           is waar het bij beeldvullend om gaat.
+    //   veld  — waar de tekst mag liggen. Daar tellen titel en bronregel wel,
+    //           zodat een legenda linksboven niet onder de titel schuift.
+    //
     let vrij = { x: 0, y: 0, b: f.breedte, h: f.hoogte };
     const knip = (x, y, b, h) => { vrij = { x, y, b: Math.max(1, b), h: Math.max(1, h) }; };
 
-    /* --- titel bovenaan --- */
     const kop = meetKop(ctx, staat, f, f.breedte - 2 * rand);
-    if (kop.hoogte) {
-      const onder = rand + kop.hoogte + gat;
-      knip(vrij.x, onder, vrij.b, f.hoogte - onder);
-    }
-
-    /* --- bronregel onderaan --- */
     const bronHoogte = Math.round(f.brongrootte * 1.6) + 14;
-    knip(vrij.x, vrij.y, vrij.b, vrij.h - bronHoogte);
+    const veldTop = kop.hoogte ? rand + kop.hoogte + gat : rand;
+    const veld = { x: rand, y: veldTop, b: f.breedte - 2 * rand, h: Math.max(1, f.hoogte - rand - bronHoogte - veldTop) };
 
     /* --- legenda --- */
     const items = bouwLegenda(staat, hulp);
-    const plek = TV_LEGENDA[staat.legenda.tvplaats];
-    // In een breed kader past de legenda als kolom naast de kaart; in een
-    // vierkant of staand kader is daar geen ruimte voor en wordt het een band
-    // boven of onder. De legenda blijft binnen wat de titel heeft overgelaten.
-    const kolom = f.breedte / f.hoogte >= 1.3;
+    const plek = legendaPlek(staat, formaat);
+    const kolom = !!(plek && plek.kolom);
     let legenda = null;
     if (items.length && plek) {
-      const veld = vrij;
       const legendarichting = kolom ? "verticaal" : "horizontaal";
       const gemeten = meetLegenda(ctx, items, legendarichting,
                                   kolom ? Math.round(f.breedte * 0.30) : f.breedte - 2 * rand, k);
@@ -689,23 +707,23 @@ const Render = (function () {
       const blokH = gemeten.hoogte + legendakop;
 
       if (kolom) {
+        // Een kolom knabbelt aan de breedte. Daar zit bij een liggend kader
+        // ruimte zat, dus de provincie blijft even groot.
         const x = plek.x === 1 ? f.breedte - rand - blokB : rand;
         legenda = {
           x, y: veld.y + legendakop + Math.max(0, veld.h - blokH) * plek.y,
           b: blokB, h: gemeten.hoogte, richting: legendarichting, gemeten
         };
-        if (plek.x === 1) knip(veld.x, veld.y, x - gat - veld.x, veld.h);
-        else knip(rand + blokB + gat, veld.y, veld.x + veld.b - (rand + blokB + gat), veld.h);
+        if (plek.x === 1) knip(0, 0, x - gat, f.hoogte);
+        else knip(rand + blokB + gat, 0, f.breedte - (rand + blokB + gat), f.hoogte);
       } else {
-        // 0,5 (rechts, midden) heeft in een band geen zinnige hoogte: onder.
-        const boven = plek.y === 0;
-        const y = boven ? veld.y : veld.y + veld.h - blokH;
+        // Een band knabbelt aan de hoogte, en juist daar zit de provincie krap.
+        const y = veld.y + veld.h - blokH;
         legenda = {
           x: rand + (f.breedte - 2 * rand - blokB) * plek.x, y: y + legendakop,
           b: blokB, h: gemeten.hoogte, richting: legendarichting, gemeten
         };
-        if (boven) knip(veld.x, y + blokH + gat, veld.b, veld.y + veld.h - (y + blokH + gat));
-        else knip(veld.x, veld.y, veld.b, y - gat - veld.y);
+        knip(0, 0, f.breedte, y - gat);
       }
     }
 
@@ -757,25 +775,31 @@ const Render = (function () {
     ctx.restore();
 
     /* --- titel --- */
+    // Beeldvullend ligt de titel op de kaart en kan hij over water, buitenland
+    // en de lichte gemeentevulling tegelijk lopen. Dezelfde omlijning als bij
+    // plaatsnamen maakt hem daar overal leesbaar; in het kader is die niet
+    // nodig, want daar staat de titel op de paginakleur.
     const titelX = ind.titelVak.x + ind.titelVak.b * ind.richting;
+    const zetTekst = (tekst, x, y, kleur, grootte) => {
+      if (ind.vol) omlijndeTekst(ctx, tekst, x, y, kleur, Math.max(3.2, grootte * 0.11));
+      else { ctx.fillStyle = kleur; ctx.fillText(tekst, x, y); }
+    };
     ctx.textAlign = ind.richting === 0 ? "left" : ind.richting === 1 ? "right" : "center";
     ctx.textBaseline = "alphabetic";
     let ty = ind.titelVak.y;
     if (ind.titelRegels.length) {
       zetLetter(ctx, "700", f.titelgrootte);
-      ctx.fillStyle = opkaart || thema.tekst;
       ind.titelRegels.forEach(regel => {
         ty += f.titelgrootte * 1.16;
-        ctx.fillText(regel, titelX, ty - f.titelgrootte * 0.22);
+        zetTekst(regel, titelX, ty - f.titelgrootte * 0.22, opkaart || thema.tekst, f.titelgrootte);
       });
     }
     if (ind.onderRegels.length) {
       zetLetter(ctx, "400", f.ondertitelgrootte);
-      ctx.fillStyle = opkaart || thema.zacht;
       if (ind.titelRegels.length) ty += 10;
       ind.onderRegels.forEach(regel => {
         ty += f.ondertitelgrootte * 1.3;
-        ctx.fillText(regel, titelX, ty - f.ondertitelgrootte * 0.3);
+        zetTekst(regel, titelX, ty - f.ondertitelgrootte * 0.3, opkaart || thema.zacht, f.ondertitelgrootte);
       });
     }
     ctx.textAlign = "left";
@@ -1027,9 +1051,9 @@ const Render = (function () {
 
   // Tekst met een dunne contour in de tegenkleur: houdt labels leesbaar waar
   // ze over een grens of over water heen vallen.
-  function omlijndeTekst(ctx, tekst, x, y, kleur) {
+  function omlijndeTekst(ctx, tekst, x, y, kleur, dikte) {
     ctx.lineJoin = "round";
-    ctx.lineWidth = 3.2;
+    ctx.lineWidth = dikte || 3.2;
     ctx.strokeStyle = kleur === "#FFFFFF" ? "rgba(19,23,32,.55)" : "rgba(255,255,255,.85)";
     ctx.strokeText(tekst, x, y);
     ctx.fillStyle = kleur;
@@ -1244,7 +1268,7 @@ const Render = (function () {
 
   return {
     PALET, AFGELEID, ALLE_KLEUREN, SCHALEN, CATEGORIEKLEUREN, ACHTERGRONDEN, VULLINGEN, FORMATEN,
-    BRON_VAST, bronTekst, uitgelichteSet,
+    BRON_VAST, bronTekst, uitgelichteSet, LEGENDAPLAATSEN,
     zetData, gebiedVan, tekenKaart, berekenIndeling, schaalKleur, schaalVan, meng, verschuif,
     leesbaarOp, contrast, formatGetal, luminantie, hexNaarRgb, rondeRechthoek, pad,
     get data() { return kaartdata; }

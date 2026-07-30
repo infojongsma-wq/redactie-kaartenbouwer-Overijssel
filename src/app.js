@@ -104,7 +104,7 @@
         uitgelicht: ["23"], uitlichtkleur: "#1361FF"
       },
       vlaklaag: {
-        actief: false, modus: "schaal", waarden: {}, categoriekleuren: {},
+        actief: false, modus: "schaal", waarden: {}, categoriekleuren: {}, kleuren: {},
         schaal: "blauw", min: null, max: null, autogrens: true,
         eenheid: "", label: "geen", leeg: "grijs"
       },
@@ -114,7 +114,7 @@
         label: "naam", eenheid: "", legendalabel: "Locatie", groepkleuren: {}
       },
       tekstlaag: { actief: false, blokken: [] },
-      legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts", tvplaats: "rechts" }
+      legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts" }
     };
   }
 
@@ -172,6 +172,14 @@
     b.uitgelicht = b.uitgelicht.filter(code => GEBIEDEN.nederland.some(v => v.code === code)
                                             || GEBIEDEN.overijssel.some(v => v.code === code));
     if (!b.buitenlandkleur) b.buitenlandkleur = BUITENLAND.kleur;
+    // De legenda had twee plaatskeuzes, een voor het kader en een voor de kale
+    // kaart. Het is er nu een; welke van de twee gold hangt af van de weergave.
+    if (geladen.legenda && geladen.legenda.tvplaats !== undefined) {
+      if (basis.weergave === "beeldvullend") basis.legenda.plaats = geladen.legenda.tvplaats;
+      delete basis.legenda.tvplaats;
+    }
+    if (!Render.LEGENDAPLAATSEN.includes(basis.legenda.plaats)) basis.legenda.plaats = "rechts";
+    if (!basis.vlaklaag.kleuren || typeof basis.vlaklaag.kleuren !== "object") basis.vlaklaag.kleuren = {};
 
     // identificaties niet laten botsen met bestaande punten en tekstblokken
     const gebruikt = []
@@ -358,6 +366,10 @@
       },
       gemeentekleur(code, basis) {
         if (!staat.vlaklaag.actief) return basis;
+        // Een handmatig gekozen kleur wint van alles: zo kun je een vlak vullen
+        // zonder er een waarde bij te bedenken.
+        const eigen = staat.vlaklaag.kleuren[code];
+        if (eigen) return eigen;
         const w = staat.vlaklaag.waarden[code];
         const heeft = w && String(w.waarde !== undefined && w.waarde !== null ? w.waarde : "").trim() !== "";
         if (!heeft) {
@@ -874,7 +886,7 @@
     tabel.innerHTML = "";
     const kop = tabel.insertRow();
     [staat.kaartsoort === "nederland" ? "Provincie" : "Gemeente",
-     staat.vlaklaag.modus === "categorie" ? "Categorie" : "Waarde", "Eigen tekst", ""].forEach(t => {
+     staat.vlaklaag.modus === "categorie" ? "Categorie" : "Waarde", "Eigen tekst", "Kleur", ""].forEach(t => {
       const th = document.createElement("th");
       th.textContent = t;
       kop.appendChild(th);
@@ -911,12 +923,33 @@
       });
       cel2.appendChild(inv2);
 
+      // Een eigen kleur mag ook zonder waarde: soms wil je gewoon één gemeente
+      // aanzetten zonder dat er een cijfer bij hoort.
+      const celK = rij.insertCell();
+      const eigen = staat.vlaklaag.kleuren[g.code] || "";
+      const knop = maak("button", "kleurknop" + (eigen ? " aan" : ""));
+      knop.type = "button";
+      knop.title = eigen ? "Eigen kleur — klik om te wijzigen" : "Eigen kleur kiezen";
+      if (eigen) knop.style.background = eigen;
+      knop.addEventListener("click", () => {
+        toonKleurpopup(knop, eigen || staat.basiskaart.vulling, kleur => {
+          if (kleur === null) delete staat.vlaklaag.kleuren[g.code];
+          else staat.vlaklaag.kleuren[g.code] = kleur;
+          vulVlaklaag(); teken();
+        }, true);
+      });
+      celK.appendChild(knop);
+
       const cel3 = rij.insertCell();
-      if (heeft) {
+      if (heeft || eigen) {
         const weg = maak("button", "weg", "×");
         weg.type = "button";
         weg.title = "Wissen";
-        weg.addEventListener("click", () => { delete staat.vlaklaag.waarden[g.code]; vulVlaklaag(); teken(); });
+        weg.addEventListener("click", () => {
+          delete staat.vlaklaag.waarden[g.code];
+          delete staat.vlaklaag.kleuren[g.code];
+          vulVlaklaag(); teken();
+        });
         cel3.appendChild(weg);
       }
     });
@@ -1031,44 +1064,54 @@
     return treffers.slice(0, 40).map(t => t.p);
   }
 
-  function toonSuggesties() {
-    const lijst = zoekPlaatsen(zoekveld.value);
-    suggestieHouder.innerHTML = "";
-    suggestieIndex = -1;
-    if (!lijst.length) { suggestieHouder.hidden = true; return; }
-    lijst.forEach(p => {
-      const knop = maak("button");
-      knop.type = "button";
-      knop.appendChild(maak("span", null, p.naam));
-      const bij = p.provincie ? "provincie " + p.provincie
-                : p.soort === "woonkern" ? "gemeente " + p.gemeente
-                : p.soort + " · " + p.gemeente;
-      knop.appendChild(maak("span", "soort", "  " + bij));
-      knop.addEventListener("click", () => voegPuntToe(p));
-      suggestieHouder.appendChild(knop);
+  /* Het zoekveld met suggesties zit op twee plekken: bij de puntlaag en bij het
+     anker van een tekstblok. Beide gebruiken dezelfde lijst en dezelfde
+     bediening met pijltjes en Enter, dus staat het hier een keer. */
+  function koppelPlaatszoeker(veld, houder, kies) {
+    let index = -1;
+
+    function toon() {
+      const lijst = zoekPlaatsen(veld.value);
+      houder.innerHTML = "";
+      index = -1;
+      if (!lijst.length) { houder.hidden = true; return; }
+      lijst.forEach(p => {
+        const knop = maak("button");
+        knop.type = "button";
+        knop.appendChild(maak("span", null, p.naam));
+        const bij = p.provincie ? "provincie " + p.provincie
+                  : p.soort === "woonkern" ? "gemeente " + p.gemeente
+                  : p.soort + " \u00b7 " + p.gemeente;
+        knop.appendChild(maak("span", "soort", "  " + bij));
+        knop.addEventListener("click", () => { houder.hidden = true; kies(p); });
+        houder.appendChild(knop);
+      });
+      houder.hidden = false;
+    }
+
+    veld.addEventListener("input", toon);
+    veld.addEventListener("focus", toon);
+    veld.addEventListener("keydown", e => {
+      const knoppen = [...houder.querySelectorAll("button")];
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!knoppen.length) return;
+        index = (index + (e.key === "ArrowDown" ? 1 : -1) + knoppen.length) % knoppen.length;
+        knoppen.forEach((k, i) => k.classList.toggle("actief", i === index));
+        knoppen[index].scrollIntoView({ block: "nearest" });
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        (knoppen[index >= 0 ? index : 0] || {}).click?.();
+      } else if (e.key === "Escape") {
+        houder.hidden = true;
+      }
     });
-    suggestieHouder.hidden = false;
+    document.addEventListener("click", e => {
+      if (!houder.contains(e.target) && e.target !== veld) houder.hidden = true;
+    });
   }
 
-  zoekveld.addEventListener("input", toonSuggesties);
-  zoekveld.addEventListener("keydown", e => {
-    const knoppen = [...suggestieHouder.querySelectorAll("button")];
-    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-      e.preventDefault();
-      if (!knoppen.length) return;
-      suggestieIndex = (suggestieIndex + (e.key === "ArrowDown" ? 1 : -1) + knoppen.length) % knoppen.length;
-      knoppen.forEach((k, i) => k.classList.toggle("actief", i === suggestieIndex));
-      knoppen[suggestieIndex].scrollIntoView({ block: "nearest" });
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      (knoppen[suggestieIndex >= 0 ? suggestieIndex : 0] || {}).click?.();
-    } else if (e.key === "Escape") {
-      suggestieHouder.hidden = true;
-    }
-  });
-  document.addEventListener("click", e => {
-    if (!suggestieHouder.contains(e.target) && e.target !== zoekveld) suggestieHouder.hidden = true;
-  });
+  koppelPlaatszoeker(zoekveld, suggestieHouder, p => voegPuntToe(p));
 
   function voegPuntToe(plaats, positie) {
     staat.puntlaag.punten.push({
@@ -1367,15 +1410,22 @@
       vak.appendChild(rij);
 
       if (blok.lijn) {
+        // Zelfde zoeklijst als bij de puntlaag: typen geeft suggesties, en de
+        // gekozen plaats zet het ankerpunt.
+        const houder = maak("div", "zoekhouder");
         const zoek = maak("input");
         zoek.type = "text";
         zoek.placeholder = "Anker op plaatsnaam… (of sleep de stip)";
-        zoek.style.marginTop = "8px";
-        zoek.addEventListener("change", () => {
-          const p = zoekPlaatsen(zoek.value)[0];
-          if (p) { blok.ankerX = p.x; blok.ankerY = p.y; zoek.value = p.naam; teken(); }
+        const lijst = maak("div", "suggesties");
+        lijst.hidden = true;
+        houder.appendChild(zoek);
+        houder.appendChild(lijst);
+        koppelPlaatszoeker(zoek, lijst, p => {
+          blok.ankerX = p.x; blok.ankerY = p.y;
+          zoek.value = p.naam;
+          teken();
         });
-        vak.appendChild(zoek);
+        vak.appendChild(houder);
       }
       houder.appendChild(vak);
     });
@@ -1406,17 +1456,6 @@
 
   $("in-legenda-titel").addEventListener("input", () => { staat.legenda.titel = $("in-legenda-titel").value; teken(); });
   $("in-legenda-plaats").addEventListener("change", () => { staat.legenda.plaats = $("in-legenda-plaats").value; teken(); });
-  $("in-tv-legenda").addEventListener("change", () => { staat.legenda.tvplaats = $("in-tv-legenda").value; teken(); });
-
-  // De kale kaart heeft geen ruimte naast de kaart, dus daar geldt een andere
-  // keuze: waar de legenda als laag op de kaart komt te liggen.
-  function vulLegendaPlaats() {
-    const kaal = staat.weergave === "beeldvullend";
-    $("veld-legenda-plaats").hidden = kaal;
-    $("hint-legenda-plaats").hidden = kaal;
-    $("veld-tv-legenda").hidden = !kaal;
-    $("hint-tv-legenda").hidden = !kaal;
-  }
 
   /* ---------------------------------------------------------- formaat */
 
@@ -1428,7 +1467,6 @@
   });
   function vulFormaat() {
     $("formaatkeuze").querySelectorAll(".keuze").forEach(k => k.classList.toggle("aan", k.dataset.waarde === staat.formaat));
-    $("in-legenda-plaats").disabled = staat.formaat !== "16:9";
   }
 
   /* ------------------------------------------------------ kleurkiezer */
@@ -1448,9 +1486,16 @@
   }
 
   let openPopup = null;
-  function toonKleurpopup(anker, huidig, kies) {
+  function toonKleurpopup(anker, huidig, kies, metWissen) {
     sluitKleurpopup();
     const popup = maak("div", "kleurpopup");
+    if (metWissen) {
+      const wis = maak("button", "knop knop-licht", "Geen eigen kleur");
+      wis.type = "button";
+      wis.style.marginBottom = "10px";
+      wis.addEventListener("click", () => { kies(null); sluitKleurpopup(); });
+      popup.appendChild(wis);
+    }
     popup.appendChild(maak("h4", null, "Huisstijl"));
     const rooster = maak("div", "kleurkiezer");
     popup.appendChild(rooster);
@@ -1763,8 +1808,6 @@
     $("in-kaartnaam").value = staat.naam;
     $("in-legenda-titel").value = staat.legenda.titel;
     $("in-legenda-plaats").value = staat.legenda.plaats;
-    $("in-tv-legenda").value = staat.legenda.tvplaats;
-    vulLegendaPlaats();
     vulBasiskaart();
     vulVlaklaag();
     vulPuntlaag();
