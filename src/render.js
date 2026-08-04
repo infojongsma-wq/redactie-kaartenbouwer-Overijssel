@@ -133,6 +133,57 @@ const Render = (function () {
     return waarde === "links" ? 0 : waarde === "rechts" ? 1 : 0.5;
   }
 
+  /* ---------------------------------------------------------- deelkaart */
+
+  /* Een deelkaart is niet meer dan een ander kijkvenster: in plaats van de hele
+     provincie krijgt de indeling een rechthoek eruit mee. Alles wat daarna komt
+     — schaal, lagen, labels, legenda, export — rekent gewoon door. Vandaar dat
+     dit alleen de bbox vervangt en verder niets aanraakt. */
+
+  // Vier maten, als deel van de breedte van het hele gebied. Overijssel is
+  // ongeveer 88 km breed, dus dat loopt van een kleine 50 km tot een kilometer
+  // of 13 — van een halve provincie tot een stad met zijn ommeland.
+  const UITSNEDE_MATEN = [0.55, 0.38, 0.24, 0.15];
+
+  // Hoeveel het venster buiten het gebied mag steken. Zonder speling kun je een
+  // hoek van de provincie niet netjes in beeld krijgen.
+  const UITSNEDE_SPELING = 0.15;
+
+  function uitsnedeVerhouding(staat, formaat) {
+    const f = FORMATEN[formaat];
+    if (staat.weergave === "beeldvullend") return f.breedte / f.hoogte;
+    return VAKVERHOUDING[formaat] || f.breedte / f.hoogte;
+  }
+
+  /* De gekozen rechthoek, in dezelfde eenheden als de kaart zelf. De verhouding
+     volgt het formaat, zodat de uitsnede het kaartvlak precies vult en er geen
+     rand overblijft die niemand heeft gevraagd. */
+  function uitsnedeVak(staat, formaat, volleBbox) {
+    const u = staat.uitsnede || {};
+    const bb = volleBbox;
+    const maat = UITSNEDE_MATEN[u.maat] || UITSNEDE_MATEN[1];
+    const b = bb.b * maat;
+    const h = b / uitsnedeVerhouding(staat, formaat);
+    const speling = { x: bb.b * UITSNEDE_SPELING, y: bb.h * UITSNEDE_SPELING };
+    const cx = klem(u.cx === null || u.cx === undefined ? bb.x + bb.b / 2 : u.cx,
+                    bb.x - speling.x + b / 2, bb.x + bb.b + speling.x - b / 2);
+    const cy = klem(u.cy === null || u.cy === undefined ? bb.y + bb.h / 2 : u.cy,
+                    bb.y - speling.y + h / 2, bb.y + bb.h + speling.y - h / 2);
+    return { x: cx - b / 2, y: cy - h / 2, b, h };
+  }
+
+  function klem(v, laag, hoog) {
+    return hoog < laag ? (laag + hoog) / 2 : Math.max(laag, Math.min(hoog, v));
+  }
+
+  // Welk kijkvenster de indeling moet gebruiken. Tijdens het kiezen zie je de
+  // hele kaart, anders zou je het venster niet kunnen verschuiven.
+  function kijkvenster(staat, formaat, gebied, interactief) {
+    const u = staat.uitsnede || {};
+    if (!u.actief || (u.kiezen && interactief)) return gebied.bbox;
+    return uitsnedeVak(staat, formaat, gebied.bbox);
+  }
+
   /* --------------------------------------------------------- bronregel */
 
   // De kaartdata staat onder CC BY 4.0; deze vermelding is verplicht en dus
@@ -588,7 +639,7 @@ const Render = (function () {
     const verdeling = formaat === "9:16" ? 0.32 : 0.45;
 
     /* --- maat van de kaart bepalen --- */
-    const bb = gebiedVan(staat).bbox;
+    const bb = kijkvenster(staat, formaat, gebiedVan(staat), hulp.interactief);
     const rand = Math.round(26 * k._s);
     const gat = Math.round(46 * k._s);
     const tussenruimte = Math.round(30 * k._s);
@@ -698,8 +749,24 @@ const Render = (function () {
     return plek;
   }
 
-  // Waar de tv-legenda op komt te liggen: water, omringend land of, als beide
-  // uit staan, de paginakleur zelf.
+  /* Bij een beeldvullende kaart ligt de tekst op de kaart zelf. Wat daar onder
+     ligt hangt af van het kijkvenster: water, omringend land, buitenland of —
+     bij een deelkaart — gewoon de vulling van een gemeente. Raden werkt daar
+     niet meer, dus wordt de al getekende kaart uitgelezen. Een enkele pixel per
+     tekstblok; dat kost niets en klopt altijd. */
+  function kleurOnder(ctx, x, y, terugval) {
+    const b = ctx.canvas;
+    const px = Math.max(0, Math.min(b.width - 1, Math.round(x)));
+    const py = Math.max(0, Math.min(b.height - 1, Math.round(y)));
+    try {
+      const d = ctx.getImageData(px, py, 1, 1).data;
+      if (d[3] < 12) return terugval;                  // doorzichtig: paginakleur
+      return rgbNaarHex(d[0], d[1], d[2]);
+    } catch (e) {
+      return terugval;                                 // afgeschermd canvas
+    }
+  }
+
   function tvOndergrond(staat, thema) {
     const b = staat.basiskaart;
     if (b.water) return kaartdata.kleuren.water;
@@ -708,7 +775,7 @@ const Render = (function () {
   }
 
   function indelingVol(ctx, staat, formaat, hulp, f, k) {
-    const bb = gebiedVan(staat).bbox;
+    const bb = kijkvenster(staat, formaat, gebiedVan(staat), hulp.interactief);
     const vak = { x: 0, y: 0, b: f.breedte, h: f.hoogte };
     const rand = Math.round(f.breedte * 0.05);
     const gat = Math.round(40 * k._s);
@@ -807,9 +874,10 @@ const Render = (function () {
     }
 
     // Beeldvullend ligt alle tekst op de kaart zelf, niet op de paginakleur.
-    // De leesbare kleur volgt dus wat eronder ligt: water, omringend land of
-    // de achtergrond.
-    const opkaart = ind.vol ? leesbaarOp(tvOndergrond(staat, thema)) : null;
+    // Welke kleur leesbaar is, wordt per tekstblok bepaald aan de hand van wat
+    // daar werkelijk getekend staat.
+    const terugval = tvOndergrond(staat, thema);
+    const opkaart = punt => ind.vol ? leesbaarOp(kleurOnder(ctx, punt.x, punt.y, terugval)) : null;
 
     /* --- kaart --- */
     // Eerst de kaart, dan de tekst: beeldvullend hoort de titel bovenop te
@@ -819,6 +887,8 @@ const Render = (function () {
                    ind.vol ? 0 : Math.round(14 * ind.k._s));
     ctx.clip();
     tekenKaartvlak(ctx, staat, ind, hulp);
+    tekenMinikaart(ctx, staat, ind, formaat);
+    if (hulp.interactief) tekenKeuzekader(ctx, staat, ind, formaat);
     ctx.restore();
 
     /* --- titel --- */
@@ -828,7 +898,7 @@ const Render = (function () {
     let ty = ind.titelVak.y;
     if (ind.titelRegels.length) {
       zetLetter(ctx, "700", f.titelgrootte);
-      ctx.fillStyle = opkaart || thema.tekst;
+      ctx.fillStyle = opkaart({ x: titelX, y: ty + f.titelgrootte * 0.6 }) || thema.tekst;
       ind.titelRegels.forEach(regel => {
         ty += f.titelgrootte * 1.16;
         ctx.fillText(regel, titelX, ty - f.titelgrootte * 0.22);
@@ -836,7 +906,7 @@ const Render = (function () {
     }
     if (ind.onderRegels.length) {
       zetLetter(ctx, "400", f.ondertitelgrootte);
-      ctx.fillStyle = opkaart || thema.zacht;
+      ctx.fillStyle = opkaart({ x: titelX, y: ty + f.ondertitelgrootte * 0.9 }) || thema.zacht;
       if (ind.titelRegels.length) ty += 10;
       ind.onderRegels.forEach(regel => {
         ty += f.ondertitelgrootte * 1.3;
@@ -847,7 +917,7 @@ const Render = (function () {
 
     /* --- legenda --- */
     if (ind.legenda) {
-      const legendakleur = opkaart || thema.tekst;
+      const legendakleur = opkaart({ x: ind.legenda.x + 4, y: ind.legenda.y + ind.legenda.h / 2 }) || thema.tekst;
       let ly = ind.legenda.y;
       if ((staat.legenda.titel || "").trim()) {
         zetLetter(ctx, "600", k.legendaTekst + 2);
@@ -866,7 +936,7 @@ const Render = (function () {
     // Altijd, ook beeldvullend: de vermelding is een licentievoorwaarde en
     // geen opmaakkeuze.
     zetLetter(ctx, "400", f.brongrootte);
-    ctx.fillStyle = opkaart || thema.zacht;
+    ctx.fillStyle = opkaart({ x: ind.bronVak.x + ind.bronVak.b - 40, y: ind.bronVak.y - f.brongrootte * 0.4 }) || thema.zacht;
     ctx.textAlign = "right";
     ctx.textBaseline = "alphabetic";
     ctx.fillText(bronTekst(staat), ind.bronVak.x + ind.bronVak.b, ind.bronVak.y);
@@ -882,6 +952,116 @@ const Render = (function () {
     const v = b && b.uitgelicht;
     if (Array.isArray(v)) return new Set(v.filter(Boolean));
     return new Set(v ? [v] : []);
+  }
+
+  /* Het overzichtje in de hoek: de hele provincie klein, met een kader om het
+     stuk dat je op de grote kaart ziet. Zonder dat weet een kijker niet waar
+     hij is; een deelkaart zonder plaatsbepaling is een plaatje van niets. */
+  const MINIKAART_HOEK = {
+    linksboven:  { x: 0, y: 0 },
+    rechtsboven: { x: 1, y: 0 },
+    linksonder:  { x: 0, y: 1 },
+    rechtsonder: { x: 1, y: 1 }
+  };
+
+  function tekenMinikaart(ctx, staat, ind, formaat) {
+    const u = staat.uitsnede || {};
+    const hoek = MINIKAART_HOEK[u.minikaart];
+    if (!u.actief || u.kiezen || !hoek) return;
+
+    const gebied = gebiedVan(staat);
+    const vol = gebied.bbox;
+    const sel = uitsnedeVak(staat, formaat, vol);
+    const b = staat.basiskaart;
+    const thema = ACHTERGRONDEN[staat.achtergrond] || ACHTERGRONDEN.wit;
+
+    const breedte = Math.round(Math.min(ind.vak.b * 0.17, ind.vak.h * 0.30));
+    const s = breedte / vol.b;
+    const hoogte = Math.round(vol.h * s);
+    // Binnen een kader volstaat een smalle marge; beeldvullend houdt het
+    // overzichtje dezelfde veilige rand aan als de titel en de legenda.
+    const marge = ind.vol ? ind.m : Math.round(22 * ind.k._s);
+    const x = ind.vak.x + marge + (ind.vak.b - 2 * marge - breedte) * hoek.x;
+    const y = ind.vak.y + marge + (ind.vak.h - 2 * marge - hoogte) * hoek.y;
+    const ronding = Math.round(6 * ind.k._s);
+
+    ctx.save();
+    // Een lichte eigen ondergrond, en niet de waterkleur van de kaart: het
+    // kader om het gebied is Oost Blauw, en dat zou tegen datzelfde blauw
+    // verdwijnen. Wit werkt op elke kaart en zet het overzichtje bovendien
+    // duidelijk apart van de kaart eronder.
+    rondeRechthoek(ctx, x, y, breedte, hoogte, ronding);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fill();
+    ctx.save();
+    ctx.clip();
+    ctx.setTransform(s, 0, 0, s, x - vol.x * s, y - vol.y * s);
+    const vorm = pad(gebied.sleutel + "_contour", gebied.contour);
+    ctx.fillStyle = vulKleur(b);
+    ctx.fill(vorm);
+    // dunne omtrek, zodat de vorm ook bij een witte vulling te zien blijft
+    ctx.strokeStyle = "rgba(19,23,32,.30)";
+    ctx.lineWidth = Math.max(0.6, 1.1 / s);
+    ctx.stroke(vorm);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.restore();
+
+    // het kader om het gebied dat de grote kaart toont
+    const r = { x: x + (sel.x - vol.x) * s, y: y + (sel.y - vol.y) * s, b: sel.b * s, h: sel.h * s };
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "rgba(255,255,255,.9)";
+    ctx.lineWidth = Math.max(3, 4.4 * ind.k._s);
+    ctx.strokeRect(r.x, r.y, r.b, r.h);
+    ctx.strokeStyle = MINIKAART_KADER;
+    ctx.lineWidth = Math.max(1.6, 2.4 * ind.k._s);
+    ctx.strokeRect(r.x, r.y, r.b, r.h);
+
+    // omlijsting om het overzichtje zelf
+    ctx.strokeStyle = "rgba(19,23,32,.28)";
+    ctx.lineWidth = Math.max(1, 1.2 * ind.k._s);
+    rondeRechthoek(ctx, x, y, breedte, hoogte, ronding);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  const MINIKAART_KADER = "#1361FF";
+
+  /* Alleen in het voorbeeld: het kader dat je verschuift om een gebied te
+     kiezen. Buiten het kader wordt de kaart gedempt, zodat je in één oogopslag
+     ziet wat er straks overblijft. */
+  function tekenKeuzekader(ctx, staat, ind, formaat) {
+    const u = staat.uitsnede || {};
+    if (!u.kiezen) return;
+    const vol = gebiedVan(staat).bbox;
+    const sel = uitsnedeVak(staat, formaat, vol);
+    const t = ind.transform;
+    const r = {
+      x: sel.x * t.s + t.tx, y: sel.y * t.s + t.ty,
+      b: sel.b * t.s, h: sel.h * t.s
+    };
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(ind.vak.x, ind.vak.y, ind.vak.b, ind.vak.h);
+    ctx.rect(r.x, r.y, r.b, r.h);
+    ctx.fillStyle = "rgba(19,23,32,.42)";
+    ctx.fill("evenodd");
+
+    ctx.strokeStyle = MINIKAART_KADER;
+    ctx.lineWidth = Math.max(2, 3 * ind.k._s);
+    ctx.strokeRect(r.x, r.y, r.b, r.h);
+    // greepjes op de hoeken, zodat het kader als iets beetpakbaars leest
+    const g = Math.max(8, 13 * ind.k._s);
+    ctx.lineWidth = Math.max(3, 5 * ind.k._s);
+    [[0, 0, 1, 1], [1, 0, -1, 1], [0, 1, 1, -1], [1, 1, -1, -1]].forEach(([hx, hy, dx, dy]) => {
+      const px = r.x + r.b * hx, py = r.y + r.h * hy;
+      ctx.beginPath();
+      ctx.moveTo(px + dx * g, py);
+      ctx.lineTo(px, py);
+      ctx.lineTo(px, py + dy * g);
+      ctx.stroke();
+    });
+    ctx.restore();
   }
 
   function tekenKaartvlak(ctx, staat, ind, hulp) {
@@ -1190,6 +1370,11 @@ const Render = (function () {
   // wint de positie met de minste overlap, waarbij buiten het kaartvlak vallen
   // zwaar telt omdat de clip het daar toch afsnijdt.
   function plaatsEtiket(ctx, tekst, p, afstand, hoogte, genomen, kader, kleur, voorkeur) {
+    // Ligt het punt zelf buiten het kaartvlak, dan hoort er geen label te staan.
+    // Zonder deze regel zou het klemmen verderop het etiket alsnog naar binnen
+    // trekken, en zie je bij een deelkaart namen van plaatsen die niet in beeld
+    // zijn.
+    if (p.x < kader.x || p.x > kader.x + kader.b || p.y < kader.y || p.y > kader.y + kader.h) return;
     const breedte = ctx.measureText(tekst).width;
     const eerst = voorkeur || "onder";
     const kandidaten = [eerst].concat(POSITIES.filter(v => v !== eerst));
@@ -1311,6 +1496,7 @@ const Render = (function () {
   return {
     PALET, AFGELEID, ALLE_KLEUREN, SCHALEN, CATEGORIEKLEUREN, ACHTERGRONDEN, VULLINGEN, FORMATEN,
     BRON_VAST, bronTekst, uitgelichteSet, LEGENDAPLAATSEN, legendaRegels,
+    UITSNEDE_MATEN, uitsnedeVak,
     zetData, gebiedVan, tekenKaart, berekenIndeling, schaalKleur, schaalVan, meng, verschuif,
     leesbaarOp, contrast, formatGetal, luminantie, hexNaarRgb, rondeRechthoek, pad,
     get data() { return kaartdata; }
