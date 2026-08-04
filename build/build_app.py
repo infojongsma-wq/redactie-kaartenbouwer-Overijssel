@@ -7,6 +7,18 @@ buildstap, geen externe verzoeken. Dat betekent ook dat de kaartdata in het
 bestand zelf moet staan — een browser mag vanaf `file://` geen JSON ophalen.
 
     python3 build/build_app.py   ->   dist/kaartenbouwer-overijssel.html
+                                      index.html   (zelfde inhoud)
+
+Er komen twee bestanden uit, met byte voor byte dezelfde inhoud:
+
+* `dist/kaartenbouwer-overijssel.html` is het bestand om te downloaden en
+  lokaal te openen — de naam zegt wat je in handen hebt;
+* `index.html` in de hoofdmap is wat Vercel serveert. Vercel heeft geen
+  instellingen nodig zolang er een index.html in de hoofdmap staat, en zo
+  hoeft er in de cloud dus geen Python te draaien.
+
+Twee gelijke bestanden kosten in Git niets extra's: objecten worden op
+inhoud opgeslagen, dus beide verwijzen naar dezelfde blob.
 """
 
 import json
@@ -18,6 +30,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
 DIST = os.path.join(ROOT, "dist")
 UIT = os.path.join(DIST, "kaartenbouwer-overijssel.html")
+UIT_WEB = os.path.join(ROOT, "index.html")
 
 
 def lees(pad):
@@ -68,16 +81,20 @@ def main():
     html = zet(html, "/*__NLPLAATSDATA__*/", nlplaatsdata)
     html = zet(html, "/*__SCRIPT__*/", script)
 
-    os.makedirs(DIST, exist_ok=True)
-    with open(UIT, "w", encoding="utf-8") as f:
-        f.write(html)
-
-    # controle: geen enkel extern verzoek in het eindbestand
+    # controle vóór het schrijven: geen enkel extern verzoek in het eindbestand.
+    # Zo blijft er bij een fout geen half product achter dat wél gepubliceerd
+    # zou worden.
     extern = re.findall(r'(?:src|href)\s*=\s*["\'](https?:)?//[^"\']+', html)
     if extern:
         sys.exit("Er staan externe verwijzingen in de uitvoer: %s" % extern[:3])
 
+    os.makedirs(DIST, exist_ok=True)
+    for pad in (UIT, UIT_WEB):
+        with open(pad, "w", encoding="utf-8") as f:
+            f.write(html)
+
     print("Geschreven: %s (%.0f KB)" % (UIT, os.path.getsize(UIT) / 1024))
+    print("Geschreven: %s (zelfde inhoud, voor Vercel)" % UIT_WEB)
     print("  kaartdata  %6.0f KB" % (len(kaartdata) / 1024))
     print("  plaatsdata %6.0f KB" % (len(plaatsdata) / 1024))
     print("  nederland  %6.0f KB" % (len(nederlanddata) / 1024))

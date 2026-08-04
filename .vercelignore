@@ -1,0 +1,9 @@
+# Wat hier staat gaat niet mee naar Vercel. De site is één HTML-bestand;
+# de rest van de repo is gereedschap om dat bestand te maken.
+bron/
+build/
+test/
+docs/
+src/
+node_modules/
+.claude/
