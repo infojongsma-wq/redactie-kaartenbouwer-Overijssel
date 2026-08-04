@@ -117,6 +117,24 @@ opzij om ruimte voor een legenda te maken.
 Zet bij de basiskaart ook *Wateroppervlak als achtergrond* uit als je alleen de
 provincievorm wilt uitsnijden.
 
+### Deelkaarten
+
+Bij *Deelkaart* zoom je in op een stuk van de kaart. **Gebied kiezen** legt een
+kader over de hele kaart; sleep het, of klik ergens om het daarheen te
+verplaatsen, en kies een van vier maten — voor Overijssel ongeveer 49, 34, 21 of
+13 km breed. Buiten het kader wordt de kaart gedempt, zodat je ziet wat
+overblijft. **Toepassen** maakt er de kaart van; **Hele kaart** zet hem terug.
+
+Een deelkaart is verder een kaart als alle andere: alle lagen, alle stijlen,
+alle formaten en dezelfde export werken gewoon door. Labels van gemeenten en
+plaatsen buiten beeld vallen weg in plaats van tegen de rand aan geklemd te
+worden.
+
+In een hoek naar keuze staat een **overzichtje**: de hele provincie klein, met
+een blauw kader om het gebied dat je toont. Zonder dat weet een kijker niet waar
+hij is. Het overzichtje heeft een eigen witte ondergrond — het kader is Oost
+Blauw, en dat zou tegen het water van de kaart wegvallen.
+
 ### De legenda
 
 Achter elke regel van de legenda kun je een **eigen tekst** zetten: een aantal, een

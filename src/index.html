@@ -124,6 +124,40 @@
       </div>
     </section>
 
+    <section class="paneel" data-paneel="deelkaart">
+      <button class="paneel-kop" type="button">Deelkaart — inzoomen op een gebied
+        <span class="tel" id="tel-uitsnede"></span><span class="chevron"></span></button>
+      <div class="paneel-body">
+        <p class="hint">Kies een gebied uit de kaart en maak daar een kaart van. Alle lagen blijven werken; in een hoek komt een overzichtje met een kader om het gebied dat je toont.</p>
+
+        <div class="knoprij">
+          <button class="knop knop-blauw" id="knop-uitsnede-kiezen" type="button">Gebied kiezen</button>
+          <button class="knop knop-licht" id="knop-uitsnede-heel" type="button">Hele kaart</button>
+        </div>
+
+        <div class="subblok" id="uitsnede-kiezen" hidden>
+          <label class="veld"><span>Grootte van het gebied</span></label>
+          <div class="keuzerij" id="uitsnede-maten"></div>
+          <p class="hint">Sleep het kader in de kaart, of klik ergens om het daarheen te verplaatsen.</p>
+          <div class="knoprij">
+            <button class="knop knop-blauw" id="knop-uitsnede-toepassen" type="button">Toepassen</button>
+            <button class="knop knop-licht" id="knop-uitsnede-annuleren" type="button">Annuleren</button>
+          </div>
+        </div>
+
+        <div class="subblok" id="uitsnede-instellingen" hidden>
+          <label class="veld"><span>Overzichtje in de hoek</span>
+            <select id="in-minikaart">
+              <option value="linksboven">Linksboven</option>
+              <option value="rechtsboven">Rechtsboven</option>
+              <option value="linksonder">Linksonder</option>
+              <option value="rechtsonder">Rechtsonder</option>
+              <option value="geen">Geen overzichtje</option>
+            </select></label>
+        </div>
+      </div>
+    </section>
+
     <section class="paneel" data-paneel="vlaklaag">
       <button class="paneel-kop" type="button"><span id="kop-vlaklaag">Vlaklaag — gemeenten inkleuren</span>
         <span class="tel" id="tel-vlak"></span><span class="chevron"></span></button>

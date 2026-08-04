@@ -114,6 +114,9 @@
         label: "naam", eenheid: "", legendalabel: "Locatie", groepkleuren: {}
       },
       tekstlaag: { actief: false, blokken: [] },
+      // Deelkaart: welk stuk van de kaart in beeld komt. cx/cy is het midden in
+      // kaarteenheden; null betekent "midden van het gebied".
+      uitsnede: { actief: false, kiezen: false, cx: null, cy: null, maat: 1, minikaart: "linksboven" },
       legenda: { titel: "", categorie: true, schaal: true, stip: true, bel: true, icoon: true, plaats: "rechts", achter: {} }
     };
   }
@@ -181,6 +184,10 @@
     if (!Render.LEGENDAPLAATSEN.includes(basis.legenda.plaats)) basis.legenda.plaats = "rechts";
     if (!basis.vlaklaag.kleuren || typeof basis.vlaklaag.kleuren !== "object") basis.vlaklaag.kleuren = {};
     if (!basis.legenda.achter || typeof basis.legenda.achter !== "object") basis.legenda.achter = {};
+    // Het keuzekader is een bedieningsstand, geen eigenschap van de kaart: een
+    // opgeslagen kaart hoort nooit in de kiesstand open te gaan.
+    basis.uitsnede.kiezen = false;
+    if (!(basis.uitsnede.maat >= 0 && basis.uitsnede.maat < Render.UITSNEDE_MATEN.length)) basis.uitsnede.maat = 1;
 
     // identificaties niet laten botsen met bestaande punten en tekstblokken
     const gebruikt = []
@@ -1341,6 +1348,84 @@
     if (!iconen.length) houder.appendChild(maak("p", "hint", "Nog geen iconen geüpload."));
   }
 
+  /* -------------------------------------------------------- deelkaart */
+
+  /* Het gebied waaruit gekozen wordt, in kaarteenheden. Bij het kiezen staat de
+     hele kaart in beeld; de maten hangen aan de breedte daarvan. */
+  function heelGebied() { return Render.gebiedVan(staat).bbox; }
+
+  function uitsnedeKm(index) {
+    const bb = heelGebied();
+    return Math.round(bb.b * Render.UITSNEDE_MATEN[index] * 101.6306 / 1000);
+  }
+
+  function bouwUitsnedeMaten() {
+    const rij = $("uitsnede-maten");
+    rij.innerHTML = "";
+    Render.UITSNEDE_MATEN.forEach((_, i) => {
+      const knop = maak("button", "keuze", uitsnedeKm(i) + " km breed");
+      knop.type = "button";
+      knop.dataset.maat = String(i);
+      knop.addEventListener("click", () => {
+        staat.uitsnede.maat = i;
+        vulUitsnede(); teken();
+      });
+      rij.appendChild(knop);
+    });
+  }
+
+  // Waar "Annuleren" naar terugvalt: de stand van vlak voor het kiezen.
+  let uitsnedeVoorKiezen = false;
+
+  function startKiezen() {
+    const u = staat.uitsnede;
+    uitsnedeVoorKiezen = u.actief;
+    if (u.cx === null || u.cy === null) {
+      const bb = heelGebied();
+      u.cx = bb.x + bb.b / 2;
+      u.cy = bb.y + bb.h / 2;
+    }
+    u.kiezen = true;
+    // Zonder dit zie je bij het kiezen de deelkaart in plaats van het geheel.
+    u.actief = true;
+    zetKlikModus(false);
+    vulUitsnede(); teken();
+  }
+
+  $("knop-uitsnede-kiezen").addEventListener("click", startKiezen);
+  $("knop-uitsnede-toepassen").addEventListener("click", () => {
+    staat.uitsnede.kiezen = false;
+    vulUitsnede(); teken();
+  });
+  $("knop-uitsnede-annuleren").addEventListener("click", () => {
+    staat.uitsnede.kiezen = false;
+    staat.uitsnede.actief = uitsnedeVoorKiezen;
+    vulUitsnede(); teken();
+  });
+  $("knop-uitsnede-heel").addEventListener("click", () => {
+    staat.uitsnede.actief = false;
+    staat.uitsnede.kiezen = false;
+    vulUitsnede(); teken();
+  });
+  $("in-minikaart").addEventListener("change", () => {
+    staat.uitsnede.minikaart = $("in-minikaart").value;
+    teken();
+  });
+
+  function vulUitsnede() {
+    const u = staat.uitsnede;
+    bouwUitsnedeMaten();
+    $("uitsnede-kiezen").hidden = !u.kiezen;
+    $("uitsnede-instellingen").hidden = !(u.actief && !u.kiezen);
+    $("uitsnede-maten").querySelectorAll(".keuze").forEach(k =>
+      k.classList.toggle("aan", Number(k.dataset.maat) === u.maat));
+    $("knop-uitsnede-kiezen").textContent = u.actief && !u.kiezen ? "Gebied wijzigen" : "Gebied kiezen";
+    $("knop-uitsnede-kiezen").disabled = u.kiezen;
+    $("knop-uitsnede-heel").disabled = !u.actief;
+    $("in-minikaart").value = u.minikaart;
+    $("tel-uitsnede").textContent = u.actief && !u.kiezen ? uitsnedeKm(u.maat) + " km" : "";
+  }
+
   /* -------------------------------------------------------- tekstlaag */
 
   $("in-tekst-actief").addEventListener("change", () => {
@@ -1611,6 +1696,18 @@
   doek.addEventListener("mousedown", e => {
     const pos = doekNaarKaart(e);
     if (!pos || klikModus) return;
+    // Het keuzekader gaat voor: zolang je een gebied kiest is dat het enige
+    // wat je met de muis kunt verplaatsen.
+    if (staat.uitsnede.kiezen) {
+      const vak = Render.uitsnedeVak(staat, staat.formaat, heelGebied());
+      const binnen = pos.x >= vak.x && pos.x <= vak.x + vak.b
+                  && pos.y >= vak.y && pos.y <= vak.y + vak.h;
+      if (!binnen) { staat.uitsnede.cx = pos.x; staat.uitsnede.cy = pos.y; teken(); }
+      const v = Render.uitsnedeVak(staat, staat.formaat, heelGebied());
+      sleep = { soort: "uitsnede", dx: pos.x - (v.x + v.b / 2), dy: pos.y - (v.y + v.h / 2) };
+      doek.style.cursor = "grabbing";
+      return;
+    }
     // tekstblok of ankerpunt oppakken
     if (staat.tekstlaag.actief) {
       for (let i = staat.tekstlaag.blokken.length - 1; i >= 0; i--) {
@@ -1646,7 +1743,8 @@
     if (!sleep) return;
     const pos = doekNaarKaart(e);
     if (!pos) return;
-    if (sleep.soort === "blok") { sleep.blok.x = pos.x - sleep.dx; sleep.blok.y = pos.y - sleep.dy; }
+    if (sleep.soort === "uitsnede") { staat.uitsnede.cx = pos.x - sleep.dx; staat.uitsnede.cy = pos.y - sleep.dy; }
+    else if (sleep.soort === "blok") { sleep.blok.x = pos.x - sleep.dx; sleep.blok.y = pos.y - sleep.dy; }
     else if (sleep.soort === "anker") { sleep.blok.ankerX = pos.x; sleep.blok.ankerY = pos.y; }
     else if (sleep.soort === "punt") { sleep.punt.x = pos.x; sleep.punt.y = pos.y; }
     teken();
@@ -1875,6 +1973,7 @@
     vulVlaklaag();
     vulPuntlaag();
     vulTekstlaag();
+    vulUitsnede();
     bouwLegendaSchakelaars();
     vulFormaat();
     bouwBibliotheek();
