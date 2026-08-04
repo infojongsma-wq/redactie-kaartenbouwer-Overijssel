@@ -1,9 +1,14 @@
-# Bewaakt dat wat er gepubliceerd wordt ook echt uit de bron komt.
+# Bewaakt twee dingen voordat er iets live gaat.
 #
-# Vercel bouwt niets: het serveert index.html zoals die in de repo staat.
-# Dat is de eenvoudigste opzet, maar het betekent wel dat een commit die
-# src/ wijzigt en index.html vergeet stilletjes een oude kaart online zet.
-# Deze controle bouwt opnieuw en faalt als er verschil is.
+# 1. Vercel bouwt niets: het serveert index.html zoals die in de repo staat.
+#    Dat is de eenvoudigste opzet, maar het betekent wel dat een commit die
+#    src/ wijzigt en index.html vergeet stilletjes een oude kaart online zet.
+#    Deze controle bouwt opnieuw en faalt als er verschil is.
+#
+# 2. De gedeelde bibliotheek zit achter een wachtwoord. Dat het slot dicht zit
+#    is niets waard zolang niemand eraan trekt, dus test/15-api.js probeert er
+#    zonder sessie en met een zelfgemaakt koekje langs te komen. Die test draait
+#    hier tegen een echte Postgres — zonder browser, dus snel.
 
 name: Controle
 
@@ -15,6 +20,21 @@ on:
 jobs:
   bouwen:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: alleen-voor-de-test
+          POSTGRES_DB: kaartenbouwer
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       - uses: actions/checkout@v4
 
@@ -22,10 +42,35 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Syntaxcontrole van de scripts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Afhankelijkheden
+        run: npm ci
+
+      - name: Syntaxcontrole
         run: |
           node --check src/render.js
           node --check src/app.js
+          for f in api/*.js; do node --check "$f"; done
+
+      - name: Geen NUL-bytes in de broncode
+        # Een onzichtbare NUL in een bronbestand maakt de code iets anders dan
+        # er staat. Dat is één keer gebeurd, in de sleutel van de sessie.
+        run: |
+          if grep -rlP '\x00' src/ api/ build/ test/ 2>/dev/null | grep -q .; then
+            echo "::error::Er staat een NUL-byte in de broncode:"
+            grep -rlP '\x00' src/ api/ build/ test/
+            exit 1
+          fi
+
+      - name: API-test tegen een echte database
+        env:
+          POSTGRES_URL: postgresql://postgres:alleen-voor-de-test@localhost:5432/kaartenbouwer
+          BIBLIOTHEEK_WACHTWOORD: wachtwoord-alleen-voor-de-test
+        run: node test/15-api.js
 
       - name: Opnieuw bouwen
         run: python3 build/build_app.py

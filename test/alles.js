@@ -15,11 +15,19 @@ if (!fs.existsSync(path.join(map, '..', 'dist', 'kaartenbouwer-overijssel.html')
   process.exit(1);
 }
 
+/* Playwright staat globaal geïnstalleerd, pg in de map zelf (die heeft de API
+   nodig). Node vindt de eerste alleen via NODE_PATH. */
+const GLOBAAL = '/opt/node22/lib/node_modules';
+const omgeving = Object.assign({}, process.env);
+if (fs.existsSync(GLOBAAL)) {
+  omgeving.NODE_PATH = omgeving.NODE_PATH ? omgeving.NODE_PATH + ':' + GLOBAAL : GLOBAAL;
+}
+
 let mislukt = 0;
 for (const s of scripts) {
   console.log('\n=== ' + s + ' ' + '='.repeat(Math.max(0, 60 - s.length)));
   try {
-    const uit = execFileSync('node', [path.join(map, s)], { encoding: 'utf8', timeout: 180000 });
+    const uit = execFileSync('node', [path.join(map, s)], { encoding: 'utf8', timeout: 180000, env: omgeving });
     process.stdout.write(uit);
     if (!/--- fouten ---\s*\(geen\)/.test(uit)) { console.log('>>> MELDT FOUTEN'); mislukt++; }
   } catch (e) {

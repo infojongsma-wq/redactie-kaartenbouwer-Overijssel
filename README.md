@@ -164,11 +164,22 @@ niet af.
 De knop **Bibliotheek** bovenin, naast de titel, brengt je met één klik bij je
 opgeslagen kaarten en toont hoeveel het er zijn.
 
-*Opslaan in bibliotheek* bewaart de kaart in de opslag van je browser, op deze
-computer. Opgeslagen kaarten blijven bewerkbaar: openen, aanpassen, opnieuw
-opslaan. Let op: wis je je browsergegevens, dan is de bibliotheek weg. Voor kaarten
-die je wilt bewaren of doorgeven is *Downloaden als bestand* de veilige route — dat
-levert een `.kaart.json` op die je later weer kunt openen.
+*Opslaan in bibliotheek* bewaart de kaart. Opgeslagen kaarten blijven bewerkbaar:
+openen, aanpassen, opnieuw opslaan.
+
+Waar ze terechtkomen hangt ervan af hoe je de tool opent:
+
+- **Op de website van de redactie** gaan ze naar de gedeelde bibliotheek. Je logt
+  één keer in met het wachtwoord van de redactie en blijft dertig dagen ingelogd op
+  die computer. Wat jij opslaat, zien je collega's ook. Past iemand anders dezelfde
+  kaart tegelijk aan, dan krijg je een melding in plaats van dat er werk verdwijnt —
+  je kunt dan opslaan onder een andere naam, of hun versie openen en daarmee verder.
+- **In het losse HTML-bestand** gaan ze naar de opslag van je browser, op die
+  computer. Wis je je browsergegevens, dan is die bibliotheek weg.
+
+Voor kaarten die je wilt bewaren of doorgeven buiten de tool om is *Downloaden als
+bestand* de veilige route — dat levert een `.kaart.json` op die je later weer kunt
+openen, in beide versies.
 
 ### Lettertype
 
@@ -198,6 +209,9 @@ dist/kaartenbouwer-overijssel.html   het eindproduct — dit geef je aan de reda
 index.html                           hetzelfde bestand; dit serveert Vercel
 vercel.json · .vercelignore          publicatie-instellingen, zie docs/VERCEL.md
 .github/workflows/controle.yml       bewaakt dat de publicatie bij de bron past
+api/inloggen.js                      één wachtwoord voor de redactie, sessiekoekje
+api/kaarten.js · iconen.js           de gedeelde bibliotheek (Postgres)
+api/_hulp.js                         database, wachtwoord en sessie op één plek
 src/index.html · styles.css          schil en huisstijl
 src/render.js                        alle tekenwerk op canvas
 src/app.js                           toestand, bediening, opslag, export
@@ -250,8 +264,31 @@ Bij een pull request maakt Vercel een preview-adres, zodat een wijziging te beki
 is vóór het samenvoegen. De volledige uitleg, inclusief wat je bij het importeren
 moet aanklikken, staat in [`docs/VERCEL.md`](docs/VERCEL.md).
 
-Het losse bestand blijft daarnaast bestaan en werkt zonder internet — de tool is en
-blijft één HTML-bestand.
+Het losse bestand blijft daarnaast bestaan en werkt zonder internet.
+
+### Twee bibliotheken, één interface
+
+Waar de opgeslagen kaarten staan, hangt af van waar de app draait:
+
+| | Losse HTML | Op Vercel |
+|---|---|---|
+| Opslag | `localStorage`, per browser | Postgres, gedeeld met de redactie |
+| Inloggen | niet nodig | één wachtwoord voor iedereen, 30 dagen geldig |
+| Botsingen | onmogelijk, je bent alleen | versienummer per kaart; wie te laat is krijgt een melding |
+
+De app kiest zelf: vanaf `file://` altijd de browser, anders vraagt hij bij het
+opstarten `/api/inloggen` of er een database en een wachtwoord klaarstaan. Ontbreekt
+er één van de twee, dan valt de website terug op de browseropslag — beter een
+bibliotheek per computer dan een tool die niet start.
+
+In de code is dat één object met acht methodes (`opslag` in `src/app.js`), in twee
+uitvoeringen. Alles wat de bibliotheek gebruikt, gebruikt alleen dat object.
+
+De kaartenbouwer zelf zit niet achter het wachtwoord. Zonder inloggen kun je een
+kaart maken, exporteren en downloaden; alleen de gedeelde bibliotheek is dicht.
+
+Het inrichten (database koppelen, wachtwoord zetten) staat in
+[`docs/VERCEL.md`](docs/VERCEL.md).
 
 ### Twee dingen die niet vanzelf spreken
 
