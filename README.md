@@ -161,6 +161,9 @@ niet af.
 
 ### Opslaan
 
+De knop **Bibliotheek** bovenin, naast de titel, brengt je met één klik bij je
+opgeslagen kaarten en toont hoeveel het er zijn.
+
 *Opslaan in bibliotheek* bewaart de kaart in de opslag van je browser, op deze
 computer. Opgeslagen kaarten blijven bewerkbaar: openen, aanpassen, opnieuw
 opslaan. Let op: wis je je browsergegevens, dan is de bibliotheek weg. Voor kaarten

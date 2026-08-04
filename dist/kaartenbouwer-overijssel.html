@@ -74,6 +74,10 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; colo
 
 .balk-rechts { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 
+/* De bibliotheekknop hoort bij de titel, niet bij het gereedschap rechts. */
+#knop-bibliotheek { gap: 7px; }
+#knop-bibliotheek .tel { margin-left: 1px; }
+
 .fontwaarschuwing {
   font-size: 13px;
   color: #8A4B00;
@@ -476,6 +480,7 @@ details.invoer[open] > summary { margin-bottom: 8px; }
 <header class="balk">
   <div class="merk"><span class="woordmerk">oost</span></div>
   <h1>Kaartenbouwer <span>Overijssel</span></h1>
+  <button class="knop knop-licht" id="knop-bibliotheek" type="button">Bibliotheek<span class="tel" id="tel-bibliotheek"></span></button>
   <div class="balk-rechts">
     <span class="fontwaarschuwing" id="fontwaarschuwing" hidden>Roobert niet gevonden — installeer het lettertype lokaal</span>
     <button class="knop knop-licht" id="knop-hulp" type="button">Uitleg</button>
@@ -3720,6 +3725,15 @@ const Render = (function () {
     if (!iconen.length) houder.appendChild(maak("p", "hint", "Nog geen iconen geüpload."));
   }
 
+  /* De knop in de balk: één plek waar je je opgeslagen kaarten vindt, zonder
+     eerst door de panelen te zoeken. */
+  $("knop-bibliotheek").addEventListener("click", () => {
+    const paneel = document.querySelector('.paneel[data-paneel="bibliotheek"]');
+    document.querySelectorAll(".paneel").forEach(p => p.classList.toggle("open", p === paneel));
+    paneel.scrollIntoView({ behavior: "smooth", block: "start" });
+    bouwBibliotheek();
+  });
+
   /* -------------------------------------------------------- deelkaart */
 
   /* Het gebied waaruit gekozen wordt, in kaarteenheden. Bij het kiezen staat de
@@ -4262,6 +4276,7 @@ const Render = (function () {
     const houder = $("bibliotheeklijst");
     houder.innerHTML = "";
     const lijst = leesBibliotheek();
+    $("tel-bibliotheek").textContent = lijst.length ? String(lijst.length) : "";
     if (!lijst.length) { houder.appendChild(maak("p", "hint", "Nog geen opgeslagen kaarten.")); return; }
     lijst.forEach(item => {
       const rij = maak("div", "bibliotheekrij");

@@ -1348,6 +1348,15 @@
     if (!iconen.length) houder.appendChild(maak("p", "hint", "Nog geen iconen geüpload."));
   }
 
+  /* De knop in de balk: één plek waar je je opgeslagen kaarten vindt, zonder
+     eerst door de panelen te zoeken. */
+  $("knop-bibliotheek").addEventListener("click", () => {
+    const paneel = document.querySelector('.paneel[data-paneel="bibliotheek"]');
+    document.querySelectorAll(".paneel").forEach(p => p.classList.toggle("open", p === paneel));
+    paneel.scrollIntoView({ behavior: "smooth", block: "start" });
+    bouwBibliotheek();
+  });
+
   /* -------------------------------------------------------- deelkaart */
 
   /* Het gebied waaruit gekozen wordt, in kaarteenheden. Bij het kiezen staat de
@@ -1890,6 +1899,7 @@
     const houder = $("bibliotheeklijst");
     houder.innerHTML = "";
     const lijst = leesBibliotheek();
+    $("tel-bibliotheek").textContent = lijst.length ? String(lijst.length) : "";
     if (!lijst.length) { houder.appendChild(maak("p", "hint", "Nog geen opgeslagen kaarten.")); return; }
     lijst.forEach(item => {
       const rij = maak("div", "bibliotheekrij");

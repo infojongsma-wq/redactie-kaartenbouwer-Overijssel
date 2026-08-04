@@ -68,6 +68,10 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; colo
 
 .balk-rechts { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 
+/* De bibliotheekknop hoort bij de titel, niet bij het gereedschap rechts. */
+#knop-bibliotheek { gap: 7px; }
+#knop-bibliotheek .tel { margin-left: 1px; }
+
 .fontwaarschuwing {
   font-size: 13px;
   color: #8A4B00;
