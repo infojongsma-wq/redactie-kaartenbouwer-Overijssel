@@ -1,0 +1,39 @@
+# Bewaakt dat wat er gepubliceerd wordt ook echt uit de bron komt.
+#
+# Vercel bouwt niets: het serveert index.html zoals die in de repo staat.
+# Dat is de eenvoudigste opzet, maar het betekent wel dat een commit die
+# src/ wijzigt en index.html vergeet stilletjes een oude kaart online zet.
+# Deze controle bouwt opnieuw en faalt als er verschil is.
+
+name: Controle
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  bouwen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Syntaxcontrole van de scripts
+        run: |
+          node --check src/render.js
+          node --check src/app.js
+
+      - name: Opnieuw bouwen
+        run: python3 build/build_app.py
+
+      - name: Staat het gepubliceerde bestand gelijk aan de bron?
+        run: |
+          if ! git diff --exit-code -- index.html dist/; then
+            echo "::error::index.html en dist/ lopen achter op src/ en data/."
+            echo "Draai lokaal 'python3 build/build_app.py' en commit het resultaat."
+            exit 1
+          fi

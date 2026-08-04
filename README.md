@@ -195,6 +195,9 @@ CC BY 4.0. De tool zet die bron er dan vanzelf bij.
 
 ```
 dist/kaartenbouwer-overijssel.html   het eindproduct — dit geef je aan de redactie
+index.html                           hetzelfde bestand; dit serveert Vercel
+vercel.json · .vercelignore          publicatie-instellingen, zie docs/VERCEL.md
+.github/workflows/controle.yml       bewaakt dat de publicatie bij de bron past
 src/index.html · styles.css          schil en huisstijl
 src/render.js                        alle tekenwerk op canvas
 src/app.js                           toestand, bediening, opslag, export
@@ -218,6 +221,7 @@ bron/world-atlas-countries-10m.json  Natural Earth 1:10m - bron van Duitsland
 bron/geonames-plaatsen-nl.json       GeoNames, de Nederlandse rijen
 docs/OVERDRACHT-fase3.md             de overdracht waarmee deze fase begon
 docs/OVERDRACHT-fase4.md             wat er nu ligt en wat nog open staat
+docs/VERCEL.md                       hoe de publicatie werkt
 ```
 
 Na een wijziging in `src/` of `data/`:
@@ -226,8 +230,28 @@ Na een wijziging in `src/` of `data/`:
 python3 build/build_app.py
 ```
 
+Dat schrijft twee bestanden met dezelfde inhoud: `dist/kaartenbouwer-overijssel.html`
+om te downloaden, en `index.html` in de hoofdmap voor Vercel. **Commit ze allebei** —
+er wordt online niets gebouwd, dus wat er in de repo staat is wat er live gaat. De
+controle in GitHub Actions faalt als je het vergeet.
+
 De data zit ingebed in het HTML-bestand. Dat moet ook: een browser mag vanaf
 `file://` geen JSON ophalen, dus een los databestand zou het lokaal openen breken.
+
+### Publiceren
+
+Een push naar `main` zet de kaartenbouwer vanzelf online; er is geen knop en geen
+handmatige stap. Vercel bouwt niets — het pakt `index.html` uit de hoofdmap en zet
+die neer. Bewust: de app heeft geen buildstap nodig, en elke buildstap in de cloud
+is iets dat stuk kan gaan. Om diezelfde reden staat er geen `package.json` in de
+hoofdmap; dan zou Vercel een Node-project vermoeden en alsnog willen bouwen.
+
+Bij een pull request maakt Vercel een preview-adres, zodat een wijziging te bekijken
+is vóór het samenvoegen. De volledige uitleg, inclusief wat je bij het importeren
+moet aanklikken, staat in [`docs/VERCEL.md`](docs/VERCEL.md).
+
+Het losse bestand blijft daarnaast bestaan en werkt zonder internet — de tool is en
+blijft één HTML-bestand.
 
 ### Twee dingen die niet vanzelf spreken
 
