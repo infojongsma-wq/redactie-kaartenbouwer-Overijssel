@@ -202,17 +202,132 @@
   let actieveKaartId = null;
   let volgendeId = 1;
 
-  /* ---------------------------------------------------------- iconen */
+  /* ------------------------------------------------------------ opslag */
+
+  /* Twee plekken, één interface. Het losse HTML-bestand bewaart alles in de
+     opslag van deze browser; de versie op Vercel deelt de bibliotheek met de
+     hele redactie. Welke van de twee het is, blijkt bij het opstarten uit
+     /api/inloggen — vandaar dat alles hieronder async is, ook lokaal.
+
+     De lijst bevat nooit de kaarten zelf, alleen naam en datum. Een kaart komt
+     pas van de opslag als je hem opent. Zo blijft het overzicht een paar KB,
+     ook bij honderden kaarten. */
 
   const ICOON_SLEUTEL = "kaartenbouwer.iconen";
   const BIB_SLEUTEL = "kaartenbouwer.bibliotheek";
+
+  function zonderStaat(k) { return { id: k.id, naam: k.naam, gewijzigd: k.gewijzigd, versie: k.versie || 1 }; }
+
+  function lokaalLees() {
+    try { return JSON.parse(localStorage.getItem(BIB_SLEUTEL) || "[]"); } catch (e) { return []; }
+  }
+  function lokaalSchrijf(lijst) {
+    try { localStorage.setItem(BIB_SLEUTEL, JSON.stringify(lijst)); return true; }
+    catch (e) {
+      meld("bibliotheek-melding", "De opslag van deze browser zit vol. Download de kaart als bestand.", "fout");
+      return false;
+    }
+  }
+
+  const opslagLokaal = {
+    gedeeld: false,
+    async toestand() { return { ingericht: false, ingelogd: true }; },
+    async inloggen() { return true; },
+    async uitloggen() {},
+    async lijst() { return lokaalLees().map(zonderStaat); },
+    async kaart(id) { return lokaalLees().find(k => k.id === id) || null; },
+    async bewaar(kaart) {
+      const lijst = lokaalLees();
+      const nu = new Date().toISOString();
+      const bestaand = kaart.id ? lijst.find(k => k.id === kaart.id) : null;
+      if (bestaand) {
+        Object.assign(bestaand, { naam: kaart.naam, staat: kaart.staat, gewijzigd: nu, versie: (bestaand.versie || 1) + 1 });
+        if (!lokaalSchrijf(lijst)) throw new Error("opslag vol");
+        return zonderStaat(bestaand);
+      }
+      const nieuw = { id: "k" + Date.now().toString(36), naam: kaart.naam, staat: kaart.staat, gewijzigd: nu, versie: 1 };
+      lijst.unshift(nieuw);
+      if (!lokaalSchrijf(lijst)) throw new Error("opslag vol");
+      return zonderStaat(nieuw);
+    },
+    async verwijder(id) { lokaalSchrijf(lokaalLees().filter(k => k.id !== id)); },
+    async iconen() {
+      try { return JSON.parse(localStorage.getItem(ICOON_SLEUTEL) || "[]"); } catch (e) { return []; }
+    },
+    async bewaarIcoon(icoon) {
+      const lijst = await this.iconen();
+      const bij = lijst.findIndex(i => i.id === icoon.id);
+      const kaal = { id: icoon.id, naam: icoon.naam, data: icoon.data };
+      if (bij >= 0) lijst[bij] = kaal; else lijst.push(kaal);
+      try { localStorage.setItem(ICOON_SLEUTEL, JSON.stringify(lijst)); }
+      catch (e) { meld("bibliotheek-melding", "De opslag zit vol — icoon niet bewaard.", "fout"); }
+    },
+    async verwijderIcoon(id) {
+      const lijst = (await this.iconen()).filter(i => i.id !== id);
+      try { localStorage.setItem(ICOON_SLEUTEL, JSON.stringify(lijst)); } catch (e) {}
+    }
+  };
+
+  async function api(pad, opties) {
+    const antwoord = await fetch(pad, Object.assign(
+      { credentials: "same-origin", headers: { "Content-Type": "application/json" } }, opties || {}));
+    let inhoud = {};
+    try { inhoud = await antwoord.json(); } catch (e) { /* leeg antwoord */ }
+    if (!antwoord.ok) {
+      const fout = new Error(inhoud.fout || ("Er ging iets mis (" + antwoord.status + ")."));
+      fout.code = antwoord.status;
+      fout.huidig = inhoud.huidig;
+      throw fout;
+    }
+    return inhoud;
+  }
+
+  const opslagServer = {
+    gedeeld: true,
+    async toestand() { return api("/api/inloggen"); },
+    async inloggen(wachtwoord) {
+      await api("/api/inloggen", { method: "POST", body: JSON.stringify({ wachtwoord }) });
+      return true;
+    },
+    async uitloggen() { await api("/api/inloggen", { method: "DELETE" }); },
+    async lijst() { return (await api("/api/kaarten")).kaarten || []; },
+    async kaart(id) { return api("/api/kaarten?id=" + encodeURIComponent(id)); },
+    async bewaar(kaart) {
+      return api("/api/kaarten", { method: "PUT", body: JSON.stringify(kaart) });
+    },
+    async verwijder(id) { await api("/api/kaarten?id=" + encodeURIComponent(id), { method: "DELETE" }); },
+    async iconen() { return (await api("/api/iconen")).iconen || []; },
+    async bewaarIcoon(icoon) {
+      await api("/api/iconen", { method: "PUT", body: JSON.stringify({ id: icoon.id, naam: icoon.naam, data: icoon.data }) });
+    },
+    async verwijderIcoon(id) { await api("/api/iconen?id=" + encodeURIComponent(id), { method: "DELETE" }); }
+  };
+
+  let opslag = opslagLokaal;
+  let ingelogd = true;
+
+  /* Vanaf `file://` is er niets om te vragen. Anders: staat de API er, en is de
+     database ingericht? Zo niet, dan werkt de site gewoon met de opslag van de
+     browser — beter dan een tool die stukgaat omdat de database nog ontbreekt. */
+  async function kiesOpslag() {
+    if (location.protocol === "file:") return;
+    try {
+      const s = await opslagServer.toestand();
+      if (!s.ingericht) return;
+      opslag = opslagServer;
+      ingelogd = Boolean(s.ingelogd);
+    } catch (e) { /* geen API: lokaal blijven */ }
+  }
+
+  /* ---------------------------------------------------------- iconen */
+
   let iconen = [];                 // [{id, naam, data}]
   const icoonCache = new Map();    // id -> HTMLImageElement
 
-  function laadIconen() {
-    try { iconen = JSON.parse(localStorage.getItem(ICOON_SLEUTEL) || "[]"); }
-    catch (e) { iconen = []; }
+  async function laadIconen() {
+    try { iconen = await opslag.iconen(); } catch (e) { iconen = []; }
     iconen.forEach(i => laadIcoonAfbeelding(i));
+    bouwIconenBibliotheek();
   }
 
   function laadIcoonAfbeelding(icoon) {
@@ -221,11 +336,6 @@
     afb.onload = () => teken();
     afb.src = icoon.data;
     icoonCache.set(icoon.id, afb);
-  }
-
-  function bewaarIconen() {
-    try { localStorage.setItem(ICOON_SLEUTEL, JSON.stringify(iconen.filter(i => i.bewaard !== false))); }
-    catch (e) { meld("bibliotheek-melding", "De opslag zit vol — icoon niet bewaard.", "fout"); }
   }
 
   /* ------------------------------------------------- afgeleide waarden */
@@ -1312,7 +1422,10 @@
       laadIcoonAfbeelding(icoon);
       staat.puntlaag.icoonId = id;
       staat.puntlaag.weergave = "icoon";
-      bewaarIconen();
+      if (icoon.bewaard !== false) {
+        opslag.bewaarIcoon(icoon).catch(fout =>
+          meld("bibliotheek-melding", "Icoon niet bewaard: " + fout.message, "fout"));
+      }
       vulPuntlaag(); teken();
     };
     lezer.readAsDataURL(bestand);
@@ -1339,7 +1452,8 @@
       schrap.addEventListener("click", () => {
         iconen = iconen.filter(i => i.id !== icoon.id);
         if (staat.puntlaag.icoonId === icoon.id) staat.puntlaag.icoonId = null;
-        bewaarIconen(); vulPuntlaag(); teken();
+        opslag.verwijderIcoon(icoon.id).catch(() => {});
+        vulPuntlaag(); teken();
       });
       vak.appendChild(kies);
       vak.appendChild(schrap);
@@ -1347,6 +1461,54 @@
     });
     if (!iconen.length) houder.appendChild(maak("p", "hint", "Nog geen iconen geüpload."));
   }
+
+  /* ------------------------------------------------------- inloggen */
+
+  /* Het paneel heeft drie gedaanten: lokaal (zoals altijd), gedeeld maar nog
+     niet ingelogd, en gedeeld en ingelogd. De kaartenbouwer zelf werkt in alle
+     drie — alleen de bibliotheek zit achter het wachtwoord. */
+  const UITLEG_LOKAAL = "De bibliotheek staat in de opslag van deze browser op deze computer — " +
+    "niet in een cookie en niet op een server. Wis je de browsergegevens, dan is de bibliotheek weg. " +
+    "Download belangrijke kaarten als bestand.";
+  const UITLEG_GEDEELD = "Dit is de gedeelde bibliotheek van de redactie. Wat je hier opslaat, " +
+    "zien je collega's ook. Past iemand anders dezelfde kaart tegelijk aan, dan krijg je een " +
+    "waarschuwing in plaats van dat er werk verdwijnt.";
+
+  function toonOpslagvorm() {
+    const moetInloggen = opslag.gedeeld && !ingelogd;
+    $("inlogblok").hidden = !moetInloggen;
+    $("uitlogrij").hidden = !(opslag.gedeeld && ingelogd);
+    $("opslag-uitleg").textContent = opslag.gedeeld ? UITLEG_GEDEELD : UITLEG_LOKAAL;
+    $("opslag-uitleg").hidden = moetInloggen;
+    ["knop-opslaan", "in-kaartnaam"].forEach(id => { $(id).disabled = moetInloggen; });
+  }
+
+  async function probeerInloggen() {
+    const veld = $("in-wachtwoord");
+    if (!veld.value) return;
+    try {
+      await opslag.inloggen(veld.value);
+      ingelogd = true;
+      veld.value = "";
+      meld("bibliotheek-melding", "Ingelogd.", "goed");
+      laadIconen();
+      bouwBibliotheek();
+    } catch (fout) {
+      meld("bibliotheek-melding", fout.message, "fout");
+    }
+  }
+
+  $("knop-inloggen").addEventListener("click", probeerInloggen);
+  $("in-wachtwoord").addEventListener("keydown", e => { if (e.key === "Enter") probeerInloggen(); });
+
+  $("knop-uitloggen").addEventListener("click", async () => {
+    try { await opslag.uitloggen(); } catch (e) { /* dan is de sessie toch al weg */ }
+    ingelogd = false;
+    actieveKaartId = null;
+    actieveVersie = 0;
+    meld("bibliotheek-melding", "Uitgelogd.", "goed");
+    bouwBibliotheek();
+  });
 
   /* De knop in de balk: één plek waar je je opgeslagen kaarten vindt, zonder
      eerst door de panelen te zoeken. */
@@ -1834,29 +1996,38 @@
 
   /* ------------------------------------------------------ bibliotheek */
 
-  function leesBibliotheek() {
-    try { return JSON.parse(localStorage.getItem(BIB_SLEUTEL) || "[]"); }
-    catch (e) { return []; }
-  }
-  function schrijfBibliotheek(lijst) {
-    try { localStorage.setItem(BIB_SLEUTEL, JSON.stringify(lijst)); return true; }
-    catch (e) { meld("bibliotheek-melding", "De opslag van deze browser zit vol. Download de kaart als bestand.", "fout"); return false; }
-  }
+  /* De versie van de kaart die nu openstaat. Die gaat mee bij het opslaan; komt
+     hij niet meer overeen met wat er in de bibliotheek staat, dan heeft iemand
+     anders die kaart intussen aangepast en zeggen we dat in plaats van zijn
+     werk te overschrijven. */
+  let actieveVersie = 0;
 
-  $("knop-opslaan").addEventListener("click", () => {
+  $("knop-opslaan").addEventListener("click", async () => {
     staat.naam = $("in-kaartnaam").value.trim() || "Naamloze kaart";
-    const lijst = leesBibliotheek();
-    const nu = new Date().toISOString();
-    const bestaand = actieveKaartId ? lijst.find(k => k.id === actieveKaartId) : null;
-    if (bestaand) {
-      bestaand.naam = staat.naam;
-      bestaand.gewijzigd = nu;
-      bestaand.staat = JSON.parse(JSON.stringify(staat));
-    } else {
-      actieveKaartId = "k" + Date.now().toString(36);
-      lijst.unshift({ id: actieveKaartId, naam: staat.naam, gewijzigd: nu, staat: JSON.parse(JSON.stringify(staat)) });
+    try {
+      const bewaard = await opslag.bewaar({
+        id: actieveKaartId || undefined,
+        versie: actieveVersie,
+        naam: staat.naam,
+        staat: JSON.parse(JSON.stringify(staat))
+      });
+      actieveKaartId = bewaard.id;
+      actieveVersie = bewaard.versie;
+      meld("bibliotheek-melding", "Opgeslagen. De kaart blijft bewerkbaar.", "goed");
+    } catch (fout) {
+      if (fout.code === 409) {
+        meld("bibliotheek-melding",
+          "Iemand anders heeft “" + staat.naam + "” intussen aangepast. Sla op onder een andere naam, " +
+          "of open de kaart opnieuw om met hun versie verder te gaan.", "fout");
+        actieveKaartId = null;         // een volgende poging wordt een nieuwe kaart
+        actieveVersie = 0;
+      } else if (fout.code === 401) {
+        ingelogd = false;
+        meld("bibliotheek-melding", "Je sessie is verlopen. Log opnieuw in.", "fout");
+      } else {
+        meld("bibliotheek-melding", "Niet opgeslagen: " + fout.message, "fout");
+      }
     }
-    if (schrijfBibliotheek(lijst)) meld("bibliotheek-melding", "Opgeslagen. De kaart blijft bewerkbaar.", "goed");
     bouwBibliotheek();
   });
 
@@ -1864,6 +2035,7 @@
     if (!confirm("Nieuwe kaart beginnen? Niet-opgeslagen wijzigingen gaan verloren.")) return;
     staat = nieuweStaat();
     actieveKaartId = null;
+    actieveVersie = 0;
     vulAlles();
     teken();
   });
@@ -1885,6 +2057,7 @@
         if (!geladen || !geladen.basiskaart) throw new Error("geen kaartbestand");
         staat = herstelStaat(geladen);
         actieveKaartId = null;
+        actieveVersie = 0;
         vulAlles(); teken();
         meld("bibliotheek-melding", "Bestand geopend.", "goed");
       } catch (fout) {
@@ -1895,10 +2068,22 @@
     e.target.value = "";
   });
 
-  function bouwBibliotheek() {
+  async function bouwBibliotheek() {
+    toonOpslagvorm();
     const houder = $("bibliotheeklijst");
+    if (opslag.gedeeld && !ingelogd) { houder.innerHTML = ""; $("tel-bibliotheek").textContent = ""; return; }
+
+    let lijst;
+    try { lijst = await opslag.lijst(); }
+    catch (fout) {
+      if (fout.code === 401) { ingelogd = false; toonOpslagvorm(); }
+      else meld("bibliotheek-melding", "De bibliotheek is niet te lezen: " + fout.message, "fout");
+      houder.innerHTML = "";
+      $("tel-bibliotheek").textContent = "";
+      return;
+    }
+
     houder.innerHTML = "";
-    const lijst = leesBibliotheek();
     $("tel-bibliotheek").textContent = lijst.length ? String(lijst.length) : "";
     if (!lijst.length) { houder.appendChild(maak("p", "hint", "Nog geen opgeslagen kaarten.")); return; }
     lijst.forEach(item => {
@@ -1908,18 +2093,27 @@
       rij.appendChild(maak("span", "datum", new Date(item.gewijzigd).toLocaleDateString("nl-NL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })));
       const open = maak("button", null, "Openen");
       open.type = "button";
-      open.addEventListener("click", () => {
-        staat = herstelStaat(JSON.parse(JSON.stringify(item.staat)));
-        actieveKaartId = item.id;
-        vulAlles(); teken();
-        meld("bibliotheek-melding", "“" + item.naam + "” geopend.", "goed");
+      open.addEventListener("click", async () => {
+        try {
+          const kaart = await opslag.kaart(item.id);
+          if (!kaart) throw new Error("die kaart is er niet meer");
+          staat = herstelStaat(JSON.parse(JSON.stringify(kaart.staat)));
+          actieveKaartId = kaart.id;
+          actieveVersie = kaart.versie || 1;
+          vulAlles(); teken();
+          meld("bibliotheek-melding", "“" + item.naam + "” geopend.", "goed");
+          bouwBibliotheek();
+        } catch (fout) {
+          meld("bibliotheek-melding", "Niet geopend: " + fout.message, "fout");
+        }
       });
       const weg = maak("button", "weg", "Verwijderen");
       weg.type = "button";
-      weg.addEventListener("click", () => {
+      weg.addEventListener("click", async () => {
         if (!confirm("“" + item.naam + "” verwijderen?")) return;
-        schrijfBibliotheek(leesBibliotheek().filter(k => k.id !== item.id));
-        if (actieveKaartId === item.id) actieveKaartId = null;
+        try { await opslag.verwijder(item.id); }
+        catch (fout) { meld("bibliotheek-melding", "Niet verwijderd: " + fout.message, "fout"); return; }
+        if (actieveKaartId === item.id) { actieveKaartId = null; actieveVersie = 0; }
         bouwBibliotheek();
       });
       rij.appendChild(open);
@@ -2001,11 +2195,14 @@
   }
 
   bouwBasiskaart();
-  laadIconen();
   vulAlles();
   toonHiaat();
   controleerLetter();
   teken();
+
+  /* De kaart staat er meteen; waar de bibliotheek vandaan komt, mag een
+     ogenblik later blijken. Het tekenwerk hoeft niet op het netwerk te wachten. */
+  kiesOpslag().then(() => { laadIconen(); bouwBibliotheek(); });
 
   window.addEventListener("resize", () => { if (mobielAan) tekenMobiel(); });
 

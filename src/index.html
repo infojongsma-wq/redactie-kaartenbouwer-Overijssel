@@ -332,6 +332,14 @@
     <section class="paneel" data-paneel="bibliotheek">
       <button class="paneel-kop" type="button">Opslaan en openen<span class="chevron"></span></button>
       <div class="paneel-body">
+        <div class="inlog" id="inlogblok" hidden>
+          <p class="hint">De bibliotheek van de redactie staat op de server. Eén wachtwoord voor iedereen; je blijft daarna dertig dagen ingelogd op deze computer.</p>
+          <label class="veld"><span>Wachtwoord van de redactie</span>
+            <input type="password" id="in-wachtwoord" autocomplete="current-password"></label>
+          <div class="knoprij">
+            <button class="knop knop-blauw" id="knop-inloggen" type="button">Inloggen</button>
+          </div>
+        </div>
         <label class="veld"><span>Naam van deze kaart</span><input type="text" id="in-kaartnaam" maxlength="60" placeholder="Naamloze kaart"></label>
         <div class="knoprij">
           <button class="knop knop-blauw" id="knop-opslaan" type="button">Opslaan in bibliotheek</button>
@@ -344,7 +352,10 @@
         </div>
         <p class="melding" id="bibliotheek-melding"></p>
         <div class="bibliotheeklijst" id="bibliotheeklijst"></div>
-        <p class="hint">De bibliotheek staat in de opslag van deze browser op deze computer — niet in een cookie en niet op een server. Wis je de browsergegevens, dan is de bibliotheek weg. Download belangrijke kaarten als bestand.</p>
+        <p class="hint" id="opslag-uitleg">De bibliotheek staat in de opslag van deze browser op deze computer — niet in een cookie en niet op een server. Wis je de browsergegevens, dan is de bibliotheek weg. Download belangrijke kaarten als bestand.</p>
+        <div class="knoprij" id="uitlogrij" hidden>
+          <button class="knop knop-licht" id="knop-uitloggen" type="button">Uitloggen</button>
+        </div>
       </div>
     </section>
 
